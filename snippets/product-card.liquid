@@ -90,6 +90,22 @@
     {% endif %}
   > 
 
+{% assign product_metafield = product.metafields.custom.text_label %}
+
+<div>
+  {% for tag in product.tags %}
+    {% assign tag_color = product.metafields.custom.tag_color | default: '#FFD700' %}
+    {% if tag == product_metafield %}
+      <span style="background-color: {{ tag_color }}; padding: 5px; border-radius: 3px;">
+        {{ tag }}
+      </span>
+    {% else %}
+      <span>
+        {{ tag }}
+      </span>
+    {% endif %}
+  {% endfor %}
+</div>
 
 
 
