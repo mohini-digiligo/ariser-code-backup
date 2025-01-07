@@ -115,13 +115,13 @@
       
       <!-- If a matching tag is found, display it with styles -->
       {% if matchingTag %}
-        <span class="custom-product-tag"
+        <span class="custom-product-tag custom-product_tag"
           style="color:{{ matchingTag.text_color }}; background-color:{{ matchingTag.text_background }};">
           {{ labelValue }}
         </span>
       {% else %}
         <!-- If no matching tag is found, display the label without styles -->
-        <span class="custom-product-tag">
+        <span class="custom-product-tag custom-product_tag">
           {{ labelValue }}
         </span>
       {% endif %}
