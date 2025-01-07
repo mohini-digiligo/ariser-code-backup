@@ -92,37 +92,76 @@
 
 
 
+    
+    {% assign labelValue = product.metafields.custom.label %}
+    
+    {% if labelValue and labelValue != blank %}
+      {% assign labelLower = labelValue | downcase %}
+      {% assign matchingTag = null %}
+      
+      <!-- Search for matching tag in metaobjects -->
+      {% for productTag in shop.metaobjects.product_tag.values %}
+        {% assign productTagDown = productTag.tag | downcase %}
+        {% if productTagDown == labelLower %}
+          {% assign matchingTag = productTag %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- If a matching tag is found, display it with styles -->
+      {% if matchingTag %}
+        <span class="custom-product-tag"
+          style="color:{{ matchingTag.text_color }}; background-color:{{ matchingTag.text_background }};">
+          {{ labelValue }}
+        </span>
+      {% else %}
+        <!-- If no matching tag is found, display the label without styles -->
+        <span class="custom-product-tag">
+          {{ labelValue }}
+        </span>
+      {% endif %}
+    {% endif %}
 
+ 
 
     
 {% assign product_creation_date = product.created_at | date: "%s" %}
 {% assign current_date = 'now' | date: "%s" %}
 {% assign days_difference = current_date | minus: product_creation_date %}
 {% assign days_in_90 = 90 | times: 24 | times: 60 | times: 60 %} <!-- 90 days in seconds -->
+{% assign labelValue = product.metafields.custom.label %}
 
 {% if days_difference <= days_in_90 %}
   <!-- Display the "New" label -->
   <div class="custom-product_tag new-product">
     New
   </div>
-{% elsif product.metafields.custom.label == 'Sale' %}
-  <div class="custom-product_tag">
-    {{ product.metafields.custom.label }}
-  </div>
+ {% elsif labelValue and labelValue != blank %}
+      {% assign labelLower = labelValue | downcase %}
+      {% assign matchingTag = null %}
+      
+      <!-- Search for matching tag in metaobjects -->
+      {% for productTag in shop.metaobjects.product_tag.values %}
+        {% assign productTagDown = productTag.tag | downcase %}
+        {% if productTagDown == labelLower %}
+          {% assign matchingTag = productTag %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- If a matching tag is found, display it with styles -->
+      {% if matchingTag %}
+        <span class="custom-product-tag"
+          style="color:{{ matchingTag.text_color }}; background-color:{{ matchingTag.text_background }};">
+          {{ labelValue }}
+        </span>
+      {% else %}
+        <!-- If no matching tag is found, display the label without styles -->
+        <span class="custom-product-tag">
+          {{ labelValue }}
+        </span>
+      {% endif %}
+    {% endif %}
   
-  
-  {% elsif product.metafields.custom.label == 'Premium' %}
-  <div class="custom-product_tag">
-    {{ product.metafields.custom.label }}
-  </div>
-  {% elsif product.metafields.custom.label == 'Best Seller' %}
-  <div class="custom-product_tag">
-    {{ product.metafields.custom.label }}
-  </div>
-{% elsif product.metafields.custom.label == blank %}
-  <!-- Optionally, do something when the metafield is blank -->
-  <!-- You can leave this block empty or add content for when the metafield is blank -->
-{% endif %}
+
 
       <div class="sf__pcard-image {% unless settings.show_second_img %} spc__img-only{% endunless %}">
         <div class="overflow-hidden cursor-pointer relative sf__image-box">
