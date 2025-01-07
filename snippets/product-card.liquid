@@ -95,8 +95,8 @@
     <div class="grid-product_tag grid-product_tag--custom custom-product-tags-wrapper">
       
       <!-- Handle Metafield Label -->
-      {% if product.metafields.theme.label and product.metafields.theme.label != blank %}
-        {% assign downCase = product.metafields.theme.label | downcase %}
+      {% if product.metafields.custom.label and product.metafields.custom.label != blank %}
+        {% assign downCase = product.metafields.custom.label| downcase %}
         {% assign tagExist = false %}
         {% assign tagField = null %}
 
