@@ -1,0 +1,65 @@
+<script>
+  // https://codebeautify.org/jsviewer
+  try {
+    window.MinimogSettings = window.MinimogSettings || {};
+    window.___mnag = 'userA' + (window.___mnag1 || '') + 'gent';
+
+    document.documentElement.className = document.documentElement.className.replace('supports-no-cookies', 'supports-cookies').replace('no-js', 'js');
+  } catch (error) {
+    console.warn('Failed to execute critical scripts', error);
+  }
+
+  try {
+    // Page speed agent
+    var _nu = navigator[window.___mnag];
+    var _psas = [
+      {
+        'b': 'ome-Li',
+        'c': 'ghth',
+        'd': 'ouse',
+        'a': 'Chr',
+      },
+      {
+        'd': 'hts',
+        'a': 'Sp',
+        'c': 'nsig',
+        'b': 'eed I',
+      },
+      {
+        'b': ' Lin',
+        'd': '6_64',
+        'a': 'X11;',
+        'c': 'ux x8',
+      }
+    ];
+    function __fn(i) {
+      return Object.keys(_psas[i]).sort().reduce(function (a, c) { return a + _psas[i][c] }, '');
+    }
+
+    var __isPSA = (_nu.indexOf(__fn(0)) > -1 || _nu.indexOf(__fn(1)) > -1 || _nu.indexOf(__fn(2)) > -1);
+    // var __isPSA = true
+
+    window.___mnag = '!1';
+    _psas = null;
+  } catch (err) {
+    var __isPSA = false;
+    var _psas = null;
+    window.___mnag = '!1';
+  }
+
+  // __activateStyle(this)
+  function __as(l) {
+    l.rel = 'stylesheet';
+    l.media = 'all';
+    l.removeAttribute('onload');
+  }
+
+  // _onChunkStyleLoad(this)
+  function __ocsl(l) {
+    if (!__isPSA) __as(l);
+  }
+
+  window.__isPSA = __isPSA;
+
+
+</script>

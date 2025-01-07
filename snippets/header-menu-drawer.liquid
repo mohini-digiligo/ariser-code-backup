@@ -1,0 +1,254 @@
+
+{% liquid
+  assign main_menu = section.settings.main_menu
+  assign mobile_menu = section.settings.mobile_menu
+  
+  if mobile_menu == blank
+      assign menu = main_menu
+  else
+      assign menu = mobile_menu
+  endif
+%}
+<div id="m-menu-drawer" class="m-menu-drawer">
+  <div class="m-menu-drawer__wrapper">
+    <div class="m-menu-drawer__content">
+      <ul class="m-menu-drawer__navigation m-menu-mobile">
+        {% for link in linklists[menu].links %}
+          {% liquid
+            assign title_handle = link.title | handleize
+            assign has_mega_item = false
+          %}
+          {% for block in section.blocks %}
+            {% liquid
+              assign menu_title = block.settings.heading | handleize
+
+              if menu_title == blank or menu_title != title_handle
+                  continue
+              endif
+            %}
+            {% if menu_title == title_handle %}
+              {% liquid
+                assign has_mega_item = true
+              %}
+              {% case block.type %}
+                {% when 'banner' %}
+                  {% capture block_type %}
+                    {% if block.settings.banner_image != blank %}
+                      <div class="m-megamenu-mobile__banner">
+                        {% if block.settings.banner_style != 'inside' %}
+                          <div class="m-megamenu-mobile__banner-inner">
+                            <a href="{{ block.settings.banner_link }}" class="sf__hover-zoom-in">
+                              {% render 'responsive-image', image: block.settings.banner_image, sizes: '500px' %}
+                            </a>
+                            <div class="mt-4 flex flex-col">
+                              {% if block.settings.banner_title != blank %}
+                                <a href="{{ block.settings.banner_link }}" class="text-black font-normal block text-[24px]">{{ block.settings.banner_title }}</a>
+                              {% endif %}
+                              {% if block.settings.banner_desc != blank %}
+                                <p class="font-base text-black opacity-60">{{ block.settings.banner_desc }}</p>
+                              {% endif %}
+                              {% if block.settings.banner_button_text != blank %}
+                                <p><a href="{{ block.settings.banner_link }}" class="text-black sf__btn sf__btn-link mt-2">{{ block.settings.banner_button_text }}</a></p>
+                              {% endif %}
+                            </div>
+                          </div>
+                        {% else %}
+                          <div class="m-megamenu-mobile__image-card image-card">
+                            <div class="image-card__inner relative">
+                              <a class="image-card__img block w-full" href="{{ block.settings.banner_link | default: "#" }}">
+                                {% render 'responsive-image', image: block.settings.banner_image, sizes: '500px', wrapper_class: 'w-full h-full' %}
+                              </a>
+                              {% if block.settings.banner_title != blank or block.settings.banner_desc != blank %}
+                                <div class="absolute top-[1.7rem] left-[1.5rem]">
+                                  {% if block.settings.banner_title != blank %}
+                                    <h3 class="text-black text-[24px] mb-2">{{ block.settings.banner_title }}</h3>
+                                  {% endif %}
+                                  {% if block.settings.banner_desc != blank %}
+                                    <p class="font-base text-black opacity-60">{{ block.settings.banner_desc }}</p>
+                                  {% endif %}
+                                </div>
+                              {% endif %}
+                              {% if block.settings.banner_button_text != blank %}
+                                <a href="{{ block.settings.banner_link }}" class="absolute text-black bottom-[20px] left-[1.5rem] sf__btn sf__btn-link" style="position: absolute;">{{ block.settings.banner_button_text }}</a>
+                              {% endif %}
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  {% endcapture %}
+                {% when 'bloglist' %}
+                    {% capture block_type %}
+                      <div class="m-megamenu-mobile__blog sf-mixed-layout sf-mixed-layout--mobile-scroll sf-mixed-layout--mobile-grid" style="--column-gap: 16px" data-id="{{ block.id }}">
+                        {% assign blog = blogs[block.settings.blog] %}
+                        <ul class="sf-mege-menu-blog__list sf-mixed-layout__wrapper">
+                          {% for article in blog.articles limit: 3 %}
+                            <li class="sf-column flex flex-col w-1/2">
+                              <a href="{{ article.url }}">
+                                {% render 'responsive-image', image: article.image, wrapper_class: 'w-full', aspect_ratio: '16/9'%}
+                              </a>
+                              <div class="whitespace-normal text-black mt-3">
+                                {% if article.tags != blank %}
+                                  <span class="block mb-1 uppercase text-xs">{{ article.tags[0] }}</span>
+                                {% endif %}
+                                <a href="{{ article.url }}" class="font-medium">{{ article.title }}</a>
+                              </div>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    {% endcapture %}
+                {% when 'product-list' %}
+                  {% assign collection = block.settings.collection %}
+                  {% if collection != blank %}
+                    {% capture block_type %}
+                      <div class="m-megamenu-mobile__products sf-mixed-layout sf-mixed-layout--mobile-scroll sf-mixed-layout--mobile-grid" style="--column-gap: 16px" data-id="{{ block.id }}">
+                        {%- assign collection = collections[block.settings.collection] -%}
+                        <div class="sf-mixed-layout__wrapper">
+                          {% for product in collection.products limit: block.settings.limit %}
+                          {%- assign image_ratio = product.featured_image.aspect_ratio | default: '1/1' -%}
+                            <div class="sf-column w-1/2">
+                              <a class="block" href="{{ product.url }}">
+                                {% if product.featured_image != blank %}
+                                  {% render 'responsive-image',
+                                    image: product.featured_image,
+                                    image_class: 'object-contain object-top',
+                                    wrapper_class: 'mb-[10px]',
+                                    aspect_ratio: image_ratio,
+                                    sizes: '400px'
+                                  %}
+                                {% else %}
+                                  <div style="--aspect-ratio: {{ image_ratio }}">
+                                    {{ 'product-1' | placeholder_svg_tag: 'sf__placeholder-svg' }}
+                                  </div>
+                                {% endif %}
+                                <h3 class="font-medium mb-1 text-base whitespace-normal leading-normal text-black">
+                                  {{ product.title | default: 'homepage.onboarding.product_title' }}
+                                </h3>
+                                <p class="text-sm font-normal text-color-regular-price">{{ product.price | money }}</p>
+                              </a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    {% endcapture %}
+                  {% endif %}
+                {% when 'collection-list' %}
+                  {% capture block_type %}
+                    {% assign collection_ids = 'collection_1,collection_2,collection_3,collection_4,collection_5,collection_6' | split: ',' %}
+                    <div class="m-megamenu-mobile__collections sf-mixed-layout sf-mixed-layout--mobile-scroll sf-mixed-layout--mobile-grid" style="--column-gap: 16px" data-id="{{ block.id }}">
+                      <div class="sf-mixed-layout__wrapper">
+                        {% for collection_id in collection_ids %}
+                          {% liquid
+                            if block.settings[collection_id] == blank
+                              continue
+                            endif
+                            assign collection_handle = block.settings[collection_id]
+                            assign collection = collections[collection_handle]
+                            assign collection_image = collection.image
+                            assign image_id = 'image_' | append: forloop.index
+
+                            if block.settings[image_id] != blank
+                              assign collection_image = block.settings[image_id]
+                            endif
+                          %}
+                          <div class="sf-column w-6/12">
+                            <div class="collection-card collection-card--standard">
+                              <div class="collection-card__inner">
+                                <a href="{{ collection.url }}" class="collection-card__image block group overflow-hidden w-full">
+                                  {% if collection_image != blank %}
+                                    {%- assign image_ratio = product.collection_image.aspect_ratio | default: '1/1' -%}
+                                    {% render 'responsive-image', image: collection_image, aspect_ratio: image_ratio %}
+                                  {% else %}
+                                    <div style="--aspect-ratio: 1/1;">
+                                      {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                                      {{ 'collection-' | append: current | placeholder_svg_tag: 'sf__placeholder-svg w-full h-full w-full h-full object-cover' }}
+                                    </div>
+                                  {% endif %}
+                                </a>
+                                <h3 class="mt-3 text-left">
+                                  <a class="text-lg font-medium block text-black" href="{{ collection.url | default: "#" }}">
+                                    {{ collection.title | default: default_label }}
+                                    <sup class="font-semibold text-xs text-black">{{ collection.all_products_count }}</sup>
+                                  </a>
+                                </h3>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% endcapture %}
+                {% when 'custom_html' %}
+                  {% capture block_type %}
+                    {% if block.settings.html != blank %}
+                      <div class="m-megamenu-mobile__html">
+                        {{ block.settings.html }}
+                      </div>
+                    {% endif %}
+                  {% endcapture %}
+                {% else %}
+                  {% liquid
+                    capture block_type 
+                    endcapture
+                  %}
+              {% endcase %}
+            {% endif %}
+          {% endfor %}
+      
+          {% if link.links != blank %}
+            <li class="m-menu-mobile__item" data-url="{{ link.url }}">
+              <a href="{{ link.url }}" class="m-menu-mobile__link"{% if link.url contains '#' %} data-toggle-submenu="1"{% endif %}>
+                <span>{{ link.title }}</span>
+              </a>
+              <span class="m-menu-mobile__toggle-button" data-toggle-submenu="1">
+                <svg fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"/></svg>
+              </span>
+              <div class="m-megamenu-mobile m-megamenu-mobile--level-1">
+                <div class="m-megamenu-mobile__wrapper">
+                  <button class="m-menu-mobile__back-button" data-level="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 17"><path fill="currentColor" d="M8.12109 15.9141c-.21093.1875-.41015.1875-.59765 0L.175781 8.53125c-.210937-.1875-.210937-.375 0-.5625L7.52344.585938c.1875-.1875.38672-.1875.59765 0l.70313.703122c.1875.1875.1875.38672 0 .59766L3.375 7.33594h11.9883c.2812 0 .4219.14062.4219.42187v.98438c0 .28125-.1407.42187-.4219.42187H3.375l5.44922 5.44924c.1875.2109.1875.4101 0 .5976l-.70313.7032z"/></svg>
+                    <span>{{ link.title }}</span>
+                  </button>
+                  <ul class="m-submenu-mobile">
+                      {% for child in link.links %}
+                      <li class="m-menu-mobile__item" data-url="{{ link.url }}">
+                          <a href="{{ child.url }}" class="m-menu-mobile__link"{% if child.url contains '#' %} data-toggle-submenu="2"{% endif %}>
+                            <span>{{ child.title }}</span>
+                          </a>
+                          {% if child.links != blank %}
+                          <span class="m-menu-mobile__toggle-button" data-toggle-submenu="2">
+                            <svg fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"/></svg>
+                          </span>
+                          <div class="m-megamenu-mobile m-megamenu-mobile--level-2">
+                            <div class="m-megamenu-mobile__wrapper">
+                              <button class="m-menu-mobile__back-button" data-level="2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 17"><path fill="currentColor" d="M8.12109 15.9141c-.21093.1875-.41015.1875-.59765 0L.175781 8.53125c-.210937-.1875-.210937-.375 0-.5625L7.52344.585938c.1875-.1875.38672-.1875.59765 0l.70313.703122c.1875.1875.1875.38672 0 .59766L3.375 7.33594h11.9883c.2812 0 .4219.14062.4219.42187v.98438c0 .28125-.1407.42187-.4219.42187H3.375l5.44922 5.44924c.1875.2109.1875.4101 0 .5976l-.70313.7032z"/></svg>
+                                <span>{{ child.title }}</span>
+                              </button>
+                              <ul class="m-submenu-mobile">
+                                {% render 'mega-menu-link' for child.links as link %}
+                              </ul>
+                            </div>
+                          </div>
+                          {% endif %}
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  {% if has_mega_item == true and block_type != blank %}
+                    <div class="m-megamenu-mobile__block">
+                      {{ block_type }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+          {% else %}
+            {% render 'mega-menu-link' with link as link, has_mega_item: has_mega_item, block_type: block_type %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% render 'mega-menu-customer', section: section %}
+    </div>
+  </div>
+</div>

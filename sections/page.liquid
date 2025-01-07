@@ -1,0 +1,14 @@
+{%- liquid
+  assign animation_effect = settings.animations
+  assign animated = false
+  if animation_effect != 'none'
+  endif
+-%}
+{% render 'page-title', title: page.title, container: true %}
+{%- if page.content != blank -%}
+  <div class="container mx-auto xl:pb-16 sm:pb-10 pb-8">
+    <div class="prose{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}">
+      {{ page.content }}
+    </div>
+  </div>
+{%- endif -%}

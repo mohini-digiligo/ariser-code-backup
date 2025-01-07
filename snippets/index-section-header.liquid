@@ -1,0 +1,24 @@
+{% liquid
+  assign animation_effect = settings.animations
+  assign animated = false
+  if animation_effect != 'none'
+    assign animated = true
+    if section_settings.animations and section_settings.animations != 'inherit'
+      assign animation_effect = section_settings.animations
+    endif
+  endif
+%}
+
+{% if section_settings.heading != blank or section_settings.subheading != blank or section_settings.description != blank %}
+    <div class="section__header text-{{ section_settings.header_alignment }}{% if section_settings.container == 'w-full' %} px-5{% endif %}">
+        {% if section_settings.subheading != blank %}
+            <p class="section__subheading{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}">{{ section_settings.subheading }}</p>
+        {% endif %}
+        {% if section_settings.heading != blank %}
+            <h2 class="section__heading{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}">{{ section_settings.heading }}</h2>
+        {% endif %}
+        {% if section_settings.description != blank %}
+            <div class="section__description{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}">{{ section_settings.description }}</div>
+        {% endif %}
+    </div>
+{% endif %}

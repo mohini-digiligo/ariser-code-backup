@@ -1,0 +1,19 @@
+{%- liquid
+  assign animation_effect = settings.animations
+  assign animated = false
+  if animation_effect != 'none'
+    assign animated = true
+  endif
+-%}
+<div class="page-header">
+  {% if container == true %}<div class="container">{% endif %}
+  <h1 class="page-header__title{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}">{{ title }}</h1>
+  <div class="page-header__breadcrumb mt-2">
+    {% render 'breadcrumb', 
+      container: 'container', justify: 'center',
+      animated: animated, 
+      animation_effect: animation_effect
+     %}
+  </div>
+  {% if container == true %}</div>{% endif %}
+</div>
