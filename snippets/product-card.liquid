@@ -90,14 +90,6 @@
     {% endif %}
   > 
 
-
-
-    
-    
-
- 
-
-    
 {% assign product_creation_date = product.created_at | date: "%s" %}
 {% assign current_date = 'now' | date: "%s" %}
 {% assign days_difference = current_date | minus: product_creation_date %}
@@ -135,8 +127,6 @@
       {% endif %}
     {% endif %}
   
-
-
       <div class="sf__pcard-image {% unless settings.show_second_img %} spc__img-only{% endunless %}">
         <div class="overflow-hidden cursor-pointer relative sf__image-box">
           {% liquid
