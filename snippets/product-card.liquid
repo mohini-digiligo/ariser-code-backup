@@ -90,20 +90,7 @@
     {% endif %}
   > 
 
-{% assign color_tag = false %}
-{% assign label_text = product.metafields.custom.label_text %}
 
-{% for tag in product.tags %}
-  {% if tag contains "Premium" %}
-    {% assign color_tag = true %}
-  {% endif %}
-{% endfor %}
-
-{% if color_tag and label_text %}
-  <div style="background-color: #FFD700; padding: 10px; border-radius: 5px;">
-    <span>{{ label_text }}</span>
-  </div>
-{% endif %}
 
 
     
