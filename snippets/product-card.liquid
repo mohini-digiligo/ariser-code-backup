@@ -90,6 +90,38 @@
     {% endif %}
   > 
 
+<div class="grid-product__content">
+  <div class="grid-product_tag grid-product_tag--custom custom-product-tags-wrapper">
+    
+    {% assign labelValue = product.metafields.custom.label %}
+    
+    {% if labelValue and labelValue != blank %}
+      {% assign labelLower = labelValue | downcase %}
+      {% assign matchingTag = null %}
+      
+      <!-- Search for matching tag in metaobjects -->
+      {% for productTag in shop.metaobjects.product_tag.values %}
+        {% if productTag.tag and productTag.tag | downcase == labelLower %}
+          {% assign matchingTag = productTag %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- If a matching tag is found, display it with styles -->
+      {% if matchingTag %}
+        <span class="custom-product-tag"
+          style="color:{{ matchingTag.text_color }}; background-color:{{ matchingTag.text_background }};">
+          {{ labelValue }}
+        </span>
+      {% else %}
+        <!-- If no matching tag is found, display the label without styles -->
+        <span class="custom-product-tag">
+          {{ labelValue }}
+        </span>
+      {% endif %}
+    {% endif %}
+
+  </div>
+</div>
 
 
 
