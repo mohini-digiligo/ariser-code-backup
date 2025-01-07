@@ -94,7 +94,7 @@
 <div class="grid-product__content">
   <div class="grid-product_tag grid-product_tag--custom custom-product-tags-wrapper">
     
-    {% assign labelValue = product.metafields.custom.text_label %}
+    {% assign labelValue = product.metafields.custom.label %}
     
     {% if labelValue and labelValue != blank %}
       {% assign labelLower = labelValue | downcase %}
