@@ -90,59 +90,6 @@
     {% endif %}
   > 
 
-<div class="grid-product__content">
-  {%- if has_custom_label -%}
-    <div class="grid-product_tag grid-product_tag--custom custom-product-tags-wrapper">
-      
-      <!-- Handle Metafield Label -->
-      {% if product.metafields.custom.label and product.metafields.custom.label != blank %}
-        {% assign downCase = product.metafields.custom.label| downcase %}
-        {% assign tagExist = false %}
-        {% assign tagField = null %}
-
-        {% for productTag in shop.metaobjects.product_tag.values %}
-          {% assign productTagDown = productTag.tag | downcase %}
-          {% if productTagDown == downCase %}
-            {% assign tagExist = true %}
-            {% assign tagField = productTag %}
-          {% endif %}
-        {% endfor %}
-
-        <span class="custom-product-tag"
-          {% if tagExist %} 
-            style="color:{{ tagField.text_color }};background-color:{{ tagField.text_background }};" 
-          {% endif %}>
-          {{ product.metafields.theme.label }}
-        </span>
-      {% endif %}
-
-      <!-- Handle Product Tags -->
-      {% for tag in product.tags %}
-        {% if tag contains 'label' %}
-          {% assign downCase = tag | replace: 'label', '' | downcase %}
-          {% assign tagExist = false %}
-          {% assign tagField = null %}
-
-          {% for productTag in shop.metaobjects.product_tag.values %}
-            {% assign productTagDown = productTag.tag | downcase %}
-            {% if productTagDown == downCase %}
-              {% assign tagExist = true %}
-              {% assign tagField = productTag %}
-            {% endif %}
-          {% endfor %}
-
-          <span class="custom-product-tag"
-            {% if tagExist %}
-              style="color:{{ tagField.text_color }};background-color:{{ tagField.text_background }};" 
-            {% endif %}>
-            {{ tag | replace: 'label', '' }}
-          </span>
-        {% endif %}
-      {% endfor %}
-
-    </div>
-  {%- endif -%}
-</div>
 
 
 
