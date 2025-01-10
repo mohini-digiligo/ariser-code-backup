@@ -96,21 +96,6 @@
                 {% render 'product-prices', use_variant: true, product: product, show_sale_badge: block.settings.show_saving, price_text_size: 'text-xl md:text-2xl', sale_badge_type: block.settings.sale_badge_type %}
               </div>
               {%- if shop.taxes_included -%}
-                <h1>hello</h1>
-               
-                            {%- render 'variant-button',
-                              block: block,
-                              product: product,
-                              form_id: form_id,
-                              section_id: section_id,
-                              option: option,
-                              forloop: forloop,
-                              variant_labels: block.settings.variant_labels,
-                              is_color: is_color,
-                              color_option_index: color_option_index,
-                              connect_to_sizechart: connect_to_sizechart,
-                              sizechart_index: sizechart_index
-                            -%}
                           
                 <div class="main-product__block-tax text-color-subtext">
                   {{ 'products.product.include_taxes' | t }}
