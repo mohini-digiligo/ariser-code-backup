@@ -111,6 +111,15 @@
                               connect_to_sizechart: connect_to_sizechart,
                               sizechart_index: sizechart_index
                             -%}
+                          {%- else -%}
+                            {%- render 'variant-dropdown',
+                              product: product,
+                              form_id: form_id,
+                              section_id: section_id,
+                              option: option,
+                              forloop: forloop,
+                              variant_labels: block.settings.variant_labels
+                            -%}
                           {%- endif -%}
                 <div class="main-product__block-tax text-color-subtext">
                   {{ 'products.product.include_taxes' | t }}
