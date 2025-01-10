@@ -96,7 +96,7 @@
                 {% render 'product-prices', use_variant: true, product: product, show_sale_badge: block.settings.show_saving, price_text_size: 'text-xl md:text-2xl', sale_badge_type: block.settings.sale_badge_type %}
               </div>
               {%- if shop.taxes_included -%}
-                
+                <h1>hello</h1>
                 <div class="main-product__block-tax text-color-subtext">
                   {{ 'products.product.include_taxes' | t }}
                 </div>
@@ -143,7 +143,7 @@
                     </div>
                   </li>
                 {% endif %}
-                <h1>hello</h1>
+                
                 {% if block.settings.show_availability %}
                   <li>
                     <span class="prod__additional_infos-label">{{ 'products.product.availability' | t }}:</span>
