@@ -15,3 +15,7 @@
     transition: opacity .4s ease;
     z-index: 2;
 }
+
+label[for="Filter-COLOUR-3"] .tag-filter__color{
+   background-image: url('https://cdn.shopify.com/s/files/1/0080/4844/3455/files/multi-color_50x50_c59fe436-eb0f-41b9-8077-8b8eda95cc6c.webp?v=1737383409')
+}
