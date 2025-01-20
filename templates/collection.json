@@ -1,1 +1,145 @@
-{"sections":{"collection-header":{"type":"collection-page-header","settings":{"container":"container-fluid","layout":"inside","header_height":"small","text_alignment":"left","vertical_alignment":"end","text_color":"dark","bg_color":"#ffffff","enable_parallax":false,"upper_title":false,"show_desc":false,"collection_all_desc":"","enable_bg_zoom_effect":true}},"main":{"type":"main-collection-product-grid","blocks":{"3604fba6-f40a-4c59-bc43-ec63e56cfe84":{"type":"filter","settings":{"design_filtergroup":"default","title":"Product Type","filtergroup":"Boxer Shorts,Casual Checked Shirts,Crew Neck Tshirts,Cotton Printed Shirts,Formal Plain Shirts,Knitted Shorts,Solid Color Shirts,Track Pants,Polo Tshirts,Knitted Shorts,Vest","show_label":false,"use_accordion":true,"open_filtergroup":true}},"26ef6509-772d-4c44-bd90-efc089bd9355":{"type":"filter","settings":{"design_filtergroup":"button","title":"Size","filtergroup":"XS,S,M,L,XL,XXL,XXXL,36,38,40,42,44","show_label":false,"use_accordion":true,"open_filtergroup":true}},"e12de6da-eab8-4abe-967c-06d0d959a18a":{"type":"filter","settings":{"design_filtergroup":"color","title":"Colors","filtergroup":"Light Blue,\nLight Tan,\nGreyish Blue,\nLight Sandal,\nSoft Orange,\nOlive Green,\nBaby Pink,\nDark Navy Blue,\nPepsi Blue,\nDark Red,\nDark Peacock Blue,\nSky Blue,\nMild Blue,\nLight Yellow,\nBaby Blue,\nButter Milk Yellow,\nGrey Green,\nLight Purple,\nMocha Brown,\nPastel Pink,\nPeach Orange,\nSalt Blue,\nTeal Green,\nWhite,\nTan Yellow,\nSoft Pink,\nPale Blue,\nLight Brown,\nOcean Blue,\nLight Lavender,\nGolden Yellow,\nSandal Orange,\nDusky Orange,\nPale Green,\nPeach Red,\nPale Orange,\nLight Red,\nFluorescent Green,\nLemon Yellow,\nLime Green,\nPink,\nIce Green,\nYellow,\nRed,\nGoldren Brown,\nDark Blue,\nOrange,\nLight Peach,\nForce Blue,\nSalt Beige,\nMaroon,\nLight Olive Green,\nPastel Peach,\nCharcoal Black,\nGrey Blue,\nLight Black,\nLight Pink,\nLight Green,\nLight Orange,\nPurple Blue,\nDesert Tan,\nGrey,\nPearl Peach,\nLight Beige,\nCharcoal,\nPerple,\nGreen,\nBlue,\nTAN,\nDay Sky Blue,\nSandyBrown,\nPeach Pink,\nPastel Brown,\nLight Purple Blue,\nBasil Green,\nLemonChiffon,\nLavender Purple,\nBlack,\nNight Blue,\nIron Grey,\nCharcole ,\nCarnationa Pink,\nGrape,\nPastel Green,\nDeep Yellow,\nSteel Blue,\nPeach,\nEmerlad,\nGinger Red,\nLight Copper,\nDull Purple,\nPastel Blue,\nAzure Blue,\nCream,\nMaroon Red,\nAqua Green,\nLava Red,\nBrown Sand,\nNeon Yellow,\nLight Teal,\nMint Green,\nLotus Green,\nSaddleBrown,\nCoral,\nSun Yellow,\nDeep Red,\nBlue Whale,\nBean Red,\nMauve,\nBlue Jay,\nGray Cloud,\nTurquoise Green,\nRich Lilac,\nBlonde,\nWarm White,\nBlush Pink,\nCharcoal Blue,\nBlack Bean,\nDeep Peach,\nDark Yellow,\nBone White,\nMustard Yellow,\nSaffron Red,\nTeal Blue,\nCoral Brown,\nLight Day Blue,\nSandal,\nMarble Blue,\nSandy Brown,\nBlack Grey,\nSilk Blue,\nPastel Yellow,\nGreenish Blue,\nRose Gold,\nBlue Turquoise,\nCherry Red,\nNavy Blue,\nPurple,\nNavy,\nCoral Peach,\nNavy Melange,\nMustard,\nBurgundy,\nNavy Melange - Mustard- Grey Melange,\nGrey Melange,\nCharcole Melange,\nBaby Pink Melange,\nCharcoal Black Melange,\nLettuce Green Melange,\nDark Yellow Melange,\nDark Blue Melange,\nButter Yellow Melange,\nSky Blue Melange,\nPale Green Melange,\nRed Melange,\nGrant Beige Melange,\nLight Purple Melange,\nLight Brown Melange,\nLight Navy Blue,\nGolden Brown,\nBrown,\nYam Orange,\nTaffy Pink,\nSquirrel Grey,\nLight Violet,\nIvory Yellow,\nCustard Yellow,\nSky  Blue,\nRuby Red,\nLemonade Pink,\nCharcoal Green,\nIris Purple,\nBlood Red,\nAmber Orange,\nDark Green,\nDark Tan,\nOff White,","show_label":true,"use_accordion":true,"open_filtergroup":false}},"4903963a-90f0-4fe1-be23-ee4f8749e483":{"type":"filter","settings":{"design_filtergroup":"inrow","title":"Brands","filtergroup":"Minimog,Retrolie,Abby,Brook,Learts,Vagabond","show_label":false,"use_accordion":false,"open_filtergroup":true}},"00b3badd-1613-4230-85d8-f87f04306aaa":{"type":"filter","settings":{"design_filtergroup":"inrow","title":"Shirt Style","filtergroup":"Smart Fit","show_label":false,"use_accordion":true,"open_filtergroup":true}},"df4b178b-0d5b-42ef-a85e-65e1b2ebda75":{"type":"filter","settings":{"design_filtergroup":"default","title":"Shirt Sleeve","filtergroup":"Full Sleeve, Half Sleeve","show_label":false,"use_accordion":true,"open_filtergroup":true}}},"block_order":["3604fba6-f40a-4c59-bc43-ec63e56cfe84","26ef6509-772d-4c44-bd90-efc089bd9355","e12de6da-eab8-4abe-967c-06d0d959a18a","4903963a-90f0-4fe1-be23-ee4f8749e483","00b3badd-1613-4230-85d8-f87f04306aaa","df4b178b-0d5b-42ef-a85e-65e1b2ebda75"],"settings":{"container":"container-fluid","grid_layout":"grid","grid_columns":"4","show_columns_switcher":false,"pagination_limit":48,"paginate_type":"infinite","show_sorting":true,"show_filter":true,"filters_type":"tags_filter","sidebar":"leftColumn","sidebar_title":"Filters","limit_height_widget":false,"limit_height":300,"change_product_variant_on_fitlering":true,"show_product_count":true,"collapsed_groups":"Brand, Vendor, Size","color_swatches":"color,colour,couleur,farbe"}},"recent-viewed":{"type":"recent-viewed-products","disabled":true,"settings":{"container":"container","heading":"Recently Viewed Products","limit":8,"columns":4,"column_gap":30,"enable_slider":true}}},"order":["collection-header","main","recent-viewed"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collection-header": {
+      "type": "collection-page-header",
+      "settings": {
+        "container": "container-fluid",
+        "layout": "inside",
+        "header_height": "small",
+        "text_alignment": "left",
+        "vertical_alignment": "end",
+        "text_color": "dark",
+        "bg_color": "#ffffff",
+        "enable_parallax": false,
+        "upper_title": false,
+        "show_desc": false,
+        "collection_all_desc": "",
+        "enable_bg_zoom_effect": true
+      }
+    },
+    "main": {
+      "type": "main-collection-product-grid",
+      "blocks": {
+        "3604fba6-f40a-4c59-bc43-ec63e56cfe84": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "default",
+            "title": "Product Type",
+            "filtergroup": "Boxer Shorts,Casual Checked Shirts,Crew Neck Tshirts,Cotton Printed Shirts,Formal Plain Shirts,Knitted Shorts,Solid Color Shirts,Track Pants,Polo Tshirts,Knitted Shorts,Vest",
+            "show_label": false,
+            "use_accordion": true,
+            "open_filtergroup": true
+          }
+        },
+        "26ef6509-772d-4c44-bd90-efc089bd9355": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "button",
+            "title": "Size",
+            "filtergroup": "XS,S,M,L,XL,XXL,XXXL,36,38,40,42,44",
+            "show_label": false,
+            "use_accordion": true,
+            "open_filtergroup": true
+          }
+        },
+        "e12de6da-eab8-4abe-967c-06d0d959a18a": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "color",
+            "title": "Colors",
+            "filtergroup": "Light Blue,\nLight Tan,\nGreyish Blue,\nLight Sandal,\nSoft Orange,\nOlive Green,\nBaby Pink,\nDark Navy Blue,\nPepsi Blue,\nDark Red,\nDark Peacock Blue,\nSky Blue,\nMild Blue,\nLight Yellow,\nBaby Blue,\nButter Milk Yellow,\nGrey Green,\nLight Purple,\nMocha Brown,\nPastel Pink,\nPeach Orange,\nSalt Blue,\nTeal Green,\nWhite,\nTan Yellow,\nSoft Pink,\nPale Blue,\nLight Brown,\nOcean Blue,\nLight Lavender,\nGolden Yellow,\nSandal Orange,\nDusky Orange,\nPale Green,\nPeach Red,\nPale Orange,\nLight Red,\nFluorescent Green,\nLemon Yellow,\nLime Green,\nPink,\nIce Green,\nYellow,\nRed,\nGoldren Brown,\nDark Blue,\nOrange,\nLight Peach,\nForce Blue,\nSalt Beige,\nMaroon,\nLight Olive Green,\nPastel Peach,\nCharcoal Black,\nGrey Blue,\nLight Black,\nLight Pink,\nLight Green,\nLight Orange,\nPurple Blue,\nDesert Tan,\nGrey,\nPearl Peach,\nLight Beige,\nCharcoal,\nPerple,\nGreen,\nBlue,\nTAN,\nDay Sky Blue,\nSandyBrown,\nPeach Pink,\nPastel Brown,\nLight Purple Blue,\nBasil Green,\nLemonChiffon,\nLavender Purple,\nBlack,\nNight Blue,\nIron Grey,\nCharcole ,\nCarnationa Pink,\nGrape,\nPastel Green,\nDeep Yellow,\nSteel Blue,\nPeach,\nEmerlad,\nGinger Red,\nLight Copper,\nDull Purple,\nPastel Blue,\nAzure Blue,\nCream,\nMaroon Red,\nAqua Green,\nLava Red,\nBrown Sand,\nNeon Yellow,\nLight Teal,\nMint Green,\nLotus Green,\nSaddleBrown,\nCoral,\nSun Yellow,\nDeep Red,\nBlue Whale,\nBean Red,\nMauve,\nBlue Jay,\nGray Cloud,\nTurquoise Green,\nRich Lilac,\nBlonde,\nWarm White,\nBlush Pink,\nCharcoal Blue,\nBlack Bean,\nDeep Peach,\nDark Yellow,\nBone White,\nMustard Yellow,\nSaffron Red,\nTeal Blue,\nCoral Brown,\nLight Day Blue,\nSandal,\nMarble Blue,\nSandy Brown,\nBlack Grey,\nSilk Blue,\nPastel Yellow,\nGreenish Blue,\nRose Gold,\nBlue Turquoise,\nCherry Red,\nNavy Blue,\nPurple,\nNavy,\nCoral Peach,\nNavy Melange,\nMustard,\nBurgundy,\nNavy Melange - Mustard- Grey Melange,\nGrey Melange,\nCharcole Melange,\nBaby Pink Melange,\nCharcoal Black Melange,\nLettuce Green Melange,\nDark Yellow Melange,\nDark Blue Melange,\nButter Yellow Melange,\nSky Blue Melange,\nPale Green Melange,\nRed Melange,\nGrant Beige Melange,\nLight Purple Melange,\nLight Brown Melange,\nLight Navy Blue,\nGolden Brown,\nBrown,\nYam Orange,\nTaffy Pink,\nSquirrel Grey,\nLight Violet,\nIvory Yellow,\nCustard Yellow,\nSky  Blue,\nRuby Red,\nLemonade Pink,\nCharcoal Green,\nIris Purple,\nBlood Red,\nAmber Orange,\nDark Green,\nDark Tan,\nOff White,",
+            "show_label": true,
+            "use_accordion": true,
+            "open_filtergroup": false
+          }
+        },
+        "4903963a-90f0-4fe1-be23-ee4f8749e483": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "inrow",
+            "title": "Brands",
+            "filtergroup": "Minimog,Retrolie,Abby,Brook,Learts,Vagabond",
+            "show_label": false,
+            "use_accordion": false,
+            "open_filtergroup": true
+          }
+        },
+        "00b3badd-1613-4230-85d8-f87f04306aaa": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "inrow",
+            "title": "Shirt Style",
+            "filtergroup": "Smart Fit",
+            "show_label": false,
+            "use_accordion": true,
+            "open_filtergroup": true
+          }
+        },
+        "df4b178b-0d5b-42ef-a85e-65e1b2ebda75": {
+          "type": "filter",
+          "settings": {
+            "design_filtergroup": "default",
+            "title": "Shirt Sleeve",
+            "filtergroup": "Full Sleeve, Half Sleeve",
+            "show_label": false,
+            "use_accordion": true,
+            "open_filtergroup": true
+          }
+        }
+      },
+      "block_order": [
+        "3604fba6-f40a-4c59-bc43-ec63e56cfe84",
+        "26ef6509-772d-4c44-bd90-efc089bd9355",
+        "e12de6da-eab8-4abe-967c-06d0d959a18a",
+        "4903963a-90f0-4fe1-be23-ee4f8749e483",
+        "00b3badd-1613-4230-85d8-f87f04306aaa",
+        "df4b178b-0d5b-42ef-a85e-65e1b2ebda75"
+      ],
+      "settings": {
+        "container": "container-fluid",
+        "grid_layout": "grid",
+        "grid_columns": "4",
+        "show_columns_switcher": false,
+        "pagination_limit": 48,
+        "paginate_type": "infinite",
+        "show_sorting": true,
+        "show_filter": true,
+        "filters_type": "storefront_filters",
+        "sidebar": "leftColumn",
+        "sidebar_title": "Filters",
+        "limit_height_widget": false,
+        "limit_height": 300,
+        "change_product_variant_on_fitlering": true,
+        "show_product_count": true,
+        "collapsed_groups": "Brand, Vendor, Size",
+        "color_swatches": "color,colour,couleur,farbe"
+      }
+    },
+    "recent-viewed": {
+      "type": "recent-viewed-products",
+      "disabled": true,
+      "settings": {
+        "container": "container",
+        "heading": "Recently Viewed Products",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": 30,
+        "enable_slider": true
+      }
+    }
+  },
+  "order": [
+    "collection-header",
+    "main",
+    "recent-viewed"
+  ]
+}
