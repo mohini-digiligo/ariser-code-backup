@@ -80,6 +80,8 @@
     assign pcard_alignment = settings.pcard_alignment
   endif
 %}
+{% for product in collection.products %}
+  {% if product.available %}
 {%- if column_wrapper -%}<div class="sf-column">{%- endif -%}
   <div 
     class="sf__pcard{% if sold_out %} sf__pcard--soldout{% endif %}{% if on_sale %} sf__pcard--onsale{% endif %} cursor-pointer sf-prod__block sf__pcard-style-{{ card_style }}{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}" 
@@ -592,4 +594,6 @@
     <input hidden name="id" required value="{{ variant_id }}" data-selected-variant="{{ selected_variant_id }}">
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
+     {% endif %}
+{% endfor %}
    
