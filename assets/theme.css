@@ -30,3 +30,10 @@ input[value="Multicolor"] + .tag-filter__color{
 .swiper-slide:has(.item-soldout) {
     display: none;
 }
+
+label[for='Filter-Availability-2'] input {
+    display: none;
+}
+label[for='Filter-Availability-2'] svg {
+    display: none;
+}
