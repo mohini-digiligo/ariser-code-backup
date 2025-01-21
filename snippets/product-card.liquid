@@ -80,7 +80,7 @@
     assign pcard_alignment = settings.pcard_alignment
   endif
 %}
-{% for product in collection.products %}
+
   {% assign total_inventory = 0 %}
   {% for variant in product.variants %}
     {% assign total_inventory = total_inventory | plus: variant.inventory_quantity %}
@@ -599,6 +599,6 @@
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
      {% endif %}
-{% endfor %}
+
 
    
