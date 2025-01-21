@@ -594,20 +594,22 @@
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
 
-   {% for product in collection.products %}
-  {% assign available = false %}
-  
-  {% for variant in product.variants %}
-    {% if variant.inventory_quantity > 0 or variant.inventory_policy == 'continue' %}
-      {% assign available = true %}
+   {% paginate collection.products by 20 %}
+  {% for product in collection.products %}
+    {% assign available = false %}
+    
+    {% for variant in product.variants %}
+      {% if variant.inventory_quantity > 0 or variant.inventory_policy == 'continue' %}
+        {% assign available = true %}
+      {% endif %}
+    {% endfor %}
+    
+    {% if available %}
+      <!-- Render product details -->
+      <div class="product-card">
+        <h2>{{ product.title }}</h2>
+        <!-- Include other product details here -->
+      </div>
     {% endif %}
   {% endfor %}
-  
-  {% if available %}
-    <!-- Render product details -->
-    <div class="product-card">
-      <h6>{{ product.title }}</h6>
-      <!-- Include other product details here -->
-    </div>
-  {% endif %}
-{% endfor %}
+{% endpaginate %}
