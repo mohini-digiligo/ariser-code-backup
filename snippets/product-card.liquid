@@ -1,6 +1,5 @@
 {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
-{% for product in collection.products %}
-  {% if product.available %}
+
 {% liquid
   
   
@@ -593,5 +592,4 @@
     <input hidden name="id" required value="{{ variant_id }}" data-selected-variant="{{ selected_variant_id }}">
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
-   {% endif %}
-{% endfor %} 
+   
