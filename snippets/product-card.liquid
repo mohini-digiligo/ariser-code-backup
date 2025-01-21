@@ -594,7 +594,7 @@
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
 
-   {% paginate collection.products by 20 %}
+  
   {% for product in collection.products %}
     {% assign available = false %}
     
@@ -612,4 +612,4 @@
       </div>
     {% endif %}
   {% endfor %}
-{% endpaginate %}
+
