@@ -1,6 +1,9 @@
 {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
-
+{% for product in collection.products %}
+  {% if product.available %}
 {% liquid
+  
+  
   if card_style == nil or card_style == blank
     assign card_style = settings.pcard_layout
   endif
@@ -590,3 +593,5 @@
     <input hidden name="id" required value="{{ variant_id }}" data-selected-variant="{{ selected_variant_id }}">
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
+   {% endif %}
+{% endfor %} 
