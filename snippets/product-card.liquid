@@ -81,11 +81,7 @@
   endif
 %}
 
-  {% assign total_inventory = 0 %}
-  {% for variant in product.variants %}
-    {% assign total_inventory = total_inventory | plus: variant.inventory_quantity %}
-  {% endfor %}
-  {% if total_inventory > 0 %}
+
 {%- if column_wrapper -%}<div class="sf-column">{%- endif -%}
   <div 
     class="sf__pcard{% if sold_out %} sf__pcard--soldout{% endif %}{% if on_sale %} sf__pcard--onsale{% endif %} cursor-pointer sf-prod__block sf__pcard-style-{{ card_style }}{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}" 
@@ -598,7 +594,7 @@
     <input hidden name="id" required value="{{ variant_id }}" data-selected-variant="{{ selected_variant_id }}">
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
-     {% endif %}
+    
 
 
    
