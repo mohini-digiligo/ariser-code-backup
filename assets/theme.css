@@ -22,6 +22,11 @@ input[value="Multicolor"] + .tag-filter__color{
 }
 
 
-/* .item-soldout {
+.item-soldout {
     display: none !important;
-} */
+}
+
+
+.swiper-slide:has(.item-soldout) {
+    display: none;
+}
