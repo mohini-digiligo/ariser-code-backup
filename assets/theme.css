@@ -37,3 +37,6 @@ label[for='Filter-Availability-2'] input {
 label[for='Filter-Availability-2'] svg {
     display: none;
 }
+label[for='Filter-Availability-2'] span {
+    display: none;
+}
