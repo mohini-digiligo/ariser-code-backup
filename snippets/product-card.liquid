@@ -83,7 +83,7 @@
 
 
 {%- if column_wrapper -%}<div class="sf-column">{%- endif -%}
-  {% if sold_out=='false' %}
+  {% if sold_out ='false' %}
   <div 
     class="sf__pcard{% if sold_out %} sf__pcard--soldout item-soldout{% endif %}{% if on_sale %} sf__pcard--onsale{% endif %} cursor-pointer sf-prod__block sf__pcard-style-{{ card_style }}{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}" 
     data-view="card"{% if sold_number != blank %} 
