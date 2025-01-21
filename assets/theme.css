@@ -22,6 +22,6 @@ input[value="Multicolor"] + .tag-filter__color{
 }
 
 
-.sf__pcard--soldout {
+.item-soldout {
     display: none !important;
 }
