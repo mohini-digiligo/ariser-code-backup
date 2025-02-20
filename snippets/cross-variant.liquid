@@ -1,0 +1,92 @@
+{% comment %}
+{% for product_colors in shop.metaobjects.product_colors.values %}
+  {% assign mproducts = product_colors.color_option.value | reverse | reverse %}
+          {% for product in mproducts %}
+              {% if product.handle == current_product.handle %}
+                {% assign products = mproducts %}
+                {% endif %}
+          {% endfor %}
+{% endfor  %}
+{% endcomment %}
+
+{% assign metaHandle = product.metafields.custom.product_color_group.value %}
+{% assign metaProduct = product.metafields.custom.product_color_group.value.color_option.value %}
+{% assign products = metaProduct | reverse | reverse %}
+{% if products %}
+
+<style>
+.cross-variant .color-swatch{
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    height: 70px;
+    width: 50px;
+    border-radius: 0px!important;
+}
+
+.cross-variant .color-swatch:before {
+    border-radius: 0px!important; 
+}
+
+  .cross-variant  .variant-input-wrap label.disabled:after {
+    border-left: 0px solid;
+}
+
+.cross-variant .variant-input-wrap {
+    margin: 0 0 12px;
+}
+</style>
+<div class="cross-variant">
+   
+    <div class="variant-wrapper1" data-type="button">
+      {% if products.size > 0 %}
+  <label class="variant__label"
+    for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
+    More Colors
+  </label>
+{% endif %}
+      
+  <fieldset class="variant-input-wrap">
+    <legend class="hide">{{ product.metafields.custom.color.value }}</legend>
+    {%- for product in products -%}
+          {% assign i = forloop.index %}
+       {% if product.handle != current_product.handle %} <a href="{{ product.url | within: collection }}"> {% endif %}
+          <div
+            class="variant-input">
+            <input type="radio"
+              {% if product.handle == current_product.handle %} checked="checked"{% endif %}
+              value="{{ product.metafields.custom.color.value | escape }}"
+              name="{{ product.metafields.custom.color.value }}" id="{{ product.id }}" data-url="{{ product.url | within: collection }}" data-option-position1="{{ product.metafields.custom.product_colors.value.name.value }}-{{ i }}"
+              class="cross-swatch__radio variant__input--color-swatch"
+              data-color-name="{{ product.metafields.custom.color.value  | escape }}"
+               data-color-index="{{ i }}"
+              id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ product.metafields.custom.color.value | handleize }}-{{ product.metafields.custom.color.value | escape | url_encode }}">
+              <label
+                for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ product.metafields.custom.color.value | handleize }}-{{ product.metafields.custom.color.value | escape | url_encode }}"
+                class="variant__button-label color-swatch"
+                style="background-image: url({{ product.featured_image | img_url: '120x' }});"
+              >
+                {{ value | escape }}
+              </label>
+    
+          </div>
+         {% if product.handle != current_product.handle %} </a> {% endif %}
+    {%- endfor -%}
+  </fieldset>
+</div>
+</div>
+{% endif %}
+<script>
+    var radios = document.querySelectorAll('.cross-swatch__radio');
+
+    radios.forEach(function(radio) {
+        radio.addEventListener('change', function(e) {
+            if (e.target.checked) {
+                window.location.href = e.target.dataset.url;
+            }
+        });
+    });
+</script>
+
+

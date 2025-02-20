@@ -3,10 +3,15 @@
 @media all and (max-width:1279px) {
   .sf-header .sf-menu-item > a {font-size:14px;}
 }
+@media all and (max-width:480px){
+  .review_rating_box {
+    bottom: 131px !important;
+}
+}
 .custom-product_tag {
     background-color: #e31e25;
     color: #fff;
-    font-size: calc(var(--typeBaseSize)* .65);
+    font-size: 10px;
     line-height: 1;
     padding: 6px 5px 6px 7px;
     position: absolute;
@@ -15,6 +20,35 @@
     transition: opacity .4s ease;
     z-index: 2;
 }
+.review_rating_box{
+    position: absolute;
+    bottom: 117px;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    padding: 1px 5px 1px 7px;
+    background: #f7f7f7;
+}
+.review_rating_box span{
+  margin-right:3px;
+}
+.review_rating_box .loox-icon {
+    color: #E31E25;
+}
+.sf__pcard-quick-add .sf__btn {
+  background: #e31e25 !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 .2rem #e31e25 !important;
+}
+.sizeChart{
+  padding-left:0 !important;
+  font-size: 11px !important;
+  font-weight: 300 !important;
+}
+.product-options__option button[data-open-sizeguide]{
+  display:none;
+}
+
 
 input[value="Multicolor"] + .tag-filter__color{
    background-image: url('https://cdn.shopify.com/s/files/1/0080/4844/3455/files/multi-color_50x50_c59fe436-eb0f-41b9-8077-8b8eda95cc6c.webp?v=1737383409') !important

@@ -69,7 +69,6 @@
       <div class="product-options__option product-options__option--{{ picker_type }}">
         {%- case picker_type -%}
           {% when 'dropdown' %}
-           
             <variant-select data-picker-field="select" data-option-name="{{ option.name }}" data-selected-value="{{ option.selected_value }}">
               <div class="prod__option-label font-medium flex flex-wrap items-center justify-between prod__option-label--dropdown">
                 <label class="form-label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
@@ -280,9 +279,3 @@
     </script>
   {%- endif -%}
 </div>
-                     
-
-
-
-
-                      

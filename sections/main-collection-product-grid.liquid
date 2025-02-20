@@ -93,7 +93,11 @@
             {% endif %}
           {%- endif -%}
         {%- endpaginate -%}
-        <div class="toggle-container">
+        
+      </div>
+      
+    </div>
+    <div class="toggle-container">
          <div class="toggle-button" onclick="toggleContent()">
             ABOUT COLLECTION
             <div class="arrow arrow-down"></div>
@@ -102,8 +106,6 @@
             {{ collection.description }}
          </div>
         </div>
-      </div>
-    </div>
   </div>
 
   {% if st.show_sorting %}
@@ -157,7 +159,7 @@
 }
 
 .content1 {
-    display: none;
+    display: block;
     padding: 20px;
     border: 1px solid #ccc;
     /* background-color: #fff; */
@@ -188,7 +190,7 @@
   color:#000;
 }
 .visible {
-    display: block;
+    display: none;
 }
   .Pagination__NavItem {
     border-bottom: 0px solid var(--border-color);

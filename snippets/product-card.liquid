@@ -1,8 +1,6 @@
 {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
 
 {% liquid
-  
-  
   if card_style == nil or card_style == blank
     assign card_style = settings.pcard_layout
   endif
@@ -80,10 +78,7 @@
     assign pcard_alignment = settings.pcard_alignment
   endif
 %}
-
-
 {%- if column_wrapper -%}<div class="sf-column">{%- endif -%}
-  
   <div 
     class="sf__pcard{% if sold_out %} sf__pcard--soldout item-soldout{% endif %}{% if on_sale %} sf__pcard--onsale{% endif %} cursor-pointer sf-prod__block sf__pcard-style-{{ card_style }}{% if animated %} sf-scroll-trigger animate--{{ animation_effect }}{% endif %}" 
     data-view="card"{% if sold_number != blank %} 
@@ -95,7 +90,7 @@
     {% endif %}
   > 
 
-{% assign product_creation_date = product.created_at | date: "%s" %}
+    {% assign product_creation_date = product.created_at | date: "%s" %}
 {% assign current_date = 'now' | date: "%s" %}
 {% assign days_difference = current_date | minus: product_creation_date %}
 {% assign days_in_90 = 90 | times: 24 | times: 60 | times: 60 %} <!-- 90 days in seconds -->
@@ -131,7 +126,15 @@
         </span>
       {% endif %}
     {% endif %}
-  
+    {%- if product.metafields.loox.avg_rating != blank -%}
+        <div class="review_rating review_rating_box">
+          <span>{{ product.metafields.loox.avg_rating }}</span>
+          <svg class="loox-icon" viewBox="0 0 24 24" data-lx-fill="full" aria-hidden="true"><use href="#looxicons-rating-icon"></use></svg>
+        </div>
+        {% endif %}
+ 
+
+
       <div class="sf__pcard-image {% unless settings.show_second_img %} spc__img-only{% endunless %}">
         <div class="overflow-hidden cursor-pointer relative sf__image-box">
           {% liquid
@@ -499,7 +502,7 @@
             {%- endif -%}
             {% if show_title == true %}
               <h3 class="block text-base">
-                <a href="{{ product.url }}" class="block mb-[5px] leading-normal sf__pcard-name font-medium truncate-lines hover:text-color-secondary{% if settings.uppercase_prd_name %} uppercase{% endif %}">
+                <a href="{{ product.url }}" class="block mb-[5px] leading-normal sf__pcard-name font-medium hover:text-color-secondary{% if settings.uppercase_prd_name %} uppercase{% endif %}">
                   {{ product.title }}
                 </a>
               </h3>
@@ -595,7 +598,3 @@
     <input hidden name="id" required value="{{ variant_id }}" data-selected-variant="{{ selected_variant_id }}">
   </div> <!-- .sf__pcard -->
 {%- if column_wrapper -%}</div><!-- .sf-column -->{%- endif -%}
-    
-
-
-   
