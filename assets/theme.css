@@ -66,3 +66,24 @@ label[for='Filter-Availability-2'] svg {
 label[for='Filter-Availability-2'] span {
     display: none;
 }
+
+@media only screen and (max-width: 480px) {
+  .product-options__option {
+    display: flex;
+    justify-content: center;
+}
+  .product-options__option .prod__option-label {
+    justify-content: center;
+}
+  .sizeChart{
+    display:flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .product-form__actions .quantity-input {
+        flex: 0;
+    }
+      .product-form__actions .form__input-wrapper {
+        flex-direction: column;
+    }
+}
