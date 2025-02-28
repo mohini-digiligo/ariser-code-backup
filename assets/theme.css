@@ -131,3 +131,7 @@ label[for='Filter-Availability-2'] span {
     z-index: 2;
 }
 
+.variant-input {
+    position: relative;
+}
+
