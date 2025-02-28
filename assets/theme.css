@@ -129,6 +129,7 @@ label[for='Filter-Availability-2'] span {
     right: 0;
     top: 0;
     z-index: 2;
+  border: 3px solid #f1f1f1;
 }
 
 .variant-input {
@@ -136,6 +137,6 @@ label[for='Filter-Availability-2'] span {
 }
 
 .variant-input-wrap input[type=radio]:checked+label {
-    box-shadow: 0 0 0 2px black;
+    box-shadow: 0 0 0 1px black;
 }
 
