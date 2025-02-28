@@ -103,11 +103,11 @@ label[for='Filter-Availability-2'] span {
 }
 
 
-[data-center-text=true] .variant-input-wrap label {
+ .variant-input-wrap label {
     margin: 0 4px 20px;
 }
 
-[data-swatch_style=round] .color-swatch:before {
+ .color-swatch:before {
     border-radius: 100%;
     border-width: 4px;
     bottom: -1px;
