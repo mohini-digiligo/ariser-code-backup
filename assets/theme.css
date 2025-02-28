@@ -116,3 +116,8 @@ label[for='Filter-Availability-2'] span {
     top: -1px;
 }
 
+.color-swatch:before {
+    border: 3px solid;
+    border-color: #ffffff;
+}
+
