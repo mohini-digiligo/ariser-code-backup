@@ -129,9 +129,11 @@ label[for='Filter-Availability-2'] span {
     right: 0;
     top: 0;
     z-index: 2;
-  border: 3px solid #f1f1f1;
+ 
 }
-
+.cross-variant .color-swatch{
+  border: 3px solid;
+}
 .variant-input {
     position: relative;
 }
