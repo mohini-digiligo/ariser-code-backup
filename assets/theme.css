@@ -136,6 +136,6 @@ label[for='Filter-Availability-2'] span {
 }
 
 .variant-input-wrap input[type=radio]:checked+label {
-    box-shadow: 0 0 0 2px var(--colorTextBody);
+    box-shadow: 0 0 0 2px black;
 }
 
