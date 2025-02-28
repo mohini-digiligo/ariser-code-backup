@@ -87,3 +87,7 @@ label[for='Filter-Availability-2'] span {
         flex-direction: column;
     }
 }
+.variant-input {
+    display: inline-block;
+}
+
