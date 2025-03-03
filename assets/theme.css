@@ -148,6 +148,6 @@ label[for='Filter-Availability-2'] span {
 }
 
 .cross-variant .variant-input-wrap{
-      margin: 0 0 0px;
+      margin: 0px 0px 0px !important;
 }
 
