@@ -68,6 +68,9 @@ label[for='Filter-Availability-2'] span {
 }
 
 @media only screen and (max-width: 480px) {
+  .variant-wrapper1 {
+  text-align:center;
+}
   .product-options__option {
     display: flex;
     justify-content: center;
