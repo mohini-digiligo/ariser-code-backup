@@ -56,7 +56,9 @@
 .swiper-slide:has(.item-soldout) {
     display: none;
 }
-
+h2,h3{
+  margin-bottom:15px;
+}
 label[for='Filter-Availability-2'] input {
     display: none;
 }
