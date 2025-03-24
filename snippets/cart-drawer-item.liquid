@@ -185,7 +185,7 @@
           data-index="{{ item.index | plus: 1 }}"
         >
           <span class="scd-item__remove underline p-2 ml-2 cursor-pointer{% unless gift_wrap_id == nil or item.id != gift_wrap_id %} hidden{% endunless %}">
-            {{- 'cart.general.remove' | t -}}test
+            {{- 'cart.general.remove' | t -}}
           </span>
         </m-cart-remove-button>
       </div>
@@ -193,3 +193,17 @@
   </div>
 </div>
 
+<div class="cart-recommendations-wrapper" data-cart-recommendations>
+{% if recommendationsContent != blank %}
+  <cart-recommendations>
+    <div
+      class="product-single__related grid grid--uniform"
+      data-aos="overflow__animation"
+        data-slideshow data-controls="arrows"
+        data-per-slide="1" data-count="{{ totalItems }}"
+    >
+     {{ recommendationsContent }}
+    </div>
+  </cart-recommendations>
+{% endif %}
+</div>
