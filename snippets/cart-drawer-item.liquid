@@ -192,3 +192,18 @@
     </div>
   </div>
 </div>
+
+<div class="cart-recommendations-wrapper" data-cart-recommendations>
+          {% if recommendationsContent != blank %}
+              <cart-recommendations>
+                <div
+                  class="product-single__related grid grid--uniform"
+                  data-aos="overflow__animation"
+                    data-slideshow data-controls="arrows"
+                    data-per-slide="1" data-count="{{ totalItems }}"
+                >
+                 {{ recommendationsContent }}
+                </div>
+              </cart-recommendations>
+          {% endif %}
+            </div>
