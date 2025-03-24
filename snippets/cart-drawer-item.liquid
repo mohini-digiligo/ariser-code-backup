@@ -64,7 +64,18 @@
           {%- endfor -%}
         </div>
       {%- endunless -%}
-      test
+      <cart-item-options
+            class="js-modal-open-quick-modal-{{ product.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
+            data-quantity="{{ product.quantity }}"
+            data-key="{{ product.key }}"
+            data-current-variant="{{ product.variant.id }}"
+            data-new-variant="{{ product.product.selected_or_first_available_variant.id }}"
+          >
+            <span data-cart-popup-open>Change options</span>
+            <template>
+              {%- render 'cart-options-popup', product: product.product, cartItem: product -%}
+            </template>
+          </cart-item-options>
       <div class="scd-item__prices">
         {%- if item.original_price != item.final_price -%}
           <div class="cart-drawer__discounted-prices">
