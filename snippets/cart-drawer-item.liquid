@@ -64,7 +64,15 @@
           {%- endfor -%}
         </div>
       {%- endunless -%}
-      <cart-item-options
+      {%- unless product.product.has_only_default_variant -%}
+        <div class="cart__item--variants">
+          {%- for option in product.options_with_values -%}
+            <div>
+              <span>{{ option.name }}:</span> {{ option.value }}
+            </div>
+          {%- endfor -%}
+          {% unless giftWrapProduct %}
+          <cart-item-options
             class="js-modal-open-quick-modal-{{ product.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
             data-quantity="{{ product.quantity }}"
             data-key="{{ product.key }}"
@@ -76,6 +84,9 @@
               {%- render 'cart-options-popup', product: product.product, cartItem: product -%}
             </template>
           </cart-item-options>
+          {% endunless %}
+        </div>
+      {%- endunless -%}
       <div class="scd-item__prices">
         {%- if item.original_price != item.final_price -%}
           <div class="cart-drawer__discounted-prices">
