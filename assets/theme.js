@@ -4,8 +4,7 @@ var __webpack_exports__ = {};
 
 
 
-/******/ })()
-;
+/******/ })();
 
 
 
@@ -103,9 +102,7 @@ function DOMready(callback) {
         }
       }
     }
-  
   }
-  
   customElements.define('cart-item-options', CartItemOptions);
 
 
