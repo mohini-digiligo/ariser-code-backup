@@ -9,7 +9,12 @@ var __webpack_exports__ = {};
 
 
 console.log('hello');
-
+window.theme = window.theme || {};  // Ensure `theme` exists globally
+theme.sections = theme.sections || {
+  register: function(name, func, context) {
+    console.log("Registering:", name);
+  }
+};
 
 function DOMready(callback) {
     if (document.readyState != 'loading') callback();
