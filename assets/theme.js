@@ -20,10 +20,11 @@ class CartItemOptions extends HTMLElement {
     super();
     this.popup = this.querySelector("template");
     this.cartPage = this.classList.contains('cartPageItem');
-console.log("js run");
+
     if (this.popup) {
+       console.log(popup);
       this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
-        
+       
         let popUpHtml = this.popup.content.cloneNode(true);
 
         // Ensure class is added for selection
