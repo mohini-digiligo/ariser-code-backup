@@ -23,6 +23,8 @@ function DOMready(callback) {
 
  DOMready(function(){
     theme.sections = new theme.Sections();
+
+   theme.sections.register('product', theme.Product);
  });
 //console.log(window.theme);
 
