@@ -22,7 +22,7 @@ class CartItemOptions extends HTMLElement {
     this.cartPage = this.classList.contains('cartPageItem');
 
     if (this.popup) {
-       console.log(popup);
+       console.log('run');
       this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
        
         let popUpHtml = this.popup.content.cloneNode(true);
