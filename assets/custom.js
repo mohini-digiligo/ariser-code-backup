@@ -1,6 +1,15 @@
 console.log('hello');
 
 
+function DOMready(callback) {
+    if (document.readyState != 'loading') callback();
+    else document.addEventListener('DOMContentLoaded', callback);
+  }
+
+ DOMready(function(){
+    theme.sections = new theme.Sections();
+ });
+
   class CartItemOptions extends HTMLElement {
     constructor() {
       super();
