@@ -66,7 +66,7 @@
         </div>
       {%- endunless -%}
      
-       {% unless giftWrapProduct %}
+       
        
          
           <cart-item-options
@@ -81,7 +81,7 @@
               {%- render 'cart-options-popup', product: product.product, cartItem: product -%}
             </template>
           </cart-item-options>
-          {% endunless %}
+          
   
       <div class="scd-item__prices">
         {%- if item.original_price != item.final_price -%}
