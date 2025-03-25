@@ -22,25 +22,24 @@ document.querySelectorAll('.variant-option').forEach(option => {
     });
 });
 
-
-document.querySelector('[data-submit-btn]').addEventListener('click', function() {
-    let selectedVariant = document.querySelector('[data-new-variant]').getAttribute('data-new-variant');
-    let cartItemKey = document.querySelector('[data-cart-popup]').getAttribute('data-key');
-
-    fetch('/cart/change.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: cartItemKey, quantity: 0 }) // Remove old variant
-    }).then(() => {
-        return fetch('/cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: selectedVariant, quantity: 1 }) // Add new variant
-        });
-    }).then(() => {
-        location.reload(); // Refresh the cart
+document.querySelectorAll('[data-cart-popup-open]').forEach(button => {
+    button.addEventListener('click', function(event) {
+        console.log("Change options clicked!");
+        
+        let productId = this.closest('cart-item-options').getAttribute('class').match(/js-modal-open-quick-modal-(\d+)-/)[1];
+        let cartItemKey = this.closest('cart-item-options').getAttribute('data-key');
+        
+        let modalId = `#js-modal-open-quick-modal-${productId}-${cartItemKey}`;
+        let modal = document.querySelector(modalId);
+        
+        if (modal) {
+            modal.classList.add('activeCartPopUp'); // Open the modal
+        } else {
+            console.error("Modal not found:", modalId);
+        }
     });
 });
+
 
 
 
