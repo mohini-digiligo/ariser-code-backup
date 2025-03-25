@@ -34,7 +34,7 @@ console.log(window.theme);
       if(this.popup){
         this.querySelector('[data-cart-popup-open]').addEventListener('click',function(){
           let popUpHtml = this.popup.content.cloneNode(true);
-          // popUpHtml.classList.add('activeCartPopUp');
+           popUpHtml.classList.add('activeCartPopUp');
           
           document.body.append(popUpHtml);
           this.newPopup = document.querySelector('.activeCartPopUp');
