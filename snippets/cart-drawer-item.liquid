@@ -62,7 +62,10 @@
               </span>
             </p>
           {%- endfor -%}
-          {% unless giftWrapProduct %}
+         
+        </div>
+      {%- endunless -%}
+       {% unless giftWrapProduct %}
           <cart-item-options
             class="js-modal-open-quick-modal-{{ product.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
             data-quantity="{{ product.quantity }}"
@@ -76,8 +79,6 @@
             </template>
           </cart-item-options>
           {% endunless %}
-        </div>
-      {%- endunless -%}
   
       <div class="scd-item__prices">
         {%- if item.original_price != item.final_price -%}
