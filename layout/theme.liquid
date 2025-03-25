@@ -125,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% render 'custom-code-body' %}
     {% render 'script-tags' %}
     {% render 'cookie-banner' %}
-
+    <script src="{{ 'theme.js' | asset_url }}"></script>
     <script src="{{ 'quick-view.min.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'product-card-swatch.min.js' | asset_url }}" defer="defer"></script>
     {%- if settings.enable_predictive_search -%}
@@ -143,7 +143,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=00627f80-d270-42ab-ba29-f11db4d321f5"> </script>
     <!-- End of uathayamhelp Zendesk Widget script -->
 
-    <script src="{{ 'theme.js' | asset_url }}"></script>
+   
 
   </body>
 </html>
