@@ -7,6 +7,7 @@ var __webpack_exports__ = {};
 /******/ })()
 ;
 
+console.log('hello');
 
 document.querySelectorAll('.variant-option').forEach(option => {
     option.addEventListener('change', function() {
