@@ -66,6 +66,7 @@
         </div>
       {%- endunless -%}
        {% unless giftWrapProduct %}
+         <span data-cart-popup-open>Change options</span>
           <cart-item-options
             class="js-modal-open-quick-modal-{{ product.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
             data-quantity="{{ product.quantity }}"
