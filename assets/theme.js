@@ -24,7 +24,6 @@ function DOMready(callback) {
  DOMready(function(){
     theme.sections = new theme.Sections();
 
-   theme.sections.register('product', theme.Product);
    theme.sections.register('product', theme.Product, this.newPopup);
  });
 //console.log(window.theme);
