@@ -1219,3 +1219,6 @@ load('product-page');
 
 /******/ })()
 ;
+
+
+console.log('hello');
