@@ -8,13 +8,13 @@ var __webpack_exports__ = {};
 
 
 
-console.log('hello');
-window.theme = window.theme || {};  // Ensure `theme` exists globally
-theme.sections = theme.sections || {
-  register: function(name, func, context) {
-    console.log("Registering:", name);
-  }
+window.theme = window.theme || {};
+theme.Sections = theme.Sections || function() {
+  this.register = function(name, func, context) {
+    console.log("Registering section:", name);
+  };
 };
+
 
 function DOMready(callback) {
     if (document.readyState != 'loading') callback();
