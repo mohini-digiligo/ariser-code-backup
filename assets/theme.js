@@ -20,8 +20,6 @@ function DOMready(callback) {
     theme.sections = new theme.Sections();
  });
 
-
-
   class CartItemOptions extends HTMLElement {
     constructor() {
       super();
