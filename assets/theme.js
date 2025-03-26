@@ -39,6 +39,9 @@ class CartItemOptions extends HTMLElement {
           this.newPopup = document.querySelector('.activeCartPopUp');
           if (this.newPopup) {
             this.newPopup.style.display = 'block';
+            this.newPopup.style.visibility = 'visible';
+            this.newPopup.style.opacity = '1';
+           
 
             // Check if theme.Product exists before using it
             if (typeof theme !== "undefined" && typeof theme.Product !== "undefined") {
