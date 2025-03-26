@@ -274,7 +274,7 @@ cart-item-options span {
     margin: 0 4px 20px;
 }
 .variant-input-wrap input[type=radio]:checked+label {
-    box-shadow: 0 0 0 2px var(--colorTextBody);
+    box-shadow: 0 0 0 2px black;
 }
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
