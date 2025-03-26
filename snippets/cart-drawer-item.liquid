@@ -70,7 +70,7 @@
             data-current-variant="{{ item.variant.id }}"
             data-new-variant="{{ item.product.selected_or_first_available_variant.id }}"
           >
-            <span data-cart-popup-open>Change options</span>
+            <span data-cart-popup-open class='change-options'>Change options</span>
             <template>
               {%- render 'cart-options-popup', product: item.product, cartItem: item -%}
             </template>
