@@ -8,8 +8,8 @@ class CartItemOptions extends HTMLElement {
          
           let popUpHtml = this.popup.content.cloneNode(true);
           // popUpHtml.classList.add('activeCartPopUp');
-           let element = document.querySelector('.m-cart-drawer');
-          if (element) {
+           let mcartdrawer = document.querySelector('.m-cart-drawer');
+          if (mcartdrawer) {
               element.classList.remove('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
           }
           document.body.append(popUpHtml);
@@ -25,6 +25,7 @@ class CartItemOptions extends HTMLElement {
             this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
             if(this.popUpClose){
               this.popUpClose.addEventListener('click',function(event){
+                
                 event.preventDefault();
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
