@@ -176,6 +176,18 @@ label[for='Filter-Availability-2'] span {
 cart-item-options span{
   cursor: pointer;
 }
+.modal {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal.is-visible {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
 
 
 @media only screen and (max-width:768px){
