@@ -295,6 +295,10 @@ cart-item-options span {
     overflow: auto;
     padding: 22.5px;
 }
+.modal__close .icon {
+    height: 28px;
+    width: 28px;
+}
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
         max-height: 80vh;
