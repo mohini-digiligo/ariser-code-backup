@@ -114,3 +114,31 @@ class CartItemOptions extends HTMLElement {
 
 // Define the custom element
 customElements.define('cart-item-options', CartItemOptions);
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("[data-cart-popup-open]").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            let modalSelector = "#js-modal-open-quick-modal-" + this.closest("[class*='js-modal-open-quick-modal']").dataset.key;
+            let modal = document.querySelector(modalSelector);
+
+            if (modal) {
+                modal.classList.add("is-visible");
+                document.body.classList.add("modal-open");
+            }
+        });
+    });
+
+    // Close Modal
+    document.querySelectorAll("[data-cart-popup-close]").forEach(closeButton => {
+        closeButton.addEventListener("click", function() {
+            let modal = this.closest(".modal");
+            modal.classList.remove("is-visible");
+            document.body.classList.remove("modal-open");
+        });
+    });
+});
