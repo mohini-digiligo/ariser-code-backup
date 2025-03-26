@@ -287,6 +287,14 @@ cart-item-options span {
 .variant-input-wrap input[type=radio]:checked+label {
     box-shadow: 0 0 0 2px black;
 }
+.modal--square .modal__centered-content {
+    -webkit-overflow-scrolling: touch;
+    max-height: 80vh;
+    min-height: 200px;
+    min-width: 200px;
+    overflow: auto;
+    padding: 22.5px;
+}
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
         max-height: 90vh;
@@ -294,3 +302,5 @@ cart-item-options span {
         padding: 45px;
     }
 }
+
+
