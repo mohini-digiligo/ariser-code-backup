@@ -8,7 +8,10 @@ class CartItemOptions extends HTMLElement {
          
           let popUpHtml = this.popup.content.cloneNode(true);
           // popUpHtml.classList.add('activeCartPopUp');
-          
+           let element = document.querySelector('.m-cart-drawer');
+          if (element) {
+              element.classList.remove('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+          }
           document.body.append(popUpHtml);
           this.newPopup = document.querySelector('.activeCartPopUp');
           if(this.newPopup){
