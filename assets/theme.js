@@ -22,23 +22,7 @@ function openChangeOptionsModal(itemId) {
       var selectedVariantId = lineItem.variant_id; // Get the selected variant ID
 
       // Fetch the product information to get the variants
-      fetch(/products/${lineItem.product.handle}.js)
-        .then(response => response.json())
-        .then(product => {
-          var variants = product.variants; // Get all the variants of the product
-          var variantOptionsHtml = '';
-
-          // Build HTML for variant selection
-          variants.forEach(function(variant) {
-            variantOptionsHtml += '
-              <div>
-                <label for="variant-${variant.id}">${variant.title}</label>
-                <input type="radio" name="variant-${lineItem.id}" value="${variant.id}" id="variant-${variant.id}" 
-                  ${variant.id === selectedVariantId ? 'checked' : ''}>
-                <label for="variant-${variant.id}">${variant.title}</label>
-              </div>
-            ';
-          });
+     
 
           // Insert variant options into the modal
           document.getElementById("variant-options").innerHTML = variantOptionsHtml;
