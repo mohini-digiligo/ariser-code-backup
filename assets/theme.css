@@ -270,7 +270,9 @@ cart-item-options span {
     position: absolute;
     width: 1px;
 }
-
+[data-center-text=true] .variant-input-wrap label {
+    margin: 0 4px 20px;
+}
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
         max-height: 90vh;
