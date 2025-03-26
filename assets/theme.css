@@ -276,6 +276,7 @@ cart-item-options span {
 }
 .variant-input-wrap label{
       padding: 7px 15px 7px;
+  overflow: hidden;
 }
 .variant-input-wrap input[type=radio]:checked+label {
     box-shadow: 0 0 0 2px black;
