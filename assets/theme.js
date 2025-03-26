@@ -5,6 +5,7 @@ var span = document.getElementsByClassName("close")[0];
 // Event listener for "Change Options" buttons
 document.querySelectorAll('.change-options').forEach(function(button) {
   button.addEventListener('click', function() {
+    console.log('hello');
     var itemId = button.getAttribute("data-item-id"); // Get the item id for the clicked cart item
     openChangeOptionsModal(itemId); // Open the modal for that item
   });
