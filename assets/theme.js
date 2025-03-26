@@ -96,49 +96,6 @@ class CartItemOptions extends HTMLElement {
   
   customElements.define('cart-item-options', CartItemOptions);
 
-updateCartButton: function(evt) {
-    var variant = evt.detail.variant;
-    var cartBtn = this.container.querySelector(this.selectors.addToCart);
-    var cartBtnText = this.container.querySelector(this.selectors.addToCartText);
-    var soldOutWarnings = document.querySelectorAll(".soldout-warning");
-
-    if (!cartBtn) return;
-
-    if (variant) {
-        if (variant.available) {
-            // Available, enable the button
-            cartBtn.classList.remove(classes.disabled);
-            cartBtn.disabled = false;
-            var defaultText = cartBtnText.dataset.defaultText;
-            cartBtnText.textContent = defaultText;
-
-            // Hide Sold Out warning
-            soldOutWarnings.forEach(function(warning) {
-                warning.style.display = "none";
-            });
-        } else {
-            // Sold out, disable the button
-            cartBtn.classList.add(classes.disabled);
-            cartBtn.disabled = true;
-            cartBtnText.textContent = theme.strings.soldOut;
-
-            // Show Sold Out warning
-            soldOutWarnings.forEach(function(warning) {
-                warning.style.display = "block";
-            });
-        }
-    } else {
-        // Variant does not exist, disable the button
-        cartBtn.classList.add(classes.disabled);
-        cartBtn.disabled = true;
-        cartBtnText.textContent = theme.strings.unavailable;
-
-        // Show Sold Out warning
-        soldOutWarnings.forEach(function(warning) {
-            warning.style.display = "block";
-        });
-    }
-}
 
 
 
