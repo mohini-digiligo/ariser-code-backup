@@ -38,7 +38,7 @@ class CartItemOptions extends HTMLElement {
         setTimeout(() => {
           this.newPopup = document.querySelector('.activeCartPopUp');
           if (this.newPopup) {
-            this.newPopup.style.display = 'flex';
+            this.newPopup.style.display = 'block';
 
             // Check if theme.Product exists before using it
             if (typeof theme !== "undefined" && typeof theme.Product !== "undefined") {
