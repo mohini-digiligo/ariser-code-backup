@@ -253,3 +253,7 @@ cart-item-options span {
     box-shadow: 0 15px 45px rgba(0, 0, 0, .1);
     color: var(--colorTextBody);
 }
+
+.hide {
+    display: none !important;
+}
