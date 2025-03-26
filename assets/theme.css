@@ -309,6 +309,12 @@ cart-item-options span {
     top: 0;
 
 }
+.modal__centered {
+    flex: 0 1 auto;
+    max-width: 100%;
+    min-width: 1px;
+    position: relative;
+}
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
         max-height: 80vh;
