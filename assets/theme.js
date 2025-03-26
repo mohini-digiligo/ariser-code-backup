@@ -30,7 +30,7 @@ console.log(popUpHtml);
         // Ensure class is added for selection
         let tempDiv = document.createElement("div");
         tempDiv.appendChild(popUpHtml);
-        //tempDiv.firstElementChild.classList.add("activeCartPopUp");
+        tempDiv.firstElementChild.classList.add("activeCartPopUp");
 
         document.body.append(tempDiv.firstElementChild);
 
