@@ -1,5 +1,3 @@
-
-
 window.theme = window.theme || {};
 theme.Sections = theme.Sections || function() {
   this.register = function(name, func, context) {
@@ -28,7 +26,7 @@ class CartItemOptions extends HTMLElement {
       this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
         console.log("Popup trigger clicked!");
         let popUpHtml = this.popup.content.cloneNode(true);
-console.log(popUpHtml);
+
         // Ensure class is added for selection
         let tempDiv = document.createElement("div");
         tempDiv.appendChild(popUpHtml);
