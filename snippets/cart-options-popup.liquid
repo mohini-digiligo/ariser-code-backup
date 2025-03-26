@@ -1,3 +1,17 @@
+<!-- Modal for Changing Options -->
+<div id="change-options-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Change Product Options</h2>
+    <form id="change-options-form">
+      <div id="variant-options"></div> <!-- Variants will be populated dynamically -->
+      <button type="submit">Update Cart</button>
+    </form>
+  </div>
+</div>
+
+
+
 <div id="js-modal-open-quick-modal-{{ product.id }}-{{ cartItem.key }}" class="modal modal--square modal--quick-shop custom-popup-cart activeCartPopUp" data-key="{{ cartItem.key }}" data-cart-popup data-product-id="{{ product.id }}">
   <div class="modal__inner">
     <div class="modal__centered"> 
