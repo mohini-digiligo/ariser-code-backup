@@ -9,18 +9,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Get the modal using the data-key
             let modalKey = cartItem.getAttribute("data-key");
-          console.log(document.querySelector(".modal")); // Check if any modal exists
-          console.log(document.querySelector("[data-key='45899112546585:4c965aa252c6d069061ef577bc613673']")); // Check if it selects anything
+       let modals = document.querySelectorAll(".modal");
+let modal = null;
 
-            // Use an attribute selector instead of querySelector with an ID
-            let modal = document.querySelector(".modal[data-key='45899112546585:4c965aa252c6d069061ef577bc613673']");
+modals.forEach(m => {
+    if (m.getAttribute("data-key") === "45899112546585:4c965aa252c6d069061ef577bc613673") {
+        modal = m;
+    }
+});
+
+if (modal) {
+    modal.classList.add("activeCartPopUp");
+    console.log("Modal opened:", modal);
+} else {
+    console.error("Modal not found!");
+}
              
-            if (modal) {
-                modal.classList.add("activeCartPopUp"); // Show the modal
-                console.log("Modal opened:", modal);
-            } else {
-                console.error("Modal not found!");
-            }
+            
         });
     });
 
