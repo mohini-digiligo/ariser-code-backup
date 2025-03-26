@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (modal) {
                 modal.classList.add("activeCartPopUp"); // Show the modal
                 console.log("Modal opened:", modal);
+              modal.style.display = "block"; // Show the modal
+             
             } else {
                 console.error("Modal not found!");
             }
