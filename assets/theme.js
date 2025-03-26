@@ -30,14 +30,14 @@ function openChangeOptionsModal(itemId) {
 
           // Build HTML for variant selection
           variants.forEach(function(variant) {
-            variantOptionsHtml += `
+            variantOptionsHtml += '
               <div>
                 <label for="variant-${variant.id}">${variant.title}</label>
                 <input type="radio" name="variant-${lineItem.id}" value="${variant.id}" id="variant-${variant.id}" 
                   ${variant.id === selectedVariantId ? 'checked' : ''}>
                 <label for="variant-${variant.id}">${variant.title}</label>
               </div>
-            `;
+            ';
           });
 
           // Insert variant options into the modal
