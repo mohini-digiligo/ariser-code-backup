@@ -62,13 +62,7 @@
               </span>
             </p>
           {%- endfor -%}
-         
-        </div>
-      {%- endunless -%}
-     
-       
-       
-        
+         {% unless giftWrapProduct %}
           <cart-item-options
             class="js-modal-open-quick-modal-{{ product.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
             data-quantity="{{ product.quantity }}"
@@ -76,12 +70,19 @@
             data-current-variant="{{ product.variant.id }}"
             data-new-variant="{{ product.product.selected_or_first_available_variant.id }}"
           >
-            
             <span data-cart-popup-open>Change options</span>
             <template>
               {%- render 'cart-options-popup', product: product.product, cartItem: product -%}
             </template>
           </cart-item-options>
+          {% endunless %}
+        </div>
+      {%- endunless -%}
+     
+       
+       
+        
+         
           
   
       <div class="scd-item__prices">
