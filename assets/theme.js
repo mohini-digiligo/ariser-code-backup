@@ -72,48 +72,48 @@ class CartItemOptions extends HTMLElement {
     }
   }
 
-//   changeCartItems() {
-//     let currentVariant = this.dataset.key,
-//       newVariant = this.dataset.newVariant;
+  changeCartItems() {
+    let currentVariant = this.dataset.key,
+      newVariant = this.dataset.newVariant;
 
-//     let updates = {};
-//     updates[currentVariant] = 0;
-//     updates[newVariant] = parseInt(this.dataset.quantity);
+    let updates = {};
+    updates[currentVariant] = 0;
+    updates[newVariant] = parseInt(this.dataset.quantity);
 
-//     fetch(window.Shopify.routes.root + 'cart/update.js', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ updates })
-//     })
-//     .then(response => response.json())
-//     .then((data) => {
-//       if (data.status) return;
-//       if (this.cartPage) {
-//         document.dispatchEvent(new CustomEvent('cart:build'));
-//       } else {
-//         document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-//       }
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updates })
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.status) return;
+      if (this.cartPage) {
+        document.dispatchEvent(new CustomEvent('cart:build'));
+      } else {
+        document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
+      }
 
-//       if (this.newPopup) {
-//         setTimeout(() => {
-//           this.newPopup.style.display = 'none';
-//           this.newPopup.remove();
-//         }, 1000);
-//       }
-//     })
-//     .catch(error => console.error('Error:', error));
-//   }
+      if (this.newPopup) {
+        setTimeout(() => {
+          this.newPopup.style.display = 'none';
+          this.newPopup.remove();
+        }, 1000);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
 
-//   updateBtn(status) {
-//     if (this.submitBtn) {
-//       if (status) {
-//         this.submitBtn.removeAttribute('disabled');
-//       } else {
-//         this.submitBtn.setAttribute('disabled', 'true');
-//       }
-//     }
-//   }
-// }
+  updateBtn(status) {
+    if (this.submitBtn) {
+      if (status) {
+        this.submitBtn.removeAttribute('disabled');
+      } else {
+        this.submitBtn.setAttribute('disabled', 'true');
+      }
+    }
+  }
+}
 
 // Define the custom element
 customElements.define('cart-item-options', CartItemOptions);
