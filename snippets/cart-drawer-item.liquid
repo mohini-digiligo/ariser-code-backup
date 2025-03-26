@@ -64,7 +64,7 @@
           {%- endfor -%}
          {% unless giftWrapProduct %}
           <cart-item-options
-            class="js-modal-open-quick-modal-{{ product.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
+            class="js-modal-open-quick-modal-{{ item.product.id }}-{{ product.key }}{% if mainCart %} cartPageItem{% endif %}"
             data-quantity="{{ product.quantity }}"
             data-key="{{ product.key }}"
             data-current-variant="{{ product.variant.id }}"
