@@ -67,7 +67,7 @@ class CartItemOptions extends HTMLElement {
               });
             }
           }
-        }, 100);
+        }, 500);
       });
     }
   }
