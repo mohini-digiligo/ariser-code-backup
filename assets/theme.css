@@ -260,6 +260,16 @@ cart-item-options span {
 .product-single__meta {
     padding-left: 45px;
 }
+.variant-input-wrap input {
+    clip: rect(0 0 0 0);
+    border: 0;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
 
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
