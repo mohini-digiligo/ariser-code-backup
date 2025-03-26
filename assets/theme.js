@@ -95,3 +95,33 @@ class CartItemOptions extends HTMLElement {
   }
   
   customElements.define('cart-item-options', CartItemOptions);
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".variant-input input[data-variant-input]").forEach(function (input) {
+        input.addEventListener("change", function () {
+            updateSoldOutMessages();
+        });
+    });
+
+    function updateSoldOutMessages() {
+        document.querySelectorAll(".variant-input").forEach(function (variant) {
+            let input = variant.querySelector("input[data-variant-input]");
+            let soldOutWarning = variant.querySelector(".soldout-warning");
+
+            if (input && soldOutWarning) {
+                let isAvailable = !input.classList.contains("disabled"); // Check if it's marked as disabled
+
+                if (isAvailable) {
+                    soldOutWarning.style.display = "none"; // Hide the "Sold Out" message
+                } else {
+                    soldOutWarning.style.display = "block"; // Show the "Sold Out" message
+                }
+            }
+        });
+    }
+
+    // Run on page load
+    updateSoldOutMessages();
+});
+
