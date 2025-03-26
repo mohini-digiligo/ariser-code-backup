@@ -25,7 +25,7 @@ class CartItemOptions extends HTMLElement {
        console.log('run');
       this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
         console.log("Popup trigger clicked!");
-        let  = this.popup.content.cloneNode(true);
+        let popUpHtml = this.popup.content.cloneNode(true);
 console.log(popUpHtml);
         // Ensure class is added for selection
         let tempDiv = document.createElement("div");
