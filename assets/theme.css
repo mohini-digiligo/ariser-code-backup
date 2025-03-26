@@ -299,6 +299,16 @@ cart-item-options span {
     height: 28px;
     width: 28px;
 }
+.modal--square .modal__close {
+    color: black;
+    padding: 10px;
+    position: absolute;
+}
+.modal__close{
+  right: 0;
+    top: 0;
+
+}
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
         max-height: 80vh;
