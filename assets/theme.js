@@ -1,90 +1,91 @@
-  class CartItemOptions extends HTMLElement {
-    constructor() {
-      super();
-      this.popup = this.querySelector("template");
-      this.cartPage = this.classList.contains('cartPageItem');
-      if(this.popup){
-        this.querySelector('[data-cart-popup-open]').addEventListener('click',function(){
-         
-          let popUpHtml = this.popup.content.cloneNode(true);
-          // popUpHtml.classList.add('activeCartPopUp');
+  // Get modal and close button
+var modal = document.getElementById("change-options-modal");
+var span = document.getElementsByClassName("close")[0];
+
+// Event listener for "Change Options" buttons
+document.querySelectorAll('.change-options').forEach(function(button) {
+  button.addEventListener('click', function() {
+    var itemId = button.getAttribute("data-item-id"); // Get the item id for the clicked cart item
+    openChangeOptionsModal(itemId); // Open the modal for that item
+  });
+});
+
+// Function to open the modal and load the variant options dynamically
+function openChangeOptionsModal(itemId) {
+  // Fetch the current cart information
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+      var lineItem = cart.items.find(item => item.id == itemId); // Find the line item in the cart
+      var productId = lineItem.product_id; // Get the product ID
+      var selectedVariantId = lineItem.variant_id; // Get the selected variant ID
+
+      // Fetch the product information to get the variants
+      fetch(/products/${lineItem.product.handle}.js)
+        .then(response => response.json())
+        .then(product => {
+          var variants = product.variants; // Get all the variants of the product
+          var variantOptionsHtml = '';
+
+          // Build HTML for variant selection
+          variants.forEach(function(variant) {
+            variantOptionsHtml += `
+              <div>
+                <label for="variant-${variant.id}">${variant.title}</label>
+                <input type="radio" name="variant-${lineItem.id}" value="${variant.id}" id="variant-${variant.id}" 
+                  ${variant.id === selectedVariantId ? 'checked' : ''}>
+                <label for="variant-${variant.id}">${variant.title}</label>
+              </div>
+            `;
+          });
+
+          // Insert variant options into the modal
+          document.getElementById("variant-options").innerHTML = variantOptionsHtml;
           
-          document.body.append(popUpHtml);
-          this.newPopup = document.querySelector('.activeCartPopUp');
-          if(this.newPopup){
-          this.newPopup.style.display = 'flex';
-            
-            if (typeof theme !== "undefined" && theme.sections) {
-  theme.sections.register('product', theme.Product, this.newPopup);
-} else {
-  console.warn("Theme object is not available.");
-}
-            this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
-            if(this.popUpClose){
-              this.popUpClose.addEventListener('click',function(event){
-                event.preventDefault();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-              }.bind(this));
-            }
-            this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
-            if(this.submitBtn){
-            this.submitBtn.addEventListener('click',function(event){
-              event.preventDefault();
-              this.changeCartItems();
-            }.bind(this));
-          }
-          }
-        }.bind(this));
-        
-      }
-    }
-    changeCartItems(){
-        let currentVariant = this.dataset.key,
-          newVariant = this.dataset.newVariant;
-        
-        let updates = {};
-          updates[currentVariant] = 0;
-          updates[newVariant] = parseInt(this.dataset.quantity);
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ updates })
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then((data) =>{
-          if(data.status) return;
-          if(this.cartPage){
-          document.dispatchEvent(new CustomEvent('cart:build'));
-          }else{
-          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
-          }
-          if(this.newPopup){
-            setTimeout(function(){
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }.bind(this),1000)
-          }
-       })
-        .catch((error) => {
-          console.error('Error:', error);
+          // Store the itemId in the modal to be used when updating
+          modal.setAttribute('data-item-id', itemId);
+
+          // Open the modal
+          modal.style.display = "block";
         });
-    }
-    updateBtn(status){
-      if(this.submitBtn){
-        if(status == true){
-          this.submitBtn.removeAttribute('disabled')
-        }
-        else{
-          this.submitBtn.setAttribute('disabled','true')
-        }
-      }
-    }
-  
+    });
+}
+
+// Close the modal when the user clicks the "X"
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// Close the modal if the user clicks outside of it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
   }
-  
-  customElements.define('cart-item-options', CartItemOptions);
+}
+
+// Handle the form submission (updating the cart with the new variant)
+document.getElementById("change-options-form").addEventListener("submit", function(e) {
+  e.preventDefault(); // Prevent form submission
+
+  var itemId = modal.getAttribute('data-item-id'); // Get the itemId from the modal
+  var selectedVariantId = document.querySelector(input[name="variant-${itemId}"]:checked).value; // Get the selected variant ID
+
+  // Prepare the updates object
+  var updates = {};
+  updates[itemId] = selectedVariantId; // Map the itemId to the new variant ID
+
+  // Send the update to the cart using AJAX
+  fetch('/cart/update.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ updates: updates })
+  })
+  .then(response => response.json())
+  .then(cart => {
+    console.log(cart); // Optionally log the updated cart
+    modal.style.display = "none"; // Close the modal after updating the cart
+    // Optionally, update the mini cart UI here with the updated cart information
+  });
+});
