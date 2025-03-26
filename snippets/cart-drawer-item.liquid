@@ -62,6 +62,7 @@
               </span>
             </p>
           {%- endfor -%}
+          <span class='change-options'>Change options</span>
          {% unless giftWrapProduct %}
           <cart-item-options
             class="js-modal-open-quick-modal-{{ item.product.id }}-{{ item.key }}{% if mainCart %} cartPageItem{% endif %}"
