@@ -1,3 +1,69 @@
+updateCartButton: function(evt) {
+    var variant = evt.detail.variant;
+    var cartBtn = this.container.querySelector(this.selectors.addToCart);
+    var cartBtnText = this.container.querySelector(this.selectors.addToCartText);
+    var soldOutWarnings = document.querySelectorAll(".soldout-warning");
+
+    if (!cartBtn) return;
+
+    if (variant) {
+        if (variant.available) {
+            // Available, enable the button
+            cartBtn.classList.remove(classes.disabled);
+            cartBtn.disabled = false;
+            var defaultText = cartBtnText.dataset.defaultText;
+            cartBtnText.textContent = defaultText;
+
+            // Hide Sold Out warning
+            soldOutWarnings.forEach(function(warning) {
+                warning.style.display = "none";
+            });
+        } else {
+            // Sold out, disable the button
+            cartBtn.classList.add(classes.disabled);
+            cartBtn.disabled = true;
+            cartBtnText.textContent = theme.strings.soldOut;
+
+            // Show Sold Out warning
+            soldOutWarnings.forEach(function(warning) {
+                warning.style.display = "block";
+            });
+        }
+    } else {
+        // Variant does not exist, disable the button
+        cartBtn.classList.add(classes.disabled);
+        cartBtn.disabled = true;
+        cartBtnText.textContent = theme.strings.unavailable;
+
+        // Show Sold Out warning
+        soldOutWarnings.forEach(function(warning) {
+            warning.style.display = "block";
+        });
+    }
+}
+
+function updateSoldOutMessages() {
+    document.querySelectorAll(".variant-input").forEach(function (variant) {
+        let input = variant.querySelector("input[data-variant-input]");
+        let soldOutWarning = variant.querySelector(".soldout-warning");
+
+        if (input && soldOutWarning) {
+            let isAvailable = !input.classList.contains("disabled"); 
+
+            if (isAvailable) {
+                soldOutWarning.style.display = "none"; // Hide warning
+            } else {
+                soldOutWarning.style.display = "block"; // Show warning
+            }
+        }
+    });
+}
+
+// Run on page load and when variants change
+document.addEventListener("DOMContentLoaded", updateSoldOutMessages);
+document.addEventListener("variant:change", updateSoldOutMessages);
+
+
 class CartItemOptions extends HTMLElement {
     constructor() {
       super();
