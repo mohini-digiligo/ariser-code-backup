@@ -277,6 +277,9 @@ cart-item-options span {
 .variant-wrapper.js.optoin-Size {
     line-height: 46px;
 }
+.variant-wrapper.js.optoin-Fit {
+    line-height: 38px;
+}
 .variant-input-wrap label{
       padding: 7px 15px 7px;
   overflow: hidden;
