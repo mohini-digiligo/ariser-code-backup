@@ -9,9 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Get the modal using the data-key
             let modalKey = cartItem.getAttribute("data-key");
+            console.log(document.querySelector(".modal")); // Check if any modal exists
+          console.log(document.querySelector("[data-key='45899112546585:4c965aa252c6d069061ef577bc613673']")); // Check if it selects anything
 
             // Use an attribute selector instead of querySelector with an ID
-            let modal = document.querySelector('.modal[data-key="458991125465854c965aa252c6d069061ef577bc613673"]');
+            let modal = document.querySelector(".modal[data-key='45899112546585:4c965aa252c6d069061ef577bc613673']");
              
             if (modal) {
                 modal.classList.add("activeCartPopUp"); // Show the modal
