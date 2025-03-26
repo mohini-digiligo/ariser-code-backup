@@ -242,3 +242,8 @@ cart-item-options span {
     align-items: center;
     background: #00000066;
 }
+
+.modal.custom-popup-cart .modal__inner {
+    max-width: 600px;
+    width: 95%;
+}
