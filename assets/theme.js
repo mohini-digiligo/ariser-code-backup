@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-cart-popup-open]").forEach(function (trigger) {
         trigger.addEventListener("click", function () {
             console.log("Popup trigger clicked!"); // Debugging log
-
+            
             // Find the parent cart-item-options
             let cartItem = trigger.closest("cart-item-options");
             if (!cartItem) return;
@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let modalKey = cartItem.getAttribute("data-key");
 
             // Use an attribute selector instead of querySelector with an ID
-            let modal = document.querySelector('.modal[data-key="45898628956441:59f6f34b7f9ef5d0020cf49449573e3f"]');
-
+            let modal = document.querySelector(modalKey);
+             
             if (modal) {
                 modal.classList.add("activeCartPopUp"); // Show the modal
                 console.log("Modal opened:", modal);
