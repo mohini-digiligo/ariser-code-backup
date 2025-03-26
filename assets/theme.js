@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let modalKey = cartItem.getAttribute("data-key");
           
             // Use an attribute selector instead of querySelector with an ID
-            let modal = document.querySelector("[data-key='45899112546585:4c965aa252c6d069061ef577bc613673']");
-             
+            //let modal = document.querySelector("[data-key='45899112546585:4c965aa252c6d069061ef577bc613673']");
+            let modal = document.querySelector('.modal[data-key="45899112546585:4c965aa252c6d069061ef577bc613673"]');
             if (modal) {
                 modal.classList.add("activeCartPopUp"); // Show the modal
                 console.log("Modal opened:", modal);
