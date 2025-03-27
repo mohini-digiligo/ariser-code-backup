@@ -136,39 +136,50 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault(); // Prevent redirection
 
     let selectedSizeButton = document.querySelector(".size-option.selected");
-    
+
+    // Debugging: Check if selection works
+    console.log("Selected Size Button:", selectedSizeButton);
+
     if (!selectedSizeButton) {
-        alert("Please select a size before updating."); // Show an alert if no size is selected
+        alert("Please select a size before updating.");
         return;
     }
 
     let newVariant = selectedSizeButton.dataset.variantId;
 
-    if (!newVariant || newVariant == selectedVariantId) return;
+    console.log("New Variant ID:", newVariant);
+    console.log("Old Variant ID:", selectedVariantId);
 
+    if (!newVariant || newVariant == selectedVariantId) {
+        alert("Size is the same or not selected properly.");
+        return;
+    }
+
+    // Remove the old variant
     fetch("/cart/change.js", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: selectedVariantId,
-        quantity: 0
-      })
-    }).then(() => {
-      return fetch("/cart/add.js", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: newVariant,
-          quantity: 1
+            id: selectedVariantId,
+            quantity: 0
         })
-      });
     }).then(() => {
-      return fetch("/cart.js"); // Fetch updated cart
+        // Add the new variant
+        return fetch("/cart/add.js", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                id: newVariant,
+                quantity: 1
+            })
+        });
+    }).then(() => {
+        return fetch("/cart.js"); // Fetch updated cart
     }).then(response => response.json())
       .then(cart => {
-        updateMiniCart(cart); // Update mini cart dynamically
-        document.getElementById("size-change-modal").classList.add("hidden");
-      });
+          updateMiniCart(cart); // Update mini cart dynamically
+          document.getElementById("size-change-modal").classList.add("hidden");
+      }).catch(error => console.error("Error updating size:", error));
 });
 
 
