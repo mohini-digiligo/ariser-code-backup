@@ -63,9 +63,16 @@
             </p>
           {%- endfor -%}
 
-          <button class="change-size-btn" data-variant-id="{{ item.variant.id }}" data-product-id="{{ item.product.id }}">
-             Change Size
-          </button>
+         {% for item in cart.items %}
+  <div class="mini-cart-item" data-line="{{ forloop.index }}">
+    <p>{{ item.product.title }}</p>
+    <p>Size: <span class="current-size">{{ item.variant.option1 }}</span></p>
+    
+    <button class="change-size-btn" data-variant-id="{{ item.variant.id }}" data-product-id="{{ item.product.id }}">
+      Change Size
+    </button>
+  </div>
+{% endfor %}
           <div id="size-change-modal" class="hidden">
             <div class="modal-content">
               <span class="close-modal">&times;</span>
