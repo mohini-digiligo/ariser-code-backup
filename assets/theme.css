@@ -315,6 +315,19 @@ cart-item-options span {
     min-width: 1px;
     position: relative;
 }
+
+
+.soldout-warning {
+    position: absolute;
+    font-size: 11px;
+    width: 100%;
+    text-align: center;
+    color: red;
+    left: 50%;
+    bottom: 0px;
+    transform: translateX(-50%);
+    display: none;
+}
 @media only screen and (min-width: 769px) {
     .modal--square .modal__centered-content {
         max-height: 60vh;
