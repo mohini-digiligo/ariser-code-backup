@@ -47,7 +47,7 @@ class CartItemOptions extends HTMLElement {
       }
     }
     changeCartItems(){
-      cosole.log('cartchange');
+      console.log('cartchange');
         let currentVariant = this.dataset.key,
           newVariant = this.dataset.newVariant;
         
