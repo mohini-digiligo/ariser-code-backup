@@ -21,6 +21,7 @@
         "new_window": "Opens in a new window."
       },
       "close_header": "Close header",
+      "close_modal": "Close (esc)",
       "close": "Close"
     },
     "meta": {
