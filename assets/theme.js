@@ -175,7 +175,7 @@ window.theme = window.theme || {};
           let cartPopup = this.container.closest('.activeCartPopUp[data-cart-popup]');
           let key = cartPopup.dataset.key;
           let cartOptions = document.querySelector(`cart-item-options[data-key="${key}"]`);
-          console.log(key. '</br>');
+          console.log(key);
           console.log(cartOptions);
           if(cartOptions){
             if(variant && variant.available && variant.id != cartOptions.dataset.currentVariant){
