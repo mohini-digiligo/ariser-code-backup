@@ -363,13 +363,26 @@
     "find_a_store": "Find a Store"
   },
   "products": {
+    "general": {
+      "color_swatch_trigger": "Color",
+      "size_trigger": "Size",
+      "size_chart": "Size chart",
+      "save_html": "Save {{ saved_amount }}",
+      "collection_return": "Back to {{ collection }}",
+      "next_product": "Next: {{ title }}",
+      "sale": "Sale",
+      "sale_price": "Sale price",
+      "regular_price": "Regular price",
+      "from_text_html": "from {{ price }}",
+      "recent_products": "Recently viewed",
+      "reviews": "Reviews"
+    },
     "product": {
       "regular_price": "Regular price",
       "sold_out": "Sold Out",
       "availability": "Availability",
       "brand": "Brand",
-      "colors": "Colors",
-      "size_trigger": "Size",
+      
       "size_chart": "Size chart",
       "in_stock": "In Stock",
       "out_of_stock": "Out of stock",
