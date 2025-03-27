@@ -100,6 +100,13 @@ updateBtn(status) {
     }
 }
 
+
+
+  }
+  
+  customElements.define('cart-item-options', CartItemOptions);
+
+
 document.addEventListener('DOMContentLoaded', function () {
     let variantInputs = document.querySelectorAll('.variant-input input[type="radio"]');
     let submitBtn = document.querySelector('[data-submit-btn]');
@@ -127,9 +134,5 @@ document.addEventListener('DOMContentLoaded', function () {
         changeCartItems.call(this); // Call changeCartItems function on button click
     });
 });
-
-  }
-  
-  customElements.define('cart-item-options', CartItemOptions);
 
 
