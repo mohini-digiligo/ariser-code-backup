@@ -135,7 +135,15 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("update-size-btn").addEventListener("click", function (event) {
     event.preventDefault(); // Prevent redirection
 
-    let newVariant = document.querySelector(".size-option.selected")?.dataset.variantId;
+    let selectedSizeButton = document.querySelector(".size-option.selected");
+    
+    if (!selectedSizeButton) {
+        alert("Please select a size before updating."); // Show an alert if no size is selected
+        return;
+    }
+
+    let newVariant = selectedSizeButton.dataset.variantId;
+
     if (!newVariant || newVariant == selectedVariantId) return;
 
     fetch("/cart/change.js", {
@@ -161,11 +169,8 @@ document.addEventListener("DOMContentLoaded", function () {
         updateMiniCart(cart); // Update mini cart dynamically
         document.getElementById("size-change-modal").classList.add("hidden");
       });
-  });
+});
 
-  document.querySelector(".close-modal").addEventListener("click", function () {
-    document.getElementById("size-change-modal").classList.add("hidden");
-  });
 
   function updateMiniCart(cart) {
     let miniCartContainer = document.querySelector(".mini-cart-items");
