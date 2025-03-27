@@ -47,10 +47,10 @@ class CartItemOptions extends HTMLElement {
       }
     }
     changeCartItems(){
-      console.log('cartchange');
+      
         let currentVariant = this.dataset.key,
           newVariant = this.dataset.newVariant;
-        
+        console.log(newVariant);
         let updates = {};
           updates[currentVariant] = 0;
           updates[newVariant] = parseInt(this.dataset.quantity);
