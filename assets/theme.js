@@ -38,7 +38,7 @@ class CartItemOptions extends HTMLElement {
             if(this.submitBtn){
             this.submitBtn.addEventListener('click',function(event){
               event.preventDefault();
-              this.changeCartItems();
+              // this.changeCartItems();
             }.bind(this));
           }
           }
@@ -46,58 +46,84 @@ class CartItemOptions extends HTMLElement {
         
       }
     }
-    changeCartItems(){
+    // changeCartItems(){
       
-        let currentVariant = this.dataset.key,
-          newVariant = this.dataset.newVariant;
-        console.log(newVariant);
-        let updates = {};
-          updates[currentVariant] = 0;
-          updates[newVariant] = parseInt(this.dataset.quantity);
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ updates })
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then((data) =>{
-          if(data.status) return;
-          if(this.cartPage){
-          document.dispatchEvent(new CustomEvent('cart:build'));
-          }else{
-          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
-          }
-          if(this.newPopup){
-            setTimeout(function(){
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }.bind(this),1000)
-          }
-       })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-    updateBtn(status){
-      if(this.submitBtn){
-        if(status == true){
-          this.submitBtn.removeAttribute('disabled')
-        }
-        else{
-          this.submitBtn.setAttribute('disabled','true')
-        }
-      }
-    }
+    //     let currentVariant = this.dataset.key,
+    //       newVariant = this.dataset.newVariant;
+    //     console.log(newVariant);
+    //     let updates = {};
+    //       updates[currentVariant] = 0;
+    //       updates[newVariant] = parseInt(this.dataset.quantity);
+    //     fetch(window.Shopify.routes.root + 'cart/update.js', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify({ updates })
+    //     })
+    //     .then(response => {
+    //       return response.json();
+    //     })
+    //     .then((data) =>{
+    //       if(data.status) return;
+    //       if(this.cartPage){
+    //       document.dispatchEvent(new CustomEvent('cart:build'));
+    //       }else{
+    //       document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
+    //       }
+    //       if(this.newPopup){
+    //         setTimeout(function(){
+    //             this.newPopup.style.display = 'none';
+    //             this.newPopup.remove();
+    //         }.bind(this),1000)
+    //       }
+    //    })
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
+    // }
+    // updateBtn(status){
+    //   if(this.submitBtn){
+    //     if(status == true){
+    //       this.submitBtn.removeAttribute('disabled')
+    //     }
+    //     else{
+    //       this.submitBtn.setAttribute('disabled','true')
+    //     }
+    //   }
+    // }
   
   }
   
   customElements.define('cart-item-options', CartItemOptions);
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    let variantInputs = document.querySelectorAll('.variant-input input[type="radio"]');
+    let submitBtn = document.querySelector('[data-submit-btn]');
+    
+    if (!submitBtn) return;
+
+    let initialVariant = document.querySelector('.variant-input input[type="radio"]:checked')?.value;
+
+    variantInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            let selectedVariant = this.value;
+            submitBtn.dataset.newVariant = selectedVariant; // Store the new variant in data attribute
+
+            if (selectedVariant !== initialVariant) {
+                submitBtn.removeAttribute('disabled'); // Enable button
+            } else {
+                submitBtn.setAttribute('disabled', 'true'); // Keep disabled if variant is same
+            }
+        });
+    });
+
+    // Handle the Change button click
+    submitBtn.addEventListener('click', function () {
+        changeCartItems.call(this); // Call changeCartItems function when button is clicked
+    });
+});
 
 
 
