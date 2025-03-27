@@ -66,6 +66,15 @@
           <button class="change-size-btn" data-variant-id="{{ item.variant.id }}" data-product-id="{{ item.product.id }}">
              Change Size
           </button>
+          <div id="size-change-modal" class="hidden">
+            <div class="modal-content">
+              <span class="close-modal">&times;</span>
+              <h2>Change Size</h2>
+              <div id="size-options"></div>
+              <button id="update-size-btn">Update Size</button>
+            </div>
+          </div>
+
          
          {% unless giftWrapProduct %}
           <cart-item-options
