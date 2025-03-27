@@ -1,3 +1,5 @@
+window.theme = window.theme || {};
+
 /*
     Options:
       container
