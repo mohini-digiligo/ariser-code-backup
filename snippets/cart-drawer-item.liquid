@@ -76,20 +76,7 @@
           </div>
 
          
-         {% unless giftWrapProduct %}
-          <cart-item-options
-            class="js-modal-open-quick-modal-{{ item.product.id }}-{{ item.key }}{% if mainCart %} cartPageItem{% endif %}"
-            data-quantity="{{ item.quantity }}"
-            data-key="{{ item.key }}"
-            data-current-variant="{{ item.variant.id }}"
-            data-new-variant="{{ item.product.selected_or_first_available_variant.id }}"
-          >
-            <span data-cart-popup-open class='change-options'>Change options</span>
-            <template>
-              {%- render 'cart-options-popup', product: item.product, cartItem: item -%}
-            </template>
-          </cart-item-options>
-          {% endunless %}
+        
         </div>
       {%- endunless -%}
      
