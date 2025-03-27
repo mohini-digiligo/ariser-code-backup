@@ -324,7 +324,7 @@ cart-item-options span {
     text-align: center;
     color: red;
     left: 50%;
-    bottom: 0px;
+    bottom: -24px;
     transform: translateX(-50%);
     display: none;
 }
