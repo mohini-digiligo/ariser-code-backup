@@ -96,11 +96,15 @@
 //   }
   
 //   customElements.define('cart-item-options', CartItemOptions);
+
+
 document.addEventListener("DOMContentLoaded", function () {
   let selectedProductId, selectedVariantId, selectedLineItem;
 
   document.querySelectorAll(".change-size-btn").forEach(button => {
-    button.addEventListener("click", function () {
+    button.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default behavior
+
       selectedVariantId = this.dataset.variantId;
       selectedProductId = this.dataset.productId;
       selectedLineItem = this.closest(".mini-cart-item").dataset.line;
@@ -128,11 +132,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.getElementById("update-size-btn").addEventListener("click", function () {
+  document.getElementById("update-size-btn").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent redirection
+
     let newVariant = document.querySelector(".size-option.selected")?.dataset.variantId;
     if (!newVariant || newVariant == selectedVariantId) return;
 
-    // Remove the old variant from the cart
     fetch("/cart/change.js", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -141,7 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
         quantity: 0
       })
     }).then(() => {
-      // Add the new variant
       return fetch("/cart/add.js", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -151,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
       });
     }).then(() => {
-      return fetch("/cart.js"); // Get updated cart
+      return fetch("/cart.js"); // Fetch updated cart
     }).then(response => response.json())
       .then(cart => {
         updateMiniCart(cart); // Update mini cart dynamically
@@ -180,12 +184,14 @@ document.addEventListener("DOMContentLoaded", function () {
       miniCartContainer.innerHTML += itemHTML;
     });
 
-    attachEventListeners(); // Reattach event listeners for new buttons
+    attachEventListeners(); // Reattach event listeners
   }
 
   function attachEventListeners() {
     document.querySelectorAll(".change-size-btn").forEach(button => {
-      button.addEventListener("click", function () {
+      button.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent default behavior
+
         selectedVariantId = this.dataset.variantId;
         selectedProductId = this.dataset.productId;
         selectedLineItem = this.closest(".mini-cart-item").dataset.line;
@@ -214,8 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
-
 
 
 
