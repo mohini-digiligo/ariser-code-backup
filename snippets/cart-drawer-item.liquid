@@ -62,6 +62,10 @@
               </span>
             </p>
           {%- endfor -%}
+
+          <button class="change-size-btn" data-variant-id="{{ item.variant.id }}" data-product-id="{{ item.product.id }}">
+             Change Size
+          </button>
          
          {% unless giftWrapProduct %}
           <cart-item-options
