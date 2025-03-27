@@ -98,6 +98,31 @@ class CartItemOptions extends HTMLElement {
   customElements.define('cart-item-options', CartItemOptions);
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    let variantInputs = document.querySelectorAll('.variant-input input[type="radio"]');
+    let submitBtn = document.querySelector('[data-submit-btn]');
+
+    if (!submitBtn) return;
+
+    // Store the initially selected variant
+    let initialVariant = document.querySelector('.variant-input input[type="radio"]:checked')?.value;
+
+    variantInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            let selectedVariant = this.value;
+
+            // Enable the button only if the user selects a different variant
+            if (selectedVariant !== initialVariant) {
+                submitBtn.removeAttribute('disabled');
+            } else {
+                submitBtn.setAttribute('disabled', 'true');
+            }
+        });
+    });
+});
+
+
+
 
 
 
