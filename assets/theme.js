@@ -46,80 +46,44 @@ class CartItemOptions extends HTMLElement {
         
       }
     }
-    changeCartItems(){
-      
-        let currentVariant = this.dataset.key,
-          newVariant = this.dataset.newVariant;
-        console.log(newVariant);
-        let updates = {};
-          updates[currentVariant] = 0;
-          updates[newVariant] = parseInt(this.dataset.quantity);
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ updates })
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then((data) =>{
-          if(data.status) return;
-          if(this.cartPage){
-          document.dispatchEvent(new CustomEvent('cart:build'));
-          }else{
-          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
-          }
-          if(this.newPopup){
-            setTimeout(function(){
+    changeCartItems() {
+    let currentVariant = this.dataset.key,
+        newVariant = document.querySelector('input[name="YourVariantName"]:checked')?.value;
+    
+    if (!newVariant) {
+        console.error("No variant selected!");
+        return;
+    }
+
+    let updates = {};
+    updates[currentVariant] = 0; // Remove old variant
+    updates[newVariant] = parseInt(this.dataset.quantity) || 1; // Add new variant
+
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status) return;
+        document.dispatchEvent(new CustomEvent('cart:build')); // Refresh cart
+        if (this.newPopup) {
+            setTimeout(() => {
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
-            }.bind(this),1000)
-          }
-       })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-    updateBtn(status){
-      if(this.submitBtn){
-        if(status == true){
-          this.submitBtn.removeAttribute('disabled')
+            }, 1000);
         }
-        else{
-          this.submitBtn.setAttribute('disabled','true')
-        }
-      }
-    }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
   
   }
   
   customElements.define('cart-item-options', CartItemOptions);
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    let variantInputs = document.querySelectorAll('.variant-input input[type="radio"]');
-    let submitBtn = document.querySelector('[data-submit-btn]');
-
-    if (!submitBtn) return;
-
-    // Store the initially selected variant
-    let initialVariant = document.querySelector('.variant-input input[type="radio"]:checked')?.value;
-
-    variantInputs.forEach(input => {
-        input.addEventListener('change', function () {
-            let selectedVariant = this.value;
-
-            // Enable the button only if the user selects a different variant
-            if (selectedVariant !== initialVariant) {
-                submitBtn.removeAttribute('disabled');
-            } else {
-                submitBtn.setAttribute('disabled', 'true');
-            }
-        });
-    });
-});
 
 
 
