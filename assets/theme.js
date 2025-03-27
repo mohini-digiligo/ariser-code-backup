@@ -126,6 +126,50 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+function changeCartItems() {
+    let currentVariant = this.dataset.key, // Current variant in the cart
+        newVariant = this.dataset.newVariant; // New variant selected by user
+
+    if (!newVariant || newVariant === currentVariant) {
+        console.error("No variant selected or variant unchanged.");
+        return;
+    }
+
+    let updates = {};
+    updates[currentVariant] = 0; // Remove old variant
+    updates[newVariant] = 1; // Add new variant
+
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status) return;
+        
+        // Dispatch an event to refresh the cart
+        document.dispatchEvent(new CustomEvent('cart:build'));
+
+        // Disable button after change
+        let submitBtn = document.querySelector('[data-submit-btn]');
+        if (submitBtn) {
+            submitBtn.setAttribute('disabled', 'true');
+        }
+
+        // Close popup if it exists
+        if (this.newPopup) {
+            setTimeout(() => {
+                this.newPopup.style.display = 'none';
+                this.newPopup.remove();
+            }, 1000);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+
 
 
 
