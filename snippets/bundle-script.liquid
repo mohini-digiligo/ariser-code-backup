@@ -1,0 +1,390 @@
+
+{% if template.suffix == 'bundle' %}
+<script>
+  
+document.addEventListener("DOMContentLoaded", function () {
+  // console.log("Document loaded.");
+  let selectedSize = "";
+  // Select and log size options
+  const sizeOptions = document.querySelectorAll(
+    ".optoin-Size .variant-input .variant__button-label"
+  );
+  // console.log("Size options found:", sizeOptions.length);
+  if (sizeOptions.length === 0) {
+    console.error("No size option elements found.");
+    return;
+  }
+
+  const preSelectedSizeInput = document.querySelector(
+    '.variant-input input[type="radio"][name="Size"][checked]'
+  );
+  if (preSelectedSizeInput) {
+    const preSelectedSizeLabel = document.querySelector(
+      `label[for="${preSelectedSizeInput.id}"]`
+    );
+    if (preSelectedSizeLabel) {
+      // Now, you can either directly use the pre-selected size value,
+      // or simulate a click on the corresponding label if that triggers additional logic.
+      preSelectedSizeLabel.click(); // This simulates the user clicking on the pre-selected size.
+
+      // Alternatively, if clicking is not needed and you just need to process the selected size:
+      const selectedSize = preSelectedSizeInput.value;
+      // console.log("Pre-selected size found:", selectedSize);
+      sizeselectinventory(selectedSize);
+      // Call any functions here that need to know the selected size
+      // For example: showPackOptionsBasedOnSize(selectedSize);
+    }
+  }
+
+  const preSelectedPackInput = document.querySelector(
+    '.variant-input input[type="radio"][name="Select Pack"][checked]'
+  );
+  if (preSelectedPackInput) {
+    const preSelectedPackLabel = document.querySelector(
+      `label[for="${preSelectedPackInput.id}"]`
+    );
+    if (preSelectedPackLabel) {
+      // Now, you can either directly use the pre-selected size value,
+      // or simulate a click on the corresponding label if that triggers additional logic.
+      preSelectedPackLabel.click(); // This simulates the user clicking on the pre-selected size.
+
+      // Alternatively, if clicking is not needed and you just need to process the selected size:
+      const selectedPack = preSelectedPackInput.value;
+      // console.log("Pre-selected size found:", selectedPack);
+      updateDropdownVisibility();
+      // Call any functions here that need to know the selected size
+      // For example: showPackOptionsBasedOnPack(selectedPack);
+    }
+  }
+
+  // Size selection event
+  sizeOptions.forEach(function (sizeOption) {
+    sizeOption.addEventListener("click", function () {
+      selectedSize = this.innerText.trim();
+      // console.log("Size selected:", selectedSize);
+      sizeselectinventory(selectedSize);
+    });
+  });
+
+  function sizeselectinventory(selectedSize) {
+    document
+      .querySelectorAll(".custom-dropdown-list-item")
+      .forEach(function (item) {
+        // Assume the item should not be displayed by default
+        let displayItem = false;
+
+        // Split the class string by spaces to get individual classes
+        const classes = item.className.split(/\s+/);
+
+        classes.forEach(function (className) {
+          // console.log("classesName", className);
+          // Directly check if the class contains the selected size
+          if (className.includes(`${selectedSize}`)) {
+            // Extract the inventory number after the last hyphen
+            const inventory = parseInt(className.split("-").pop(), 10);
+            // console.log("classes", "yes");
+            // console.log("inventory", inventory);
+            // If inventory is 5 or more, mark the item to be displayed
+            if (!isNaN(inventory) && inventory >= 5) {
+              displayItem = true;
+            }
+          }
+        });
+
+        // Set the display property based on the inventory check
+        item.style.display = displayItem ? "" : "none";
+      });
+  }
+
+  // Function to toggle dropdown from the selected area
+  document
+    .querySelectorAll(".custom-dropdown .custom-dropdown-selected")
+    .forEach(function (selected) {
+      selected.addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevents the event from bubbling up to the document
+
+        // Close all dropdowns before toggling the current one
+        closeAllDropdowns();
+
+        // Toggle the visibility of the current dropdown list
+        let list = this.nextElementSibling; // Assumes the .custom-dropdown-list is immediately after the .custom-dropdown-selected
+        if (list && list.classList.contains("custom-dropdown-list")) {
+          // Safety check
+          list.style.display =
+            list.style.display === "block" ? "none" : "block";
+          // console.log("Dropdown toggled from selected area.");
+        }
+      });
+    });
+
+  // Pack selection changes
+  document
+    .querySelectorAll('input[data-option-name="Select Pack"]')
+    .forEach(function (radio) {
+      radio.addEventListener("change", function () {
+        updateDropdownVisibility();
+        // console.log("Pack selection changed.");
+      });
+    });
+
+  // Close dropdowns when clicking outside
+  document.addEventListener("click", function () {
+    closeAllDropdowns();
+    // console.log("Closed all dropdowns on outside click.");
+  });
+
+  // Item selection within dropdowns
+  document
+    .querySelectorAll(".custom-dropdown-list-item")
+    .forEach(function (item) {
+      item.addEventListener("click", function () {
+        const value = this.getAttribute("data-value");
+        const parentDropdown = this.closest(".color-select-dropdwon");
+        const prev = this.getAttribute("data-prev");
+        const dropdownId = parentDropdown.id;
+        // console.log("Item clicked:", this.innerText);
+
+        // Update select element and displayed value
+        updateSelection(
+          dropdownId,
+          value,
+          this.innerText,
+          this.querySelector("img"),
+          prev
+        );
+      });
+    });
+
+  function updateSelection(dropdownId, value, text, optionImage, prev) {
+    let selectElement = document.querySelector(`#${dropdownId} select`);
+    let selectedSpan = document.querySelector(
+      `#${dropdownId} .custom-dropdown-selected`
+    );
+
+    selectElement.querySelectorAll("option").forEach(function (option) {
+      option.removeAttribute("selected");
+    });
+    // Set the corresponding option in the select dropdown as selected
+    var matchingOption = selectElement.querySelector(
+      'option[value="' + value + '"]'
+    );
+    if (matchingOption) {
+      matchingOption.setAttribute("selected", "selected");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      selectElement.addEventListener("change", function () {
+        // Remove selected attribute from all options
+        this.querySelectorAll("option").forEach(function (option) {
+          option.removeAttribute("selected");
+        });
+
+        // Add selected attribute to the currently selected option
+        var selectedOption = this.options[this.selectedIndex];
+        selectedOption.setAttribute("selected", "selected");
+      });
+    });
+
+    updateDisplayedValue(selectedSpan, text, optionImage, prev);
+    // console.log("Selection updated for:", dropdownId);
+  }
+
+  function updateDisplayedValue(selectedSpan, text, optionImage, prev) {
+    let textContainer =
+      selectedSpan.querySelector(".text-container") ||
+      createTextContainer(selectedSpan);
+    // Create a temporary element to leverage the browser's HTML parsing
+    let tempDiv = document.createElement("div");
+    // Assign the text, which may contain HTML such as <br>, to the innerHTML of the temp div
+    tempDiv.innerHTML = text;
+
+    // Use innerText to get the plain text version, effectively stripping out all HTML tags
+    let sanitizedText = tempDiv.innerText;
+    // Assign the sanitized text, free of HTML tags, to the textContainer
+    textContainer.innerText = sanitizedText;
+    if (optionImage) {
+      let selectedImage = selectedSpan.querySelector(".selected-image");
+      selectedImage.src = optionImage.src;
+      selectedImage.classList.remove("hidden");
+      // console.log("Updated image source to:", optionImage.src);
+    }
+
+    // Select all matching elements
+    let prevElements = document.querySelectorAll(".product-image-main img");
+    if (prevElements) {
+      // Iterate over each element and update its srcset attribute
+      prevElements.forEach((element) => {
+        element.srcset = prev;
+        // console.log("Updated image source to:", prev);
+      });
+    } else {
+      // console.log("Updated image source Not Found");
+    }
+
+    closeAllDropdowns(); // Close dropdown after selection
+  }
+
+  function createTextContainer(selectedSpan) {
+    let container = document.createElement("span");
+    container.className = "text-container";
+    selectedSpan.appendChild(container);
+    return container;
+  }
+
+  function updateDropdownVisibility() {
+    let selectedPackQty = document
+      .querySelector('input[data-option-name="Select Pack"]:checked')
+      ?.getAttribute("data-qty");
+    // console.log("Selected Pack Qty:", selectedPackQty);
+
+    selectedPackQty = parseInt(selectedPackQty, 10);
+
+    document
+      .querySelectorAll(".color-select-dropdwon")
+      .forEach(function (dropdown, index) {
+        console.log(
+          `Dropdown #${index + 1} Display:`,
+          index < selectedPackQty ? "flex" : "none"
+        );
+        if (index < selectedPackQty) {
+          dropdown.style.display = "flex";
+          dropdown.classList.add("show"); // Only add "show" to visible dropdowns
+        } else {
+          dropdown.style.display = "none";
+          dropdown.classList.remove("show"); // Remove "show" from hidden dropdowns for clarity
+        }
+      });
+  }
+
+  // Utility functions
+  function closeAllDropdowns() {
+    document
+      .querySelectorAll(".custom-dropdown-list")
+      .forEach((list) => (list.style.display = "none"));
+  }
+
+  const addToCartButton = document.getElementById("add-to-cart");
+  if (addToCartButton) {
+    addToCartButton.addEventListener("click", async function (e) {
+      e.preventDefault();
+      let productsToAdd = [];
+      addToCartButton.classList.add('btn--loading');
+      const section = addToCartButton.closest('.product-section');
+      const dropdowns = document.querySelectorAll(
+        ".bundle-custom .show select"
+      );
+      for (const selectElement of dropdowns) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const handle = selectedOption.getAttribute("data-handle");
+        // Assuming size needs to be fetched uniquely for each product
+        const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
+        const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
+           return opt.querySelector('input:checked').value;
+        })
+        console.log('handle',handle,options)
+        if (handle && options.length > 0) {
+          try {
+            const variantId = await fetchProductVariantIdByHandle(handle, options);
+            if (variantId) {
+              productsToAdd.push({
+                id: variantId,
+                quantity: 1,
+                properties: { "Item Type": "Pack" },
+              });
+            }
+          } catch (error) {
+            console.error(
+              "Error fetching variant ID for handle:",
+              handle,
+              "size:",
+              size,
+              error
+            );
+          }
+        }
+      }
+
+      if (productsToAdd.length > 0) {
+        try {
+          await addProductsToCart(productsToAdd);
+          console.log("All selected products added to cart.");
+          updateCartUI();
+          addToCartButton.classList.remove('btn--loading');
+        } catch (error) {
+          console.error("Error adding products to cart:", error);
+          addToCartButton.classList.remove('btn--loading');
+        }
+      } else {
+        console.error("No products selected or missing product details.");
+        addToCartButton.classList.remove('btn--loading');
+      }
+    });
+  } else {
+    console.error("Add to Cart button not found.");
+  }
+
+  async function addProductsToCart(products) {
+    let formData = { items: products };
+
+    try {
+      const response = await fetch(window.Shopify.routes.root + "cart/add.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const cartResponse = await response.json();
+      console.log("Products added to cart", cartResponse);
+    } catch (error) {
+      console.error("Error adding items to cart:", error);
+    }
+  }
+
+  function fetchProductVariantIdByHandle(handle, options) {
+    var url = "/products/" + handle + ".json";
+    return fetch(url)
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error fetching product by handle: " + handle);
+        }
+      })
+      .then(function (data) {
+        var variants = data.product.variants;
+         var matchingVariant = variants.find(function (variant) {
+           let matchedCount = 0;
+           options.forEach(function(opt,index){
+                  if(variant['option'+(index+1)] === opt){
+                      matchedCount = matchedCount +1;
+                  }
+              })
+              return matchedCount === options.length;
+            });
+        console.log("matchingVariant:", matchingVariant);
+        var variantId = matchingVariant ? matchingVariant.id : null;
+
+        // console.log("Product Handle:", handle);
+        // console.log("Size:", size);
+        // console.log("Variant ID:", variantId);
+
+        return variantId;
+      });
+  }
+
+  function updateCartUI() {
+    theme.cart
+      .getCart()
+      .then((cart) => {
+        console.log("Updated cart:", cart);
+        // window.location.href = '/cart';
+        document.dispatchEvent(new CustomEvent("ajaxProduct:added"));
+      })
+      .catch((error) => {
+        console.error("Failed to update cart UI:", error);
+      });
+  }
+});
+</script>
+{% endif %}
