@@ -63,22 +63,21 @@
             </p>
           {%- endfor -%}
 
-        
-    <button class="change-size-btn" data-variant-id="{{ item.variant.id }}" data-product-id="{{ item.product.id }}">
-      Change Size
-    </button>
+       {% unless giftWrapProduct %}
+          <cart-item-options
+            class="js-modal-open-quick-modal-{{ item.product.id }}-{{ item.key }}{% if mainCart %} cartPageItem{% endif %}"
+            data-quantity="{{ item.quantity }}"
+            data-key="{{ item.key }}"
+            data-current-variant="{{ item.variant.id }}"
+            data-new-variant="{{ item.product.selected_or_first_available_variant.id }}"
+          >
+            <span data-cart-popup-open class='change-options'>Change options</span>
+            <template>
+              {%- render 'cart-options-popup', product: item.product, cartItem: item -%}
+            </template>
+          </cart-item-options>
+          {% endunless %}
 
-          <div id="size-change-modal" class="hidden">
-            <div class="modal-content">
-              <span class="close-modal">&times;</span>
-              <h2>Change Size</h2>
-              <div id="size-options"></div>
-              <button id="update-size-btn">Update Size</button>
-            </div>
-          </div>
-
-         
-        
         </div>
       {%- endunless -%}
      
