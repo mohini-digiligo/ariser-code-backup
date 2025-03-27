@@ -96,9 +96,8 @@
 //   }
   
 //   customElements.define('cart-item-options', CartItemOptions);
-
 document.addEventListener("DOMContentLoaded", function () {
-  let selectedProductId, selectedLineItem, selectedVariantId;
+  let selectedProductId, selectedVariantId, selectedLineItem;
 
   document.querySelectorAll(".change-size-btn").forEach(button => {
     button.addEventListener("click", function () {
@@ -110,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(product => {
           let sizeOptions = document.getElementById("size-options");
-          sizeOptions.innerHTML = ""; 
+          sizeOptions.innerHTML = "";
 
           product.variants.forEach(variant => {
             let btn = document.createElement("button");
@@ -133,14 +132,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let newVariant = document.querySelector(".size-option.selected")?.dataset.variantId;
     if (!newVariant || newVariant == selectedVariantId) return;
 
+    // Remove the old variant from the cart
     fetch("/cart/change.js", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         id: selectedVariantId,
-        quantity: 0 
+        quantity: 0
       })
     }).then(() => {
+      // Add the new variant
       return fetch("/cart/add.js", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -150,17 +151,69 @@ document.addEventListener("DOMContentLoaded", function () {
         })
       });
     }).then(() => {
-      location.reload(); 
-    });
+      return fetch("/cart.js"); // Get updated cart
+    }).then(response => response.json())
+      .then(cart => {
+        updateMiniCart(cart); // Update mini cart dynamically
+        document.getElementById("size-change-modal").classList.add("hidden");
+      });
   });
 
   document.querySelector(".close-modal").addEventListener("click", function () {
     document.getElementById("size-change-modal").classList.add("hidden");
   });
+
+  function updateMiniCart(cart) {
+    let miniCartContainer = document.querySelector(".mini-cart-items");
+    miniCartContainer.innerHTML = ""; // Clear existing items
+
+    cart.items.forEach((item, index) => {
+      let itemHTML = `
+        <div class="mini-cart-item" data-line="${index + 1}">
+          <p>${item.product_title}</p>
+          <p>Size: <span class="current-size">${item.variant_options[0]}</span></p>
+          <button class="change-size-btn" data-variant-id="${item.variant_id}" data-product-id="${item.product_id}">
+            Change Size
+          </button>
+        </div>
+      `;
+      miniCartContainer.innerHTML += itemHTML;
+    });
+
+    attachEventListeners(); // Reattach event listeners for new buttons
+  }
+
+  function attachEventListeners() {
+    document.querySelectorAll(".change-size-btn").forEach(button => {
+      button.addEventListener("click", function () {
+        selectedVariantId = this.dataset.variantId;
+        selectedProductId = this.dataset.productId;
+        selectedLineItem = this.closest(".mini-cart-item").dataset.line;
+
+        fetch(`/products/${selectedProductId}.js`)
+          .then(response => response.json())
+          .then(product => {
+            let sizeOptions = document.getElementById("size-options");
+            sizeOptions.innerHTML = "";
+
+            product.variants.forEach(variant => {
+              let btn = document.createElement("button");
+              btn.textContent = variant.option1;
+              btn.dataset.variantId = variant.id;
+              btn.classList.add("size-option");
+              btn.onclick = function () {
+                document.querySelectorAll(".size-option").forEach(b => b.classList.remove("selected"));
+                btn.classList.add("selected");
+              };
+              sizeOptions.appendChild(btn);
+            });
+
+            document.getElementById("size-change-modal").classList.remove("hidden");
+          });
+      });
+    });
+  }
 });
-
-
-
 
 
 
