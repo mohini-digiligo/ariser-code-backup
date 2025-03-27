@@ -65,7 +65,7 @@
     {%- for value in option.values -%}
       {%- liquid
         assign product_available = true
-        if product.options.size == 1
+        if product.options.size == 0
           assign product_available = product.variants[forloop.index0].available
         endif
       -%}
