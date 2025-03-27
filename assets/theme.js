@@ -46,38 +46,52 @@ class CartItemOptions extends HTMLElement {
         
       }
     }
-    changeCartItems() {
-    let currentVariant = this.dataset.key,
-        newVariant = document.querySelector('input[name="YourVariantName"]:checked')?.value;
-    
-    if (!newVariant) {
-        console.error("No variant selected!");
-        return;
-    }
-
-    let updates = {};
-    updates[currentVariant] = 0; // Remove old variant
-    updates[newVariant] = parseInt(this.dataset.quantity) || 1; // Add new variant
-
-    fetch(window.Shopify.routes.root + 'cart/update.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updates })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status) return;
-        document.dispatchEvent(new CustomEvent('cart:build')); // Refresh cart
-        if (this.newPopup) {
-            setTimeout(() => {
+    changeCartItems(){
+      
+        let currentVariant = this.dataset.key,
+          newVariant = this.dataset.newVariant;
+        console.log(newVariant);
+        let updates = {};
+          updates[currentVariant] = 0;
+          updates[newVariant] = parseInt(this.dataset.quantity);
+        fetch(window.Shopify.routes.root + 'cart/update.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ updates })
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then((data) =>{
+          if(data.status) return;
+          if(this.cartPage){
+          document.dispatchEvent(new CustomEvent('cart:build'));
+          }else{
+          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
+          }
+          if(this.newPopup){
+            setTimeout(function(){
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
-            }, 1000);
+            }.bind(this),1000)
+          }
+       })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+    updateBtn(status){
+      if(this.submitBtn){
+        if(status == true){
+          this.submitBtn.removeAttribute('disabled')
         }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
+        else{
+          this.submitBtn.setAttribute('disabled','true')
+        }
+      }
+    }
   
   }
   
