@@ -1,1 +1,159 @@
-{"type":"footer","name":"Footer","sections":{"footer":{"type":"footer","blocks":{"c85629c7-7aae-4666-b5f0-150990439c91":{"type":"menu","settings":{"menu":"footer","title":"Customer Policies","width":"25%","order_first":false,"open_default":false}},"8b358f69-37b7-401c-a151-bdd285220a20":{"type":"menu","settings":{"menu":"main-menu","title":"Online Shopping","width":"25%","order_first":false,"open_default":false}},"8da69c46-2aa0-498a-bfc7-cfd4db855e74":{"type":"our_store","disabled":true,"settings":{"title":"SOCIAL MEDIA","description":"","show_email":false,"show_phone":false,"show_socials_link":true,"width":"33%","order_first":false,"open_default":false}},"5f992d0a-41cf-4630-adcf-e72a3e402e0a":{"type":"custom_text","settings":{"title":"COMPANY","image":"shopify:\/\/shop_images\/Ariser_Logo___New_final.jpg","image_max":"200px","description":"<p>online@ariser.co.in<\/p>","width":"33%","order_first":false,"open_default":false}},"82b6329e-aa4f-453a-b1af-40f8d2296efa":{"type":"custom_html","disabled":true,"settings":{"title":"Custom text","html":"<div class=\"flex\" data-reactid=\"175\">\n<span><a href=\"https:\/\/play.google.com\/store\/apps\/details?id=com.myntra.android\" data-reactid=\"176\">\n<img class=\"desktop-androidDownLink\" src=\"https:\/\/constant.myntassets.com\/web\/assets\/img\/80cc455a-92d2-4b5c-a038-7da0d92af33f1539674178924-google_play.png\">\n<\/a><\/span>\n<span><a href=\"https:\/\/itunes.apple.com\/in\/app\/myntra-indias-fashion-store\/id907394059\" data-reactid=\"178\">\n<img class=\"desktop-iOSDownLink\" src=\"https:\/\/constant.myntassets.com\/web\/assets\/img\/bc5e11ad-0250-420a-ac71-115a57ca35d51539674178941-apple_store.png\">\n<\/a><\/span>\n<\/div>","width":"25%","order_first":false,"open_default":false}}},"block_order":["c85629c7-7aae-4666-b5f0-150990439c91","8b358f69-37b7-401c-a151-bdd285220a20","8da69c46-2aa0-498a-bfc7-cfd4db855e74","5f992d0a-41cf-4630-adcf-e72a3e402e0a","82b6329e-aa4f-453a-b1af-40f8d2296efa"],"custom_css":[".sf__accordion-item p {margin-left: 30px;}",".sf__footer-bottom-inner {padding-bottom: 10px;}",".sf-footer__block {padding-bottom: 0px; padding-top: 30px;}",".sf-scroll-trigger.animate--fade-in-up{opacity:1;}"],"settings":{"design":"footer-1","container":"container-fluid","bordered":false,"copyright":"© Ariser 2025","show_country_selector":false,"show_currency_selector":false,"show_language_selector":true,"show_social_links":true,"enable_follow_on_shop":true,"show_payment_icons":true,"payment_icons_width":300}},"mobile-sticky-bar":{"type":"mobile-sticky-bar","settings":{"show_mobile_sticky":true,"show_home_icon":true,"show_collection_icon":true,"show_cart_icon":true,"show_search_icon":true,"show_account_icon":false,"show_wishlist_icon":false}},"age-verifier-popup":{"type":"age-verifier-popup","blocks":{"block-1":{"type":"heading","settings":{"heading":"Confirm your age"}},"block-2":{"type":"text","settings":{"text":"<p>Are you 18 years old or older?<\/p>"}},"block-3":{"type":"buttons","settings":{"decline_button":"No, I'm not","approve_button":"Yes, I am"}}},"block_order":["block-1","block-2","block-3"],"disabled":true,"settings":{"design_mode":false,"enable":false,"bg_blur":true,"decline_heading":"Come back when you're older","decline_content":"<p>Sorry, the content of this store can't be seen by a younger audience. Come back when you're older.<\/p>","return_button":"Oops, I entered incorrectly"}}},"order":["footer","mobile-sticky-bar","age-verifier-popup"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "c85629c7-7aae-4666-b5f0-150990439c91": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer",
+            "title": "Customer Policies",
+            "width": "25%",
+            "order_first": false,
+            "open_default": false
+          }
+        },
+        "8b358f69-37b7-401c-a151-bdd285220a20": {
+          "type": "menu",
+          "settings": {
+            "menu": "main-menu",
+            "title": "Online Shopping",
+            "width": "25%",
+            "order_first": false,
+            "open_default": false
+          }
+        },
+        "8da69c46-2aa0-498a-bfc7-cfd4db855e74": {
+          "type": "our_store",
+          "disabled": true,
+          "settings": {
+            "title": "SOCIAL MEDIA",
+            "description": "",
+            "show_email": false,
+            "show_phone": false,
+            "show_socials_link": true,
+            "width": "33%",
+            "order_first": false,
+            "open_default": false
+          }
+        },
+        "5f992d0a-41cf-4630-adcf-e72a3e402e0a": {
+          "type": "custom_text",
+          "settings": {
+            "title": "COMPANY",
+            "image": "shopify://shop_images/Ariser_Logo___New_final.jpg",
+            "image_max": "200px",
+            "description": "<p>online@ariser.co.in</p>",
+            "width": "33%",
+            "order_first": false,
+            "open_default": false
+          }
+        },
+        "82b6329e-aa4f-453a-b1af-40f8d2296efa": {
+          "type": "custom_html",
+          "disabled": true,
+          "settings": {
+            "title": "Custom text",
+            "html": "<div class=\"flex\" data-reactid=\"175\">\n<span><a href=\"https://play.google.com/store/apps/details?id=com.myntra.android\" data-reactid=\"176\">\n<img class=\"desktop-androidDownLink\" src=\"https://constant.myntassets.com/web/assets/img/80cc455a-92d2-4b5c-a038-7da0d92af33f1539674178924-google_play.png\">\n</a></span>\n<span><a href=\"https://itunes.apple.com/in/app/myntra-indias-fashion-store/id907394059\" data-reactid=\"178\">\n<img class=\"desktop-iOSDownLink\" src=\"https://constant.myntassets.com/web/assets/img/bc5e11ad-0250-420a-ac71-115a57ca35d51539674178941-apple_store.png\">\n</a></span>\n</div>",
+            "width": "25%",
+            "order_first": false,
+            "open_default": false
+          }
+        }
+      },
+      "block_order": [
+        "c85629c7-7aae-4666-b5f0-150990439c91",
+        "8b358f69-37b7-401c-a151-bdd285220a20",
+        "8da69c46-2aa0-498a-bfc7-cfd4db855e74",
+        "5f992d0a-41cf-4630-adcf-e72a3e402e0a",
+        "82b6329e-aa4f-453a-b1af-40f8d2296efa"
+      ],
+      "custom_css": [
+        ".sf__accordion-item p {margin-left: 30px;}",
+        ".sf__footer-bottom-inner {padding-bottom: 10px;}",
+        ".sf-footer__block {padding-bottom: 0px; padding-top: 30px;}",
+        ".sf-scroll-trigger.animate--fade-in-up {opacity: 1;}"
+      ],
+      "settings": {
+        "design": "footer-1",
+        "container": "container-fluid",
+        "bordered": false,
+        "copyright": "© Ariser 2025",
+        "show_country_selector": false,
+        "show_currency_selector": false,
+        "show_language_selector": true,
+        "show_social_links": true,
+        "enable_follow_on_shop": true,
+        "show_payment_icons": true,
+        "payment_icons_width": 300
+      }
+    },
+    "mobile-sticky-bar": {
+      "type": "mobile-sticky-bar",
+      "disabled": true,
+      "settings": {
+        "show_mobile_sticky": true,
+        "show_home_icon": true,
+        "show_collection_icon": true,
+        "show_cart_icon": true,
+        "show_search_icon": true,
+        "show_account_icon": false,
+        "show_wishlist_icon": false
+      }
+    },
+    "age-verifier-popup": {
+      "type": "age-verifier-popup",
+      "blocks": {
+        "block-1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Confirm your age"
+          }
+        },
+        "block-2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Are you 18 years old or older?</p>"
+          }
+        },
+        "block-3": {
+          "type": "buttons",
+          "settings": {
+            "decline_button": "No, I'm not",
+            "approve_button": "Yes, I am"
+          }
+        }
+      },
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "design_mode": false,
+        "enable": false,
+        "bg_blur": true,
+        "decline_heading": "Come back when you're older",
+        "decline_content": "<p>Sorry, the content of this store can't be seen by a younger audience. Come back when you're older.</p>",
+        "return_button": "Oops, I entered incorrectly"
+      }
+    }
+  },
+  "order": [
+    "footer",
+    "mobile-sticky-bar",
+    "age-verifier-popup"
+  ]
+}
