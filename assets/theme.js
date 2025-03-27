@@ -106,24 +106,25 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (!submitBtn) return;
 
-    let initialVariant = document.querySelector('.variant-input input[type="radio"]:checked')?.value;
+    let initialVariantElement = document.querySelector('.variant-input input[type="radio"]:checked');
+    let initialVariant = initialVariantElement ? initialVariantElement.value : null;
 
     variantInputs.forEach(input => {
         input.addEventListener('change', function () {
             let selectedVariant = this.value;
-            submitBtn.dataset.newVariant = selectedVariant; // Store the new variant in data attribute
+            submitBtn.dataset.newVariant = selectedVariant; // Store new variant in data attribute
 
             if (selectedVariant !== initialVariant) {
                 submitBtn.removeAttribute('disabled'); // Enable button
             } else {
-                submitBtn.setAttribute('disabled', 'true'); // Keep disabled if variant is same
+                submitBtn.setAttribute('disabled', 'true'); // Keep disabled if variant is the same
             }
         });
     });
 
-    // ✅ Handle the Change button click WITHOUT modifying popup logic
+    // ✅ Ensure this function executes correctly
     submitBtn.addEventListener('click', function () {
-        changeCartItems.call(this); // Call changeCartItems function when button is clicked
+        changeCartItems.call(this); // Call changeCartItems function on button click
     });
 });
 
