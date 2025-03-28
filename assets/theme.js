@@ -35,10 +35,11 @@ class CartItemOptions extends HTMLElement {
               }.bind(this));
             }
             this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
+            console.log(this.submitBtn);
             if(this.submitBtn){
             this.submitBtn.addEventListener('click',function(event){
               event.preventDefault();
-             // this.changeCartItems();
+              this.changeCartItems();
             }.bind(this));
           }
           }
