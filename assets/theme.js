@@ -196,9 +196,6 @@ class CartItemOptions extends HTMLElement {
     }
 
    changeCartItems() {
-
-     
-     
     let currentVariant = this.dataset.key;
 
     // ✅ Get the selected variant ID from the checked radio input
@@ -262,5 +259,14 @@ class CartItemOptions extends HTMLElement {
 
 customElements.define('cart-item-options', CartItemOptions);
 
+document.querySelectorAll('[data-variant-input]').forEach(input => {
+    input.addEventListener("change", function () {
+        let selectedVariantId = this.getAttribute("data-variant-id");
+        console.log("✅ Selected Variant ID:", selectedVariantId);
+
+        // Update hidden input with the selected variant ID
+        document.getElementById("selected-variant-id").value = selectedVariantId;
+    });
+});
 
 
