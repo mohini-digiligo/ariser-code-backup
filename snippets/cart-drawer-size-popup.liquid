@@ -23,8 +23,6 @@
       <legend class="hide">{{ option.name }}</legend>
       {%- for value in option.values -%}
         <div class="variant-input" data-index="option{{ option_index }}" data-value="{{ value | escape }}">
-          <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-            class="variant__button-label">
           <input type="radio"
             form="{{ form_id }}"
             {% if option.selected_value == value %} checked="checked"{% endif %}
@@ -34,7 +32,8 @@
             data-variant-input
             class="variant__input"
             id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}">
-          
+          <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
+            class="variant__button-label">
             {{ value | escape }}
           </label>
         </div>
