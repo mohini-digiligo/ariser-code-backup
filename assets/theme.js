@@ -196,6 +196,9 @@ class CartItemOptions extends HTMLElement {
     }
 
    changeCartItems() {
+
+     
+     
     let currentVariant = this.dataset.key;
 
     // ✅ Get the selected variant ID from the checked radio input
@@ -253,6 +256,37 @@ class CartItemOptions extends HTMLElement {
         console.error('🚨 Fetch Error:', error);
     });
 }
+document.addEventListener("DOMContentLoaded", function () {
+    let productData = window.productData; // Shopify product JSON must be available
+
+    function getSelectedVariant() {
+        let selectedOptions = {};
+
+        // Get all checked radio buttons
+        document.querySelectorAll('[data-variant-input]:checked').forEach(input => {
+            let optionName = input.getAttribute("data-option-name");
+            let optionValue = input.value;
+            selectedOptions[optionName] = optionValue;
+        });
+
+        // Find matching variant from productData
+        let matchingVariant = productData.variants.find(variant =>
+            variant.options.every((option, index) => option === selectedOptions[productData.options[index]])
+        );
+
+        return matchingVariant ? matchingVariant.id : null;
+    }
+
+    document.querySelectorAll('[data-variant-input]').forEach(input => {
+        input.addEventListener("change", function () {
+            let newVariantId = getSelectedVariant();
+            console.log("✅ New Variant ID:", newVariantId);
+
+            // Save variant ID to hidden input
+            document.getElementById("selected-variant-id").value = newVariantId;
+        });
+    });
+});
 
 
 }
