@@ -103,5 +103,4 @@ class CartItemOptions extends HTMLElement {
         }
     })
     .catch(error => console.error('Error updating cart:', error));
-}
 
