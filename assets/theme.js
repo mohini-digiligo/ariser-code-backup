@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let submitButton = document.querySelector("[data-submit-btn]");
 
     function checkVariantSelection() {
-        let selectedVariant = document.querySelector("[data-variant-input]:checked");
+        let selectedVariant = document.querySelector(".variant__button-label:checked");
 
         if (selectedVariant) {
             submitButton.removeAttribute("disabled"); // Enable button
