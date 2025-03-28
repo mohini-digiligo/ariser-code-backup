@@ -92,11 +92,8 @@ class CartItemOptions extends HTMLElement {
     //     }
     //   }
     // }
-  
-  }
-  
-  customElements.define('cart-item-options', CartItemOptions);
 
+  
 document.addEventListener("DOMContentLoaded", function () {
     let variantInputs = document.querySelectorAll("[data-variant-input]");
     let submitButton = document.querySelectorAll("#cart-new-btn");
@@ -161,3 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Check selection on page load
     checkVariantSelection();
 });
+  
+  }
+  
+  customElements.define('cart-item-options', CartItemOptions);
+
