@@ -244,7 +244,7 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-        reloadMiniCartDrawer();
+       
         console.log("✅ Cart Updated Successfully:", data);
 
         if (this.cartPage) {
@@ -272,20 +272,6 @@ class CartItemOptions extends HTMLElement {
 
 customElements.define('cart-item-options', CartItemOptions);
  
-function reloadMiniCartDrawer() {
-  fetch(window.location.href)
-    .then(response => response.text())
-    .then(html => {
-      let parser = new DOMParser();
-      let doc = parser.parseFromString(html, "text/html");
-      let newCartContent = doc.querySelector("#MinimogCartDrawer");
-
-      if (newCartContent) {
-        document.querySelector("#m-cart-drawer").innerHTML = newCartContent.innerHTML;
-      }
-    })
-    .catch(error => console.error("Error reloading mini cart:", error));
-}
 
 
 
