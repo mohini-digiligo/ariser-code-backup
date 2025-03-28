@@ -200,17 +200,13 @@ class CartItemOptions extends HTMLElement {
 
     // ✅ Get the selected variant ID from the checked radio input
     
-
-         let selectedVariant = document.querySelector('input[name="Size"]:checked');
-    if (selectedVariant) {
-        let variantId = selectedVariant.getAttribute("data-variant-id");
-        console.log("✅ Selected Variant ID:", variantId);
-    }
-    
-    if (!variantId) {
-        console.error("🚨 No variant selected!");
-        return;
-    }
+let selectedVariant = document.querySelector('input[name="Size"]:checked');
+    document.querySelectorAll('input[name="Size"]').forEach(input => {
+        input.addEventListener("change", function () {
+            let variantId = this.getAttribute("data-variant-id");
+            console.log("🆕 New Selected Variant ID:", variantId);
+        });
+    });
 
     let newVariant = selectedVariant.value;  // ✅ Correct way to get the new variant ID
 
