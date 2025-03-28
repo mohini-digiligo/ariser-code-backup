@@ -63,20 +63,17 @@ class CartItemOptions extends HTMLElement {
     }
 
     // ✅ Updates Cart with Selected Variant
-    changeCartItems() {
+   changeCartItems() {
     let currentVariant = this.getAttribute('data-key');
     let newVariant = this.getAttribute('data-new-variant');
     let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
-      console.log("Current Variant:", currentVariant);
-      console.log("New Variant:", newVariant);
-
     if (!currentVariant || !newVariant) {
-        console.error("Error: Missing variant data.");
+        console.error("❌ Error: Missing variant data.", { currentVariant, newVariant });
         return;
     }
 
-    console.log(`Updating Cart: Removing ${currentVariant}, Adding ${newVariant}`);
+    console.log(`🔄 Updating Cart: Removing ${currentVariant}, Adding ${newVariant}`);
 
     let updates = {};
     updates[currentVariant] = 0;
@@ -89,12 +86,12 @@ class CartItemOptions extends HTMLElement {
     })
     .then(response => response.json())
     .then((data) => {
-        if (data.status) {
-            console.error("Shopify Error:", data);
+        if (data.status === 422) {
+            console.error("❌ Shopify Error:", data);
             return;
         }
 
-        console.log("Cart updated successfully:", data);
+        console.log("✅ Cart updated successfully:", data);
 
         document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
 
@@ -105,7 +102,7 @@ class CartItemOptions extends HTMLElement {
             }, 1000);
         }
     })
-    .catch(error => console.error('Error updating cart:', error));
+    .catch(error => console.error('❌ Error updating cart:', error));
 }
 
 }
