@@ -194,7 +194,7 @@ class CartItemOptions extends HTMLElement {
             this.submitBtn.removeAttribute('disabled');
         }
     }
-   document.querySelectorAll('input[name="Size"]').forEach(input => {
+   this.querySelectorAll('input[name="Size"]').forEach(input => {
         input.addEventListener("change", function () {
             let variantId = this.getAttribute("data-variant-id");
             console.log("🆕 New Selected Variant ID:", variantId);
