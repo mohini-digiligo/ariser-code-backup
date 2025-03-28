@@ -265,8 +265,7 @@ class CartItemOptions extends HTMLElement {
     .catch((error) => {
         console.error('🚨 Fetch Error:', error);
     });
-}
-function reloadMiniCartDrawer() {
+     function reloadMiniCartDrawer() {
   fetch(window.location.href)
     .then(response => response.text())
     .then(html => {
@@ -279,6 +278,8 @@ function reloadMiniCartDrawer() {
       }
     })
     .catch(error => console.error("Error reloading mini cart:", error));
+}
+
 }
 
 }
