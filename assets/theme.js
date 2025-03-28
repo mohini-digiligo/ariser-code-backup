@@ -100,6 +100,7 @@ class CartItemOptions extends HTMLElement {
 document.addEventListener("DOMContentLoaded", function () {
     let variantInputs = document.querySelectorAll("[data-variant-input]");
     let submitButton = document.querySelectorAll("#cart-new-btn");
+  console.log(submitButton);
 
     // Debugging: Check if button is selected
     if (!submitButton) {
