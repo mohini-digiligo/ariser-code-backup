@@ -256,9 +256,15 @@ class CartItemOptions extends HTMLElement {
         console.error('🚨 Fetch Error:', error);
     });
 }
-document.addEventListener("DOMContentLoaded", function () {
-    let productData = window.productData; // Shopify product JSON must be available
 
+
+}
+
+customElements.define('cart-item-options', CartItemOptions);
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
     function getSelectedVariant() {
         let selectedOptions = {};
 
@@ -270,8 +276,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Find matching variant from productData
-        let matchingVariant = productData.variants.find(variant =>
-            variant.options.every((option, index) => option === selectedOptions[productData.options[index]])
+        let matchingVariant = window.productData.variants.find(variant =>
+            variant.options.every((option, index) => option === selectedOptions[window.productData.options[index]])
         );
 
         return matchingVariant ? matchingVariant.id : null;
@@ -282,13 +288,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let newVariantId = getSelectedVariant();
             console.log("✅ New Variant ID:", newVariantId);
 
-            // Save variant ID to hidden input
-            document.getElementById("selected-variant-id").value = newVariantId;
+            if (newVariantId) {
+                document.getElementById("selected-variant-id").value = newVariantId;
+            }
         });
     });
 });
 
-
-}
-
-customElements.define('cart-item-options', CartItemOptions);
