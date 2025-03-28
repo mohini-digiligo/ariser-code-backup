@@ -244,7 +244,7 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-
+        $('m-cart-drawer').load(location.href + "#MinimogCartDrawer");
         console.log("✅ Cart Updated Successfully:", data);
 
         if (this.cartPage) {
