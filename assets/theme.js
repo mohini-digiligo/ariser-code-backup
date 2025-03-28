@@ -5,10 +5,10 @@ class CartItemOptions extends HTMLElement {
         this.cartPage = this.classList.contains('cartPageItem');
 
         if (this.popup) {
-            this.querySelector('[data-cart-popup-open]').addEventListener('click', function () {
+            this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
                 let popUpHtml = this.popup.content.cloneNode(true);
                 let element = document.querySelector('.m-cart-drawer');
-                
+
                 if (element) {
                     element.classList.remove('m-cart-drawer--active');
                 }
@@ -27,7 +27,7 @@ class CartItemOptions extends HTMLElement {
 
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
-                        this.popUpClose.addEventListener('click', function (event) {
+                        this.popUpClose.addEventListener('click', (event) => {
                             event.preventDefault();
                             let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
@@ -35,28 +35,33 @@ class CartItemOptions extends HTMLElement {
                             }
                             this.newPopup.style.display = 'none';
                             this.newPopup.remove();
-                        }.bind(this));
+                        });
                     }
 
                     this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
                     if (this.submitBtn) {
-                        this.submitBtn.addEventListener('click', function (event) {
+                        this.submitBtn.addEventListener('click', (event) => {
                             event.preventDefault();
                             this.changeCartItems();
-                        }.bind(this));
+                        });
                     }
 
-                    // 🔹 Update `newVariant` when size is selected
+                    // 🔹 Fix: Ensure correct `data-new-variant` is set on `this`
                     this.newPopup.querySelectorAll('input[name="size"]').forEach((radio) => {
-                        radio.addEventListener("change", function () {
-                            let selectedVariant = this.getAttribute("data-variant-id");
+                        radio.addEventListener("change", (event) => {
+                            let selectedVariant = event.target.getAttribute("data-variant-id");
                             console.log("✅ Selected Variant ID:", selectedVariant);
-                            this.setAttribute("data-new-variant", selectedVariant);
-                            this.updateBtn(true); // Enable submit button
-                        }.bind(this));
+
+                            if (selectedVariant) {
+                                this.setAttribute("data-new-variant", selectedVariant);
+                                this.updateBtn(true); // Enable submit button
+                            } else {
+                                console.error("❌ Error: No valid variant ID found.");
+                            }
+                        });
                     });
                 }
-            }.bind(this));
+            });
         }
     }
 
@@ -70,16 +75,20 @@ class CartItemOptions extends HTMLElement {
         console.log("➡ Adding Variant ID:", newVariant);
         console.log("➡ Quantity:", quantity);
 
-        if (!currentVariant || !newVariant || isNaN(newVariant)) {
-            console.error("❌ Error: Missing or invalid variant data.");
+        if (!newVariant || isNaN(newVariant)) {
+            console.error("❌ Error: Missing or invalid new variant.");
             return;
         }
 
-        // Fix: Ensure cart updates properly by delaying requests slightly
+        if (currentVariant === newVariant) {
+            console.warn("⚠️ The selected variant is the same as the current one. No update needed.");
+            return;
+        }
+
         setTimeout(() => {
             let updates = {};
 
-            // Fix: Check if current variant exists before removing it
+            // Fix: Only remove `currentVariant` if it actually exists
             if (currentVariant) {
                 updates[currentVariant] = 0;
             }
@@ -110,7 +119,7 @@ class CartItemOptions extends HTMLElement {
                 }
             })
             .catch(error => console.error('❌ Error updating cart:', error));
-        }, 300); // Fix: Slight delay to avoid API conflicts
+        }, 300);
     }
 
     updateBtn(status) {
