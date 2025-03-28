@@ -98,6 +98,7 @@ class CartItemOptions extends HTMLElement {
   customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
+  console.log('run');
     let variantInputs = document.querySelectorAll("[data-variant-input]");
     let submitButton = document.querySelector("[data-submit-btn]");
 
