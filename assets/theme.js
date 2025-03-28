@@ -264,34 +264,3 @@ customElements.define('cart-item-options', CartItemOptions);
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    function getSelectedVariant() {
-        let selectedOptions = {};
-
-        // Get all checked radio buttons
-        document.querySelectorAll('[data-variant-input]:checked').forEach(input => {
-            let optionName = input.getAttribute("data-option-name");
-            let optionValue = input.value;
-            selectedOptions[optionName] = optionValue;
-        });
-
-        // Find matching variant from productData
-        let matchingVariant = window.productData.variants.find(variant =>
-            variant.options.every((option, index) => option === selectedOptions[window.productData.options[index]])
-        );
-
-        return matchingVariant ? matchingVariant.id : null;
-    }
-
-    document.querySelectorAll('[data-variant-input]').forEach(input => {
-        input.addEventListener("change", function () {
-            let newVariantId = getSelectedVariant();
-            console.log("✅ New Variant ID:", newVariantId);
-
-            if (newVariantId) {
-                document.getElementById("selected-variant-id").value = newVariantId;
-            }
-        });
-    });
-});
-
