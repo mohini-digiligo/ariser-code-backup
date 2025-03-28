@@ -98,9 +98,13 @@ class CartItemOptions extends HTMLElement {
   customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log('run');
     let variantInputs = document.querySelectorAll("[data-variant-input]");
     let submitButton = document.querySelector("[data-submit-btn]");
+
+    if (!submitButton) {
+        console.error("Submit button not found! Check your HTML.");
+        return; // Stop the script if button doesn't exist
+    }
 
     function checkVariantSelection() {
         let selectedVariant = document.querySelector("[data-variant-input]:checked");
@@ -112,28 +116,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Listen for changes in variant selection
-    variantInputs.forEach(input => {
-        input.addEventListener("change", function () {
-            checkVariantSelection();
+    // Ensure variants exist before adding event listeners
+    if (variantInputs.length > 0) {
+        variantInputs.forEach(input => {
+            input.addEventListener("change", function () {
+                checkVariantSelection();
+            });
         });
-    });
+    } else {
+        console.error("No variant inputs found! Check your HTML.");
+    }
 
-    // AJAX to update cart when button is clicked
+    // Add event listener to button only if it exists
     submitButton.addEventListener("click", function () {
         let selectedVariant = document.querySelector("[data-variant-input]:checked");
         if (!selectedVariant) return;
 
-        let variantValue = selectedVariant.value; // Get selected variant value
-
-        console.log("Selected Variant:", variantValue);
+        let variantValue = selectedVariant.value;
 
         fetch('/cart/update.js', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 updates: {
-                    [variantValue]: 1 // Assuming quantity is 1, modify as needed
+                    [variantValue]: 1
                 }
             })
         })
@@ -148,6 +154,5 @@ document.addEventListener("DOMContentLoaded", function () {
     // Run function once on page load to check if any option is already selected
     checkVariantSelection();
 });
-
 
 
