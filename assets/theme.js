@@ -101,10 +101,25 @@ document.addEventListener("DOMContentLoaded", function () {
     let variantInputs = document.querySelectorAll("[data-variant-input]");
     let submitButton = document.querySelector("[data-submit-btn]");
 
-    // Enable the button when a variant is selected
+    function checkVariantSelection() {
+        let selectedVariant = document.querySelector("[data-variant-input]:checked");
+
+        if (selectedVariant) {
+            submitButton.removeAttribute("disabled"); // Enable button
+        } else {
+            submitButton.setAttribute("disabled", "true"); // Keep disabled if none selected
+        }
+    }
+
+    // Listen for clicks on radio buttons
     variantInputs.forEach(input => {
         input.addEventListener("change", function () {
-            submitButton.removeAttribute("disabled"); // Enable button
+            // Ensure only one is checked
+            variantInputs.forEach(el => el.removeAttribute("checked"));
+            this.setAttribute("checked", "true");
+
+            // Enable button
+            checkVariantSelection();
         });
     });
 
@@ -113,14 +128,12 @@ document.addEventListener("DOMContentLoaded", function () {
         let selectedVariant = document.querySelector("[data-variant-input]:checked");
         if (!selectedVariant) return;
 
-        let variantId = selectedVariant.value; // Get selected variant ID
-        let quantity = 1; // You can modify this based on your logic
+        let variantId = selectedVariant.value;
+        let quantity = 1;
 
         fetch('/cart/update.js', {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 updates: {
                     [variantId]: quantity
@@ -130,12 +143,11 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             console.log("Cart updated:", data);
-            submitButton.innerText = "Updated"; // Change button text after update
+            submitButton.innerText = "Updated";
         })
         .catch(error => console.error("Error updating cart:", error));
     });
 });
-
 
 
 
