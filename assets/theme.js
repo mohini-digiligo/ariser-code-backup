@@ -200,8 +200,14 @@ class CartItemOptions extends HTMLElement {
 
     // ✅ Get the selected variant ID from the checked radio input
     let selectedVariant = document.querySelector('data-variant-id');
+
+         let selectedVariant = document.querySelector('input[name="Size"]:checked');
+    if (selectedVariant) {
+        let variantId = selectedVariant.getAttribute("data-variant-id");
+        console.log("✅ Selected Variant ID:", variantId);
+    }
     
-    if (!selectedVariant) {
+    if (!variantId) {
         console.error("🚨 No variant selected!");
         return;
     }
