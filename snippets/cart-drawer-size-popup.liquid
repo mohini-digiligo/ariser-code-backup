@@ -44,6 +44,10 @@
     
   </fieldset>
 </div>
+<script>
+  let productVariants = {{ product.variants | json }};
+  console.log("🔍 Product Variants Data:", productVariants);
+</script>
 
 <!-- Store selected Variant ID -->
 <input type="hidden" id="selected-variant-id" value="">
