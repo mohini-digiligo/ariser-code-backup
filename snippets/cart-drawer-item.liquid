@@ -215,4 +215,52 @@
   </div>
 </div>
 
-test
+<!-- Product Recommendation slider -->
+ <div class="drawer__scrollable">
+          <div data-products class="appear-animation appear-delay-2"></div>
+          {% assign totalItems = 0 %}
+          {%- capture recommendationsContent -%}
+            {% for cartItem in cart.items %}
+             {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
+               {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
+               {% if line_items == 0 %}
+                <div class="product-recommendations__slide">
+                  {%- render 'product-grid-item',
+                    image_style: 'default',
+                    product: refProduct,
+                    per_row: 1,
+                    type: 'horizontal',
+                    sizes: '112px',
+                    complementaryProduct: true
+                  -%}
+                </div>
+                 {% assign totalItems = totalItems | plus: 1 %}
+               {% endif %}
+            {%- endfor -%}
+               {% if totalItems > 0 %}
+                 {% break %}
+                 {% endif %}
+            {%- endfor -%}
+          {%- endcapture -%}
+            <div class="cart-recommendations-wrapper" data-cart-recommendations>
+          {% if recommendationsContent != blank %}
+              <cart-recommendations>
+                <div
+                  class="product-single__related grid grid--uniform"
+                  data-aos="overflow__animation"
+                    data-slideshow data-controls="arrows"
+                    data-per-slide="1" data-count="{{ totalItems }}"
+                >
+                 {{ recommendationsContent }}
+                </div>
+              </cart-recommendations>
+          {% endif %}
+            </div>
+
+          {% if settings.cart_notes_enable %}
+            <div class="appear-animation appear-delay-3">
+              <label for="CartNoteDrawer">{{ 'cart.general.note' | t }}</label>
+              <textarea name="note" class="input-full cart-notes" id="CartNoteDrawer">{{ cart.note }}</textarea>
+            </div>
+          {% endif %}
+        </div>
