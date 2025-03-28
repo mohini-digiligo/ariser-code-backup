@@ -62,14 +62,7 @@ class CartItemOptions extends HTMLElement {
         }
     }
 
-  document.querySelectorAll('input[name="size"]').forEach((radio) => {
-    radio.addEventListener("change", function () {
-        let selectedVariant = this.getAttribute("data-variant-id");
-        console.log("🔄 Selected Variant ID:", selectedVariant);
 
-        document.querySelector('[data-new-variant]').setAttribute("data-new-variant", selectedVariant);
-    });
-});
 
     // ✅ Updates Cart with Selected Variant
    changeCartItems() {
