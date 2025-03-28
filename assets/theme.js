@@ -195,25 +195,30 @@ class CartItemOptions extends HTMLElement {
         }
     }
 
-    changeCartItems() {
+   changeCartItems() {
     let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
-    
+
     if (!selectedVariant) {
         console.error('No variant selected!');
         return;
     }
 
-    let newVariant = selectedVariant.value;  // Ensure correct variant ID
-    console.log("✅ Selected Variant ID:", newVariant);  // Debugging
+    let newVariant = selectedVariant.getAttribute("value");  // ✅ Get actual variant ID
+    console.log("✅ Selected Variant ID:", newVariant);  
 
     let currentVariant = this.dataset.key;
     console.log("❌ Removing Variant ID:", currentVariant);
+
+    if (!newVariant || isNaN(parseInt(newVariant))) {  // ✅ Check if variant ID is valid
+        console.error("🚨 Invalid Variant ID: ", newVariant);
+        return;
+    }
 
     let updates = {};
     updates[currentVariant] = 0;
     updates[newVariant] = parseInt(this.dataset.quantity);
 
-    console.log("📤 Sending Update:", JSON.stringify({ updates }));
+    console.log("🐀񉀠Sending Update:", JSON.stringify({ updates }));
 
     fetch(window.Shopify.routes.root + 'cart/update.js', {
         method: 'POST',
@@ -246,6 +251,7 @@ class CartItemOptions extends HTMLElement {
         console.error('🚨 Fetch Error:', error);
     });
 }
+
 
 }
 
