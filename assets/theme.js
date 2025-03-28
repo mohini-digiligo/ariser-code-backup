@@ -7,13 +7,10 @@ class CartItemOptions extends HTMLElement {
         if (this.popup) {
             this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
                 let popUpHtml = this.popup.content.cloneNode(true);
-                popUpHtml.firstElementChild.classList.add('activeCartPopUp'); // Ensure class is added
-
                 let element = document.querySelector('.m-cart-drawer');
                 if (element) {
                     element.classList.remove('m-cart-drawer--active');
                 }
-
                 document.body.append(popUpHtml);
                 this.newPopup = document.querySelector('.activeCartPopUp');
 
@@ -29,37 +26,54 @@ class CartItemOptions extends HTMLElement {
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
                         this.popUpClose.addEventListener('click', (event) => {
-                            event.preventDefault();
                             let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
                                 elements.classList.add('m-cart-drawer--active');
                             }
+                            event.preventDefault();
                             this.newPopup.style.display = 'none';
                             this.newPopup.remove();
                         });
                     }
 
+                    // Select Submit Button
                     this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
                     if (this.submitBtn) {
                         this.submitBtn.addEventListener('click', (event) => {
                             event.preventDefault();
+                            this.submitBtn.setAttribute('disabled', 'true'); // Prevent multiple clicks
                             this.changeCartItems();
+                            setTimeout(() => {
+                                this.submitBtn.removeAttribute('disabled'); // Re-enable button
+                            }, 1500);
                         });
                     }
+
+                    // ✅ Track Variant Selection Changes
+                    this.newPopup.querySelectorAll('[name="Size"]').forEach((radio) => {
+                        radio.addEventListener('change', (event) => {
+                            this.setAttribute('data-new-variant', event.target.value);
+                            console.log("Selected Variant:", event.target.value);
+                            this.updateBtn(true); // Enable button on selection change
+                        });
+                    });
                 }
             });
         }
     }
 
+    // ✅ Updates Cart with Selected Variant
     changeCartItems() {
         let currentVariant = this.getAttribute('data-key');
-        let newVariant = this.getAttribute('data-new-variant'); 
+        let newVariant = this.getAttribute('data-new-variant');
         let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
         if (!currentVariant || !newVariant) {
-            console.error("Missing variant data.");
+            console.error("Error: Missing variant data.");
             return;
         }
+
+        console.log(`Updating Cart: Removing ${currentVariant}, Adding ${newVariant}`);
 
         let updates = {};
         updates[currentVariant] = 0;
@@ -83,12 +97,20 @@ class CartItemOptions extends HTMLElement {
                 }, 1000);
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error updating cart:', error));
     }
 
+    // ✅ Enable/Disable Button Based on Selection
     updateBtn(status) {
-        this.submitBtn?.toggleAttribute('disabled', !status);
+        if (this.submitBtn) {
+            if (status) {
+                this.submitBtn.removeAttribute('disabled');
+            } else {
+                this.submitBtn.setAttribute('disabled', 'true');
+            }
+        }
     }
 }
 
+// Register the custom element
 customElements.define('cart-item-options', CartItemOptions);
