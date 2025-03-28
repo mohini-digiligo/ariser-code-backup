@@ -196,47 +196,57 @@ class CartItemOptions extends HTMLElement {
     }
 
     changeCartItems() {
-        let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
-        if (!selectedVariant) {
-            console.error('No variant selected');
+    let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
+    
+    if (!selectedVariant) {
+        console.error('No variant selected!');
+        return;
+    }
+
+    let newVariant = selectedVariant.value;  // Ensure correct variant ID
+    console.log("✅ Selected Variant ID:", newVariant);  // Debugging
+
+    let currentVariant = this.dataset.key;
+    console.log("❌ Removing Variant ID:", currentVariant);
+
+    let updates = {};
+    updates[currentVariant] = 0;
+    updates[newVariant] = parseInt(this.dataset.quantity);
+
+    console.log("📤 Sending Update:", JSON.stringify({ updates }));
+
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+    })
+    .then(response => response.json())
+    .then((data) => {
+        if (data.status) {
+            console.error("🚨 Shopify Error:", data);
             return;
         }
 
-        let newVariant = selectedVariant.getAttribute('data-variant-id');
-        let currentVariant = this.dataset.key;
-        let updates = {};
+        console.log("✅ Cart Updated Successfully:", data);
 
-        updates[currentVariant] = 0;
-        updates[newVariant] = parseInt(this.dataset.quantity);
+        if (this.cartPage) {
+            document.dispatchEvent(new CustomEvent('cart:build'));
+        } else {
+            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
+        }
 
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ updates })
-        })
-        .then(response => response.json())
-        .then((data) => {
-            if (data.status) return;
+        if (this.newPopup) {
+            setTimeout(() => {
+                this.newPopup.style.display = 'none';
+                this.newPopup.remove();
+            }, 1000);
+        }
+    })
+    .catch((error) => {
+        console.error('🚨 Fetch Error:', error);
+    });
+}
 
-            if (this.cartPage) {
-                document.dispatchEvent(new CustomEvent('cart:build'));
-            } else {
-                document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-            }
-
-            if (this.newPopup) {
-                setTimeout(() => {
-                    this.newPopup.style.display = 'none';
-                    this.newPopup.remove();
-                }, 1000);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
 }
 
 customElements.define('cart-item-options', CartItemOptions);
