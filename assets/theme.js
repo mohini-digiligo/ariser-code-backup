@@ -54,7 +54,7 @@ class CartItemOptions extends HTMLElement {
                         radio.addEventListener('change', (event) => {
                             this.setAttribute('data-new-variant', event.target.value);
                             console.log("Selected Variant:", event.target.value);
-                            this.updateBtn(true); // Enable button on selection change
+                            //this.updateBtn(true); // Enable button on selection change
                         });
                     });
                 }
