@@ -64,16 +64,19 @@ class CartItemOptions extends HTMLElement {
 
     // ✅ Updates Cart with Selected Variant
    changeCartItems() {
-    let currentVariant = this.getAttribute('data-key');
-    let newVariant = this.getAttribute('data-new-variant');
+    let currentVariant = this.getAttribute('data-key');  // The variant being removed
+    let newVariant = this.getAttribute('data-new-variant');  // The variant being added
     let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
-    if (!currentVariant || !newVariant) {
-        console.error("❌ Error: Missing variant data.", { currentVariant, newVariant });
+    console.log("🔎 Checking variant values:");
+    console.log("➡ Current Variant ID:", currentVariant);
+    console.log("➡ New Variant ID:", newVariant);
+    console.log("➡ Quantity:", quantity);
+
+    if (!currentVariant || !newVariant || isNaN(newVariant)) {
+        console.error("❌ Error: Missing or invalid variant data.");
         return;
     }
-
-    console.log(`🔄 Updating Cart: Removing ${currentVariant}, Adding ${newVariant}`);
 
     let updates = {};
     updates[currentVariant] = 0;
@@ -104,6 +107,7 @@ class CartItemOptions extends HTMLElement {
     })
     .catch(error => console.error('❌ Error updating cart:', error));
 }
+
 
 }
 
