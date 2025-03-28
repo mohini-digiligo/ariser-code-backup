@@ -68,6 +68,9 @@ class CartItemOptions extends HTMLElement {
     let newVariant = this.getAttribute('data-new-variant');
     let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
+      console.log("Current Variant:", currentVariant);
+      console.log("New Variant:", newVariant);
+
     if (!currentVariant || !newVariant) {
         console.error("Error: Missing variant data.");
         return;
