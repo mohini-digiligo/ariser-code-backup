@@ -5,12 +5,14 @@ class CartItemOptions extends HTMLElement {
         this.cartPage = this.classList.contains('cartPageItem');
 
         if (this.popup) {
-            this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
+            this.querySelector('[data-cart-popup-open]').addEventListener('click', function () {
                 let popUpHtml = this.popup.content.cloneNode(true);
                 let element = document.querySelector('.m-cart-drawer');
+                
                 if (element) {
                     element.classList.remove('m-cart-drawer--active');
                 }
+
                 document.body.append(popUpHtml);
                 this.newPopup = document.querySelector('.activeCartPopUp');
 
@@ -20,98 +22,98 @@ class CartItemOptions extends HTMLElement {
                     if (typeof theme !== "undefined" && theme.sections) {
                         theme.sections.register('product', theme.Product, this.newPopup);
                     } else {
-                        console.warn("Theme object is not available.");
+                        console.warn("⚠️ Theme object is not available.");
                     }
 
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
-                        this.popUpClose.addEventListener('click', (event) => {
+                        this.popUpClose.addEventListener('click', function (event) {
+                            event.preventDefault();
                             let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
                                 elements.classList.add('m-cart-drawer--active');
                             }
-                            event.preventDefault();
                             this.newPopup.style.display = 'none';
                             this.newPopup.remove();
-                        });
+                        }.bind(this));
                     }
 
-                    // Select Submit Button
                     this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
                     if (this.submitBtn) {
-                        this.submitBtn.addEventListener('click', (event) => {
+                        this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
-                            this.submitBtn.setAttribute('disabled', 'true'); // Prevent multiple clicks
                             this.changeCartItems();
-                            setTimeout(() => {
-                                this.submitBtn.removeAttribute('disabled'); // Re-enable button
-                            }, 1500);
-                        });
+                        }.bind(this));
                     }
 
-                    // ✅ Track Variant Selection Changes
-                    this.newPopup.querySelectorAll('[name="Size"]').forEach((radio) => {
-                        radio.addEventListener('change', (event) => {
-                            this.setAttribute('data-new-variant', event.target.value);
-                            console.log("Selected Variant:", event.target.value);
-                            //this.updateBtn(true); // Enable button on selection change
-                        });
+                    // 🔹 Fix: Update `newVariant` when size is selected
+                    this.newPopup.querySelectorAll('input[name="size"]').forEach((radio) => {
+                        radio.addEventListener("change", function () {
+                            let selectedVariant = this.getAttribute("data-variant-id");
+                            console.log("✅ Selected Variant ID:", selectedVariant);
+                            document.querySelector('[data-new-variant]').setAttribute("data-new-variant", selectedVariant);
+                            this.updateBtn(true); // Enable submit button
+                        }.bind(this));
                     });
                 }
-            });
+            }.bind(this));
         }
     }
 
+    changeCartItems() {
+        let currentVariant = this.getAttribute('data-key');  // Variant being removed
+        let newVariant = this.getAttribute('data-new-variant');  // Variant being added
+        let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
+        console.log("🔄 Updating Cart:");
+        console.log("➡ Removing Variant ID:", currentVariant);
+        console.log("➡ Adding Variant ID:", newVariant);
+        console.log("➡ Quantity:", quantity);
 
-    // ✅ Updates Cart with Selected Variant
-   changeCartItems() {
-    let currentVariant = this.getAttribute('data-key');  // The variant being removed
-    let newVariant = this.getAttribute('data-new-variant');  // The variant being added
-    let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
-
-    console.log("🔎 Checking variant values:");
-    console.log("➡ Current Variant ID:", currentVariant);
-    console.log("➡ New Variant ID:", newVariant);
-    console.log("➡ Quantity:", quantity);
-
-    if (!currentVariant || !newVariant || isNaN(newVariant)) {
-        console.error("❌ Error: Missing or invalid variant data.");
-        return;
-    }
-
-    let updates = {};
-    updates[currentVariant] = 0;
-    updates[newVariant] = quantity;
-
-    fetch(window.Shopify.routes.root + 'cart/update.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updates })
-    })
-    .then(response => response.json())
-    .then((data) => {
-        if (data.status === 422) {
-            console.error("❌ Shopify Error:", data);
+        if (!currentVariant || !newVariant || isNaN(newVariant)) {
+            console.error("❌ Error: Missing or invalid variant data.");
             return;
         }
 
-        console.log("✅ Cart updated successfully:", data);
+        let updates = {};
+        updates[currentVariant] = 0;
+        updates[newVariant] = quantity;
 
-        document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
+        fetch(window.Shopify.routes.root + 'cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ updates })
+        })
+        .then(response => response.json())
+        .then((data) => {
+            if (data.status === 422) {
+                console.error("❌ Shopify Error:", data);
+                return;
+            }
 
-        if (this.newPopup) {
-            setTimeout(() => {
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }, 1000);
+            console.log("✅ Cart updated successfully:", data);
+
+            document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
+
+            if (this.newPopup) {
+                setTimeout(() => {
+                    this.newPopup.style.display = 'none';
+                    this.newPopup.remove();
+                }, 1000);
+            }
+        })
+        .catch(error => console.error('❌ Error updating cart:', error));
+    }
+
+    updateBtn(status) {
+        if (this.submitBtn) {
+            if (status) {
+                this.submitBtn.removeAttribute('disabled');
+            } else {
+                this.submitBtn.setAttribute('disabled', 'true');
+            }
         }
-    })
-    .catch(error => console.error('❌ Error updating cart:', error));
+    }
 }
 
-
-}
-
-// Register the custom element
 customElements.define('cart-item-options', CartItemOptions);
