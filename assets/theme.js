@@ -194,19 +194,19 @@ class CartItemOptions extends HTMLElement {
             this.submitBtn.removeAttribute('disabled');
         }
     }
-
+   document.querySelectorAll('input[name="Size"]').forEach(input => {
+        input.addEventListener("change", function () {
+            let variantId = this.getAttribute("data-variant-id");
+            console.log("🆕 New Selected Variant ID:", variantId);
+        });
+    });
    changeCartItems() {
     let currentVariant = this.dataset.key;
 
     // ✅ Get the selected variant ID from the checked radio input
     
 let selectedVariant = document.querySelector('input[name="Size"]:checked');
-    document.querySelectorAll('input[name="Size"]').forEach(input => {
-        input.addEventListener("change", function () {
-            let variantId = this.getAttribute("data-variant-id");
-            console.log("🆕 New Selected Variant ID:", variantId);
-        });
-    });
+    
 
     let newVariant = selectedVariant.value;  // ✅ Correct way to get the new variant ID
 
