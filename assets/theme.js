@@ -281,6 +281,7 @@ reloadMiniCartDrawer() {
         }
     })
     .catch(error => console.error("🚨 Error Reloading Mini Cart:", error));
+}
 
 }
 
