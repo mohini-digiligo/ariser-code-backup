@@ -99,6 +99,8 @@
           >
             {{ value | escape }}
           </label>
+          <input type="hidden" id="selected-variant-id" name="id">
+
           {% if value contains "Pack" %}
                     {% assign packNum = value | replace: "Pack of ", "" %}           
                   {% endif %}
