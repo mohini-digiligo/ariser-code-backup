@@ -38,7 +38,7 @@ class CartItemOptions extends HTMLElement {
             if(this.submitBtn){
             this.submitBtn.addEventListener('click',function(event){
               event.preventDefault();
-              this.changeCartItems();
+             // this.changeCartItems();
             }.bind(this));
           }
           }
@@ -46,56 +46,100 @@ class CartItemOptions extends HTMLElement {
         
       }
     }
-    changeCartItems(){
+    // changeCartItems(){
       
-        let currentVariant = this.dataset.key,
-          newVariant = this.dataset.newVariant;
-        console.log(newVariant);
-        let updates = {};
-          updates[currentVariant] = 0;
-          updates[newVariant] = parseInt(this.dataset.quantity);
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ updates })
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then((data) =>{
-          if(data.status) return;
-          if(this.cartPage){
-          document.dispatchEvent(new CustomEvent('cart:build'));
-          }else{
-          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
-          }
-          if(this.newPopup){
-            setTimeout(function(){
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }.bind(this),1000)
-          }
-       })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-    updateBtn(status){
-      if(this.submitBtn){
-        if(status == true){
-          this.submitBtn.removeAttribute('disabled')
-        }
-        else{
-          this.submitBtn.setAttribute('disabled','true')
-        }
-      }
-    }
+    //     let currentVariant = this.dataset.key,
+    //       newVariant = this.dataset.newVariant;
+    //     console.log(newVariant);
+    //     let updates = {};
+    //       updates[currentVariant] = 0;
+    //       updates[newVariant] = parseInt(this.dataset.quantity);
+    //     fetch(window.Shopify.routes.root + 'cart/update.js', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify({ updates })
+    //     })
+    //     .then(response => {
+    //       return response.json();
+    //     })
+    //     .then((data) =>{
+    //       if(data.status) return;
+    //       if(this.cartPage){
+    //       document.dispatchEvent(new CustomEvent('cart:build'));
+    //       }else{
+    //       document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
+    //       }
+    //       if(this.newPopup){
+    //         setTimeout(function(){
+    //             this.newPopup.style.display = 'none';
+    //             this.newPopup.remove();
+    //         }.bind(this),1000)
+    //       }
+    //    })
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
+    // }
+    // updateBtn(status){
+    //   if(this.submitBtn){
+    //     if(status == true){
+    //       this.submitBtn.removeAttribute('disabled')
+    //     }
+    //     else{
+    //       this.submitBtn.setAttribute('disabled','true')
+    //     }
+    //   }
+    // }
   
   }
   
   customElements.define('cart-item-options', CartItemOptions);
+
+document.addEventListener("DOMContentLoaded", function () {
+    let variantInputs = document.querySelectorAll("[data-variant-input]");
+    let submitButton = document.querySelector("[data-submit-btn]");
+
+    // Enable the button when a variant is selected
+    variantInputs.forEach(input => {
+        input.addEventListener("change", function () {
+            submitButton.removeAttribute("disabled"); // Enable button
+        });
+    });
+
+    // AJAX to update cart when button is clicked
+    submitButton.addEventListener("click", function () {
+        let selectedVariant = document.querySelector("[data-variant-input]:checked");
+        if (!selectedVariant) return;
+
+        let variantId = selectedVariant.value; // Get selected variant ID
+        let quantity = 1; // You can modify this based on your logic
+
+        fetch('/cart/update.js', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                updates: {
+                    [variantId]: quantity
+                }
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Cart updated:", data);
+            submitButton.innerText = "Updated"; // Change button text after update
+        })
+        .catch(error => console.error("Error updating cart:", error));
+    });
+});
+
+
+
+
+
 
 
 
