@@ -196,7 +196,7 @@ class CartItemOptions extends HTMLElement {
     }
 
    changeCartItems() {
-    llet currentVariant = this.dataset.key;
+    let currentVariant = this.dataset.key;
 
     // ✅ Get the selected variant ID from the checked radio input
     let selectedVariant = document.querySelector('[data-variant-input]:checked');
