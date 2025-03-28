@@ -65,7 +65,7 @@
     {%- for value in option.values -%}
       {%- liquid
         assign product_available = true
-        if product.options.size == 2
+        if product.options.size == 1
           assign product_available = product.variants[forloop.index0].available
         endif
       -%}
@@ -99,7 +99,7 @@
           >
             {{ value | escape }}
           </label>
-          <input type="hidden" id="selected-variant-id" name="id">
+          
 
           {% if value contains "Pack" %}
                     {% assign packNum = value | replace: "Pack of ", "" %}           
