@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function checkVariantSelection() {
         let selectedVariant = document.querySelector("variant__button-label:checked");
-
+        cosole.log(selectedVariant);
         if (selectedVariant) {
             submitButton.removeAttribute("disabled"); // Enable button
         } else {
