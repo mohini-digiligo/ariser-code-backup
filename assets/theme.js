@@ -260,53 +260,19 @@ class CartItemOptions extends HTMLElement {
 customElements.define('cart-item-options', CartItemOptions);
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    let selectedOptions = {}; // Store selected options
-
-    // Event listener for Size & Sleeve changes
-    document.querySelectorAll('[data-option-type="variant-selector"]').forEach(input => {
-        input.addEventListener("change", function () {
-            let optionName = this.getAttribute("data-option-name");
-            let optionValue = this.getAttribute("data-option-value");
-
-            // Update selected options
-            selectedOptions[optionName] = optionValue;
-
-            // Find the correct variant ID
-            let selectedVariantId = findMatchingVariant();
-
-            if (selectedVariantId) {
-                console.log("✅ Matched Variant ID:", selectedVariantId);
-
-                // Update all variant inputs with the new variant ID
-                document.querySelectorAll('[data-variant-input]').forEach(input => {
-                    input.setAttribute("data-variant-id", selectedVariantId);
-                });
-
-                // Update the hidden input for cart updates
-                document.getElementById("selected-variant-id").value = selectedVariantId;
-            } else {
-                console.warn("⚠️ No matching variant found!");
-            }
-        });
-    });
-
-    function findMatchingVariant() {
-        let productVariants = JSON.parse(document.getElementById("product-variants-json").textContent);
+document.querySelectorAll('[data-variant-input]').forEach(input => {
+    input.addEventListener('change', function () {
+        let selectedSize = document.querySelector('input[name="Size"]:checked')?.value;
+        let matchingVariant = productVariants.find(v => v.option1 === selectedSize);
         
-        for (let variant of productVariants) {
-            if (
-                variant.option1 === selectedOptions["Size"] &&
-                variant.option2 === selectedOptions["Sleeve"]
-            ) {
-                return variant.id; // Return matching variant ID
-            }
+        if (matchingVariant) {
+            console.log("✅ Selected Variant ID:", matchingVariant.id);
+            document.querySelector('#selected-variant-id').value = matchingVariant.id; // Store variant ID in hidden input
+        } else {
+            console.warn("⚠️ No matching variant found!");
         }
-        return null;
-    }
+    });
 });
-
-
 
 
 
