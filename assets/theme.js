@@ -166,7 +166,7 @@ class CartItemOptions extends HTMLElement {
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
                         this.popUpClose.addEventListener('click', function (event) {
-                           let elements = document.querySelector('.m-cart-drawer');
+                          
                            let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
                                 elements.classList.add('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
