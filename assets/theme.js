@@ -244,7 +244,7 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-       
+        this.reloadMiniCartDrawer();
         console.log("✅ Cart Updated Successfully:", data);
 
         if (this.cartPage) {
@@ -267,6 +267,20 @@ class CartItemOptions extends HTMLElement {
     });
      
 }
+  // ✅ Function to Reload Mini Cart Drawer
+reloadMiniCartDrawer() {
+    fetch(window.location.href)
+    .then(response => response.text())
+    .then(html => {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(html, "text/html");
+        let newCartContent = doc.querySelector("#MinimogCartDrawer");
+
+        if (newCartContent) {
+            document.querySelector("#MinimogCartDrawer").innerHTML = newCartContent.innerHTML;
+        }
+    })
+    .catch(error => console.error("🚨 Error Reloading Mini Cart:", error));
 
 }
 
