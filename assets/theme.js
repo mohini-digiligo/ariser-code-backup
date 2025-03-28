@@ -196,18 +196,20 @@ class CartItemOptions extends HTMLElement {
     }
 
    changeCartItems() {
-    let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
+    llet currentVariant = this.dataset.key;
 
+    // ✅ Get the selected variant ID from the checked radio input
+    let selectedVariant = document.querySelector('[data-variant-input]:checked');
+    
     if (!selectedVariant) {
-        console.error('No variant selected!');
+        console.error("🚨 No variant selected!");
         return;
-    } 
+    }
 
-    let newVariant = selectedVariant.value;  
+    let newVariant = selectedVariant.value;  // ✅ Correct way to get the new variant ID
 
-        console.log("✅ Selected Variant ID:", currentVariant);
-       console.log("✅ Selected new Variant ID:", newVariant);
     console.log("❌ Removing Variant ID:", currentVariant);
+    console.log("✅ Selected new Variant ID:", newVariant);
 
     if (!newVariant || isNaN(parseInt(newVariant))) {  // ✅ Check if variant ID is valid
         console.error("🚨 Invalid Variant ID: ", newVariant);
