@@ -46,12 +46,12 @@ class CartItemOptions extends HTMLElement {
                         }.bind(this));
                     }
 
-                    // 🔹 Fix: Update `newVariant` when size is selected
+                    // 🔹 Update `newVariant` when size is selected
                     this.newPopup.querySelectorAll('input[name="size"]').forEach((radio) => {
                         radio.addEventListener("change", function () {
                             let selectedVariant = this.getAttribute("data-variant-id");
                             console.log("✅ Selected Variant ID:", selectedVariant);
-                            document.querySelector('[data-new-variant]').setAttribute("data-new-variant", selectedVariant);
+                            this.setAttribute("data-new-variant", selectedVariant);
                             this.updateBtn(true); // Enable submit button
                         }.bind(this));
                     });
@@ -75,34 +75,42 @@ class CartItemOptions extends HTMLElement {
             return;
         }
 
-        let updates = {};
-        updates[currentVariant] = 0;
-        updates[newVariant] = quantity;
+        // Fix: Ensure cart updates properly by delaying requests slightly
+        setTimeout(() => {
+            let updates = {};
 
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ updates })
-        })
-        .then(response => response.json())
-        .then((data) => {
-            if (data.status === 422) {
-                console.error("❌ Shopify Error:", data);
-                return;
+            // Fix: Check if current variant exists before removing it
+            if (currentVariant) {
+                updates[currentVariant] = 0;
             }
 
-            console.log("✅ Cart updated successfully:", data);
+            updates[newVariant] = quantity;
 
-            document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
+            fetch(window.Shopify.routes.root + 'cart/update.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ updates })
+            })
+            .then(response => response.json())
+            .then((data) => {
+                if (data.status === 422) {
+                    console.error("❌ Shopify Error:", data);
+                    return;
+                }
 
-            if (this.newPopup) {
-                setTimeout(() => {
-                    this.newPopup.style.display = 'none';
-                    this.newPopup.remove();
-                }, 1000);
-            }
-        })
-        .catch(error => console.error('❌ Error updating cart:', error));
+                console.log("✅ Cart updated successfully:", data);
+
+                document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
+
+                if (this.newPopup) {
+                    setTimeout(() => {
+                        this.newPopup.style.display = 'none';
+                        this.newPopup.remove();
+                    }, 1000);
+                }
+            })
+            .catch(error => console.error('❌ Error updating cart:', error));
+        }, 300); // Fix: Slight delay to avoid API conflicts
     }
 
     updateBtn(status) {
