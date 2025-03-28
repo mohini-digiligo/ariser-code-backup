@@ -214,10 +214,10 @@ class CartItemOptions extends HTMLElement {
 
     let newVariant = selectedVariant.value;  // ✅ Correct way to get the new variant ID
 
-     if ( 'currentVariant' === 'newVariant' ){
-       console.log("same variant id:", currentVariant );
-       die;
-     }
+    if (currentVariant === newVariant) {
+        console.log("📌 Same variant selected. No update required.");
+        return; // 🚀 Exits the function here!
+    }
 
     console.log("❌ Removing Variant ID:", currentVariant);
     console.log("✅ Selected new Variant ID:", newVariant);
