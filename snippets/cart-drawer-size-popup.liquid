@@ -86,7 +86,13 @@
           class="{% unless product_available %} disabled{% endunless %}{% if is_color %} variant__input--color-swatch{% endif %}"
           {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
           {% if is_color %} data-color-index="{{ color_option_index }}"{% endif %}
-          id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}">
+          id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
+          data-variant-id="{{ product.variants | where: 'option1', value | map: 'id' | first }}"
+  {% if value contains "Pack" %}data-qty="{{ value | replace: 'Pack of ', '' }}"{% endif %} 
+  class="{% unless product_available %} disabled{% endunless %}{% if is_color %} variant__input--color-swatch{% endif %}"
+  {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
+  {% if is_color %} data-color-index="{{ color_option_index }}"{% endif %}
+  id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}" >
         {%- if is_color -%}
           {%- liquid
             assign color_file_name = value | handle | append: '.' | append: swatch_file_extension
