@@ -46,10 +46,11 @@ class CartItemOptions extends HTMLElement {
                         });
                     }
 
-                    // 🔹 Fix: Ensure correct `data-new-variant` is set on `this`
+                    // Fix: Ensure correct `data-new-variant` is set every time user selects a new size
                     this.newPopup.querySelectorAll('input[name="size"]').forEach((radio) => {
                         radio.addEventListener("change", (event) => {
                             let selectedVariant = event.target.getAttribute("data-variant-id");
+
                             console.log("✅ Selected Variant ID:", selectedVariant);
 
                             if (selectedVariant) {
@@ -75,6 +76,7 @@ class CartItemOptions extends HTMLElement {
         console.log("➡ Adding Variant ID:", newVariant);
         console.log("➡ Quantity:", quantity);
 
+        // Fix: Validate variant before making an API call
         if (!newVariant || isNaN(newVariant)) {
             console.error("❌ Error: Missing or invalid new variant.");
             return;
@@ -85,15 +87,15 @@ class CartItemOptions extends HTMLElement {
             return;
         }
 
+        // Fix: Ensure old item is removed only if newVariant exists
         setTimeout(() => {
             let updates = {};
 
-            // Fix: Only remove `currentVariant` if it actually exists
-            if (currentVariant) {
-                updates[currentVariant] = 0;
+            if (currentVariant && newVariant) {
+                updates[currentVariant] = 0;  // Remove old variant
             }
 
-            updates[newVariant] = quantity;
+            updates[newVariant] = quantity; // Add new variant
 
             fetch(window.Shopify.routes.root + 'cart/update.js', {
                 method: 'POST',
@@ -119,7 +121,7 @@ class CartItemOptions extends HTMLElement {
                 }
             })
             .catch(error => console.error('❌ Error updating cart:', error));
-        }, 300);
+        }, 500); // Slightly longer delay to prevent API conflicts
     }
 
     updateBtn(status) {
