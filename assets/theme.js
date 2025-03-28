@@ -206,7 +206,7 @@ class CartItemOptions extends HTMLElement {
         return;
     }
 
-    let newVariant = selectedVariant.value;  // ✅ Correct way to get the new variant ID
+    let newVariant = 49656833704217;  // ✅ Correct way to get the new variant ID
 
     console.log("❌ Removing Variant ID:", currentVariant);
     console.log("✅ Selected new Variant ID:", newVariant);
