@@ -98,12 +98,12 @@ class CartItemOptions extends HTMLElement {
   customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
-    let variantInputs = document.querySelectorAll("variant__button-label");
+    let variantInputs = document.querySelectorAll("[data-variant-input]");
     let submitButton = document.querySelector("[data-submit-btn]");
 
     function checkVariantSelection() {
-        let selectedVariant = document.querySelector("variant__button-label:checked");
-        cosole.log(selectedVariant);
+        let selectedVariant = document.querySelector("[data-variant-input]:checked");
+
         if (selectedVariant) {
             submitButton.removeAttribute("disabled"); // Enable button
         } else {
@@ -111,14 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Listen for clicks on radio buttons
+    // Listen for changes in variant selection
     variantInputs.forEach(input => {
         input.addEventListener("change", function () {
-            // Ensure only one is checked
-            variantInputs.forEach(el => el.removeAttribute("checked"));
-            this.setAttribute("checked", "true");
-
-            // Enable button
             checkVariantSelection();
         });
     });
@@ -128,15 +123,16 @@ document.addEventListener("DOMContentLoaded", function () {
         let selectedVariant = document.querySelector("[data-variant-input]:checked");
         if (!selectedVariant) return;
 
-        let variantId = selectedVariant.value;
-        let quantity = 1;
+        let variantValue = selectedVariant.value; // Get selected variant value
+
+        console.log("Selected Variant:", variantValue);
 
         fetch('/cart/update.js', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 updates: {
-                    [variantId]: quantity
+                    [variantValue]: 1 // Assuming quantity is 1, modify as needed
                 }
             })
         })
@@ -147,13 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error updating cart:", error));
     });
+
+    // Run function once on page load to check if any option is already selected
+    checkVariantSelection();
 });
-
-
-
-
-
-
 
 
 
