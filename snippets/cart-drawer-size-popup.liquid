@@ -32,11 +32,7 @@
             data-variant-input
             class="variant__input"
             id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-             {% for variant in product.variants %}
-        {% if variant.options contains value %}
-            data-variant-id="{{ variant.id }}" <!-- ✅ Dynamically set the variant ID -->
-        {% endif %}
-    {% endfor %}
+              data-variant-id="{{ variant.id }}" 
             >
           <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
             class="variant__button-label">
