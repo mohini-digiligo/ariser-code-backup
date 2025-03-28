@@ -63,7 +63,7 @@ class CartItemOptions extends HTMLElement {
     }
 
     // ✅ Updates Cart with Selected Variant
-   changeCartItems() {
+    changeCartItems() {
     let currentVariant = this.getAttribute('data-key');
     let newVariant = this.getAttribute('data-new-variant');
     let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
@@ -103,4 +103,9 @@ class CartItemOptions extends HTMLElement {
         }
     })
     .catch(error => console.error('Error updating cart:', error));
+}
 
+}
+
+// Register the custom element
+customElements.define('cart-item-options', CartItemOptions);
