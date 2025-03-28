@@ -63,54 +63,45 @@ class CartItemOptions extends HTMLElement {
     }
 
     // ✅ Updates Cart with Selected Variant
-    changeCartItems() {
-        let currentVariant = this.getAttribute('data-key');
-        let newVariant = this.getAttribute('data-new-variant');
-        let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
+   changeCartItems() {
+    let currentVariant = this.getAttribute('data-key');
+    let newVariant = this.getAttribute('data-new-variant');
+    let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
-        if (!currentVariant || !newVariant) {
-            console.error("Error: Missing variant data.");
+    if (!currentVariant || !newVariant) {
+        console.error("Error: Missing variant data.");
+        return;
+    }
+
+    console.log(`Updating Cart: Removing ${currentVariant}, Adding ${newVariant}`);
+
+    let updates = {};
+    updates[currentVariant] = 0;
+    updates[newVariant] = quantity;
+
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+    })
+    .then(response => response.json())
+    .then((data) => {
+        if (data.status) {
+            console.error("Shopify Error:", data);
             return;
         }
 
-        console.log(`Updating Cart: Removing ${currentVariant}, Adding ${newVariant}`);
+        console.log("Cart updated successfully:", data);
 
-        let updates = {};
-        updates[currentVariant] = 0;
-        updates[newVariant] = quantity;
+        document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
 
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ updates })
-        })
-        .then(response => response.json())
-        .then((data) => {
-            if (data.status) return;
-
-            document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
-
-            if (this.newPopup) {
-                setTimeout(() => {
-                    this.newPopup.style.display = 'none';
-                    this.newPopup.remove();
-                }, 1000);
-            }
-        })
-        .catch(error => console.error('Error updating cart:', error));
-    }
-
-    // ✅ Enable/Disable Button Based on Selection
-    updateBtn(status) {
-        if (this.submitBtn) {
-            if (status) {
-                this.submitBtn.removeAttribute('disabled');
-            } else {
-                this.submitBtn.setAttribute('disabled', 'true');
-            }
+        if (this.newPopup) {
+            setTimeout(() => {
+                this.newPopup.style.display = 'none';
+                this.newPopup.remove();
+            }, 1000);
         }
-    }
+    })
+    .catch(error => console.error('Error updating cart:', error));
 }
 
-// Register the custom element
-customElements.define('cart-item-options', CartItemOptions);
