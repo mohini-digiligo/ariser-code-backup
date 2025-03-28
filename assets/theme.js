@@ -203,14 +203,11 @@ class CartItemOptions extends HTMLElement {
         return;
     }
 
-    let newVariant = selectedVariant.getAttribute("value");  // ✅ Get actual variant ID
-     let currentVariants = this.dataset.key,
-          newVariants = this.dataset.newVariant;
-    console.log("✅ Selected Variant ID new:", newVariants);  
-    console.log("✅ Selected Variant ID:", newVariant);  
+   let currentVariant = this.dataset.key,
+          newVariant = this.dataset.newVariant;
 
-    let currentVariant = this.dataset.key;
-  
+        console.log("✅ Selected Variant ID:", currentVariant);
+       console.log("✅ Selected new Variant ID:", newVariant);
     console.log("❌ Removing Variant ID:", currentVariant);
 
     if (!newVariant || isNaN(parseInt(newVariant))) {  // ✅ Check if variant ID is valid
