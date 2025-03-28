@@ -5,7 +5,7 @@ class CartItemOptions extends HTMLElement {
         this.cartPage = this.classList.contains('cartPageItem');
 
         if (this.popup) {
-            this.querySelector('[data-cart-popup-open]').addEventListener('click', () => {
+            this.querySelector('[data-cart-popup-open]').addEventListener('click', function () {
                 let popUpHtml = this.popup.content.cloneNode(true);
                 let element = document.querySelector('.m-cart-drawer');
 
@@ -27,7 +27,7 @@ class CartItemOptions extends HTMLElement {
 
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
-                        this.popUpClose.addEventListener('click', (event) => {
+                        this.popUpClose.addEventListener('click', function (event) {
                             event.preventDefault();
                             let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
@@ -35,91 +35,104 @@ class CartItemOptions extends HTMLElement {
                             }
                             this.newPopup.style.display = 'none';
                             this.newPopup.remove();
-                        });
+                        }.bind(this));
                     }
 
                     this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
                     if (this.submitBtn) {
-                        this.submitBtn.addEventListener('click', (event) => {
+                        this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
                             this.changeCartItems();
-                        });
+                        }.bind(this));
                     }
 
-                    // Fix: Ensure correct `data-new-variant` is set every time user selects a new size
+                    // ✅ Fix: Update `data-new-variant` correctly when selecting a size
                     this.newPopup.querySelectorAll('input[name="size"]').forEach((radio) => {
-                        radio.addEventListener("change", (event) => {
+                        radio.addEventListener("change", function (event) {
                             let selectedVariant = event.target.getAttribute("data-variant-id");
-
                             console.log("✅ Selected Variant ID:", selectedVariant);
 
                             if (selectedVariant) {
                                 this.setAttribute("data-new-variant", selectedVariant);
                                 this.updateBtn(true); // Enable submit button
                             } else {
-                                console.error("❌ Error: No valid variant ID found.");
+                                console.error("❌ Error: No valid variant ID found for selection.");
                             }
-                        });
+                        }.bind(this));
                     });
                 }
-            });
+            }.bind(this));
         }
     }
 
     changeCartItems() {
-    if (this.submitBtn) {
-        this.submitBtn.setAttribute("disabled", "true"); // Prevent multiple clicks
-    }
+        let currentVariant = this.getAttribute('data-key');  // Variant being removed
+        let newVariant = this.getAttribute('data-new-variant');  // Variant being added
+        let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
 
-    let currentVariant = this.getAttribute('data-key');
-    let newVariant = this.getAttribute('data-new-variant');
-    let quantity = parseInt(this.getAttribute('data-quantity')) || 1;
+        console.log("🔄 Updating Cart:");
+        console.log("➡ Removing Variant ID:", currentVariant);
+        console.log("➡ Adding Variant ID:", newVariant);
+        console.log("➡ Quantity:", quantity);
 
-    if (!newVariant || isNaN(newVariant)) {
-        console.error("❌ Error: Missing or invalid new variant.");
-        return;
-    }
-
-    if (currentVariant === newVariant) {
-        console.warn("⚠️ Selected variant is the same. No update needed.");
-        return;
-    }
-
-    console.log("🔄 Updating Cart: Removing:", currentVariant, " Adding:", newVariant);
-
-    let updates = { [currentVariant]: 0, [newVariant]: quantity };
-
-    fetch(window.Shopify.routes.root + 'cart/update.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updates })
-    })
-    .then(response => response.json())
-    .then((data) => {
-        console.log("📩 Shopify API Response:", data);
-        if (data.status === 422) {
-            console.error("❌ Shopify Error:", data);
+        // ✅ Prevents removing and adding the same variant
+        if (!currentVariant || !newVariant || isNaN(newVariant)) {
+            console.error("❌ Error: Missing or invalid variant data.");
             return;
         }
 
-        console.log("✅ Cart updated successfully:", data);
-        document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
-
-        if (this.newPopup) {
-            setTimeout(() => {
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }, 1000);
+        if (currentVariant === newVariant) {
+            console.warn("⚠️ Selected variant is the same as the current variant. No update needed.");
+            return;
         }
-    })
-    .catch(error => console.error('❌ Error updating cart:', error))
-    .finally(() => {
+
+        // ✅ Ensures cart updates properly without conflicts
+        setTimeout(() => {
+            let updates = {};
+
+            // ✅ Check if the current variant exists before removing it
+            if (currentVariant) {
+                updates[currentVariant] = 0;
+            }
+
+            updates[newVariant] = quantity;
+
+            fetch(window.Shopify.routes.root + 'cart/update.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ updates })
+            })
+            .then(response => response.json())
+            .then((data) => {
+                if (data.status === 422) {
+                    console.error("❌ Shopify Error:", data);
+                    return;
+                }
+
+                console.log("✅ Cart updated successfully:", data);
+
+                document.dispatchEvent(new CustomEvent(this.cartPage ? 'cart:build' : 'ajaxProduct:added'));
+
+                if (this.newPopup) {
+                    setTimeout(() => {
+                        this.newPopup.style.display = 'none';
+                        this.newPopup.remove();
+                    }, 1000);
+                }
+            })
+            .catch(error => console.error('❌ Error updating cart:', error));
+        }, 300); // ✅ Slight delay to avoid API conflicts
+    }
+
+    updateBtn(status) {
         if (this.submitBtn) {
-            this.submitBtn.removeAttribute("disabled"); // Re-enable button after update
+            if (status) {
+                this.submitBtn.removeAttribute('disabled');
+            } else {
+                this.submitBtn.setAttribute('disabled', 'true');
+            }
         }
-    });
-}
-
+    }
 }
 
 customElements.define('cart-item-options', CartItemOptions);
