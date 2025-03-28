@@ -204,8 +204,9 @@ class CartItemOptions extends HTMLElement {
     }
 
     let newVariant = selectedVariant.getAttribute("value");  // ✅ Get actual variant ID
-    let newVariantofs = this.dataset.newVariant;
-    console.log("✅ Selected Variant ID new:", newVariantofs);  
+     let currentVariants = this.dataset.key,
+          newVariants = this.dataset.newVariant;
+    console.log("✅ Selected Variant ID new:", newVariants);  
     console.log("✅ Selected Variant ID:", newVariant);  
 
     let currentVariant = this.dataset.key;
