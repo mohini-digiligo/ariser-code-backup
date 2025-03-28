@@ -216,7 +216,7 @@ class CartItemOptions extends HTMLElement {
 
      if ( 'currentVariant' === 'newVariant' ){
        console.log("same variant id:", currentVariant );
-       return;
+       die;
      }
 
     console.log("❌ Removing Variant ID:", currentVariant);
