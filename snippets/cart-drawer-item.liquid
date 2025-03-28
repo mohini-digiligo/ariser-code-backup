@@ -67,7 +67,7 @@
           <cart-item-options
             class="js-modal-open-quick-modal-{{ item.product.id }}-{{ item.key }}{% if mainCart %} cartPageItem{% endif %}"
             data-quantity="{{ item.quantity }}"
-            data-key="{{ item.key }}"
+            data-key="{{ item.variant_id }}"
             data-current-variant="{{ item.variant.id }}"
             data-new-variant="{{ item.product.selected_or_first_available_variant.id }}"
           >
