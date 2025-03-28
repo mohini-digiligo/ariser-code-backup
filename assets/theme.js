@@ -147,6 +147,10 @@ class CartItemOptions extends HTMLElement {
         if (this.popup) {
             this.querySelector('[data-cart-popup-open]').addEventListener('click', function () {
                 let popUpHtml = this.popup.content.cloneNode(true);
+                let element = document.querySelector('.m-cart-drawer');
+                if (element) {
+                    element.classList.remove('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+                }
                 document.body.append(popUpHtml);
                 this.newPopup = document.querySelector('.activeCartPopUp');
 
@@ -238,6 +242,8 @@ class CartItemOptions extends HTMLElement {
         } else {
             document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
         }
+
+        
 
         if (this.newPopup) {
             setTimeout(() => {
