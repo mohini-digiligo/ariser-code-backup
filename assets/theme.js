@@ -79,7 +79,7 @@ class CartItemOptions extends HTMLElement {
     updates[currentVariant] = 0;
     updates[newVariant] = quantity;
 
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ updates })
