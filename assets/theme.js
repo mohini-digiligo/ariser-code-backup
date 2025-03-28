@@ -102,17 +102,17 @@ document.addEventListener("DOMContentLoaded", function () {
     let submitButton = document.querySelectorAll("#cart-new-btn");
   console.log(submitButton);
 
-    // Debugging: Check if button is selected
-    if (!submitButton) {
-        console.error("Submit button not found! Check your HTML.");
-        return;
-    }
+    // // Debugging: Check if button is selected
+    // if (!submitButton) {
+    //     console.error("Submit button not found! Check your HTML.");
+    //     return;
+    // }
 
-    // Debugging: Ensure submitButton is an actual button element
-    if (!(submitButton instanceof HTMLButtonElement)) {
-        console.error("Selected submit button is not a valid button element.");
-        return;
-    }
+    // // Debugging: Ensure submitButton is an actual button element
+    // if (!(submitButton instanceof HTMLButtonElement)) {
+    //     console.error("Selected submit button is not a valid button element.");
+    //     return;
+    // }
 
     function checkVariantSelection() {
         let selectedVariant = document.querySelector("[data-variant-input]:checked");
