@@ -99,11 +99,18 @@ class CartItemOptions extends HTMLElement {
 
 document.addEventListener("DOMContentLoaded", function () {
     let variantInputs = document.querySelectorAll("[data-variant-input]");
-    let submitButton = document.querySelector("[data-submit-btns]");
+    let submitButton = document.querySelector("[data-submit-btn]");
 
+    // Debugging: Check if button is selected
     if (!submitButton) {
         console.error("Submit button not found! Check your HTML.");
-        return; // Stop the script if button doesn't exist
+        return;
+    }
+
+    // Debugging: Ensure submitButton is an actual button element
+    if (!(submitButton instanceof HTMLButtonElement)) {
+        console.error("Selected submit button is not a valid button element.");
+        return;
     }
 
     function checkVariantSelection() {
@@ -116,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Ensure variants exist before adding event listeners
     if (variantInputs.length > 0) {
         variantInputs.forEach(input => {
             input.addEventListener("change", function () {
@@ -127,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("No variant inputs found! Check your HTML.");
     }
 
-    // Add event listener to button only if it exists
+    // Add event listener only if button exists
     submitButton.addEventListener("click", function () {
         let selectedVariant = document.querySelector("[data-variant-input]:checked");
         if (!selectedVariant) return;
@@ -151,8 +157,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Error updating cart:", error));
     });
 
-    // Run function once on page load to check if any option is already selected
+    // Check selection on page load
     checkVariantSelection();
 });
-
-
