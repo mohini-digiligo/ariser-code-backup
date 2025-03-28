@@ -260,19 +260,6 @@ class CartItemOptions extends HTMLElement {
 customElements.define('cart-item-options', CartItemOptions);
 
 
-document.querySelectorAll('[data-variant-input]').forEach(input => {
-    input.addEventListener('change', function () {
-        let selectedSize = document.querySelector('input[name="Size"]:checked')?.value;
-        let matchingVariant = productVariants.find(v => v.option1 === selectedSize);
-        
-        if (matchingVariant) {
-            console.log("✅ Selected Variant ID:", matchingVariant.id);
-            document.querySelector('#selected-variant-id').value = matchingVariant.id; // Store variant ID in hidden input
-        } else {
-            console.warn("⚠️ No matching variant found!");
-        }
-    });
-});
 
 
 
