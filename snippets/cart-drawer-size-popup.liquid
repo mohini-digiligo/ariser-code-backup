@@ -32,8 +32,7 @@
   data-option-name="{{ option.name }}"
   data-option-value="{{ value | escape }}"
   data-variant-id="{{ product.variants | where: 'option1', value | map: 'id' | first }}"
-  {% if product.variants | where: 'option1', value | map: 'available' | first == false %} disabled{% endif %}
-  id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
+    id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
 >
         <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
           class="variant__button-label{% unless product_available %} disabled{% endunless %}">
