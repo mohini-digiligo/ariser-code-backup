@@ -244,7 +244,7 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-        //this.reloadMiniCartDrawer();
+        this.reloadMiniCartDrawer();
         console.log("✅ Cart Updated Successfully:", data);
 
         if (this.cartPage) {
@@ -267,21 +267,26 @@ class CartItemOptions extends HTMLElement {
     });
      
 }
-  // ✅ Function to Reload Mini Cart Drawer
-// reloadMiniCartDrawer() {
-//     fetch(window.location.href)
-//     .then(response => response.text())
-//     .then(html => {
-//         let parser = new DOMParser();
-//         let doc = parser.parseFromString(html, "text/html");
-//         let newCartContent = doc.querySelector("#MinimogCartDrawer");
-
-//         if (newCartContent) {
-//             document.querySelector("#MinimogCartDrawer").innerHTML = newCartContent.innerHTML;
-//         }
-//     })
-//     .catch(error => console.error("🚨 Error Reloading Mini Cart:", error));
-// }
+ reloadMiniCartDrawer() {
+    let cartDrawer = document.querySelector("#MinimogCartDrawer");
+    if (cartDrawer) {
+        cartDrawer.classList.add("loading"); // Optional: Add loading state
+        fetch(window.Shopify.routes.root + "cart")
+            .then(response => response.text())
+            .then(html => {
+                let newCartContent = new DOMParser().parseFromString(html, "text/html")
+                    .querySelector("#MinimogCartDrawer");
+                if (newCartContent) {
+                    cartDrawer.innerHTML = newCartContent.innerHTML;
+                    console.log("✅ Mini Cart Updated!");
+                }
+                cartDrawer.classList.remove("loading"); // Remove loading state
+            })
+            .catch(error => console.error("🚨 Error updating Mini Cart:", error));
+    } else {
+        console.warn("⚠️ Mini Cart Drawer (#MinimogCartDrawer) not found.");
+    }
+}
 
 }
 
