@@ -201,10 +201,9 @@ class CartItemOptions extends HTMLElement {
     if (!selectedVariant) {
         console.error('No variant selected!');
         return;
-    }
-    let newVariantss = selectedVariant.value;  
-   let currentVariant = this.dataset.key,
-          newVariant = this.dataset.newVariantss;
+    } 
+
+    let newVariant = selectedVariant.value;  
 
         console.log("✅ Selected Variant ID:", currentVariant);
        console.log("✅ Selected new Variant ID:", newVariant);
