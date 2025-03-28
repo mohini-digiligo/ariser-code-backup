@@ -137,122 +137,145 @@
 
 // customElements.define('cart-item-options', CartItemOptions);
 
-
-class CartItemOptions extends HTMLElement {
+  class CartItemOptions extends HTMLElement {
     constructor() {
-        super();
-        this.popup = this.querySelector("template");
-        this.cartPage = this.classList.contains('cartPageItem');
-
-        if (this.popup) {
-            this.querySelector('[data-cart-popup-open]').addEventListener('click', function () {
-                let popUpHtml = this.popup.content.cloneNode(true);
-                document.body.append(popUpHtml);
-                this.newPopup = document.querySelector('.activeCartPopUp');
-
-                if (this.newPopup) {
-                    this.newPopup.style.display = 'flex';
-
-                    if (typeof theme !== "undefined" && theme.sections) {
-                        theme.sections.register('product', theme.Product, this.newPopup);
-                    } else {
-                        console.warn("Theme object is not available.");
-                    }
-
-                    this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
-                    if (this.popUpClose) {
-                        this.popUpClose.addEventListener('click', function (event) {
-                            event.preventDefault();
-                            this.newPopup.style.display = 'none';
-                            this.newPopup.remove();
-                        }.bind(this));
-                    }
-
-                    this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
-                    if (this.submitBtn) {
-                        this.submitBtn.addEventListener('click', function (event) {
-                            event.preventDefault();
-                            this.changeCartItems();
-                        }.bind(this));
-                    }
-
-                    // ✅ Add event listener for variant selection
-                    this.variantInputs = this.newPopup.querySelectorAll('[data-variant-input]');
-                    if (this.variantInputs.length > 0) {
-                        this.variantInputs.forEach(input => {
-                            input.addEventListener('change', this.enableSubmitButton.bind(this));
-                        });
-                    }
-                }
-            }.bind(this));
-        }
-    }
-
-    // ✅ Function to enable submit button when size changes
-    enableSubmitButton() {
-        if (this.submitBtn) {
-            this.submitBtn.removeAttribute('disabled');
-        }
-    }
-
-   changeCartItems() {
-    let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
-
-    if (!selectedVariant) {
-        console.error('No variant selected!');
-        return;
-    }
-
-    let newVariant = selectedVariant.getAttribute("value");  // ✅ Get actual variant ID
-    console.log("✅ Selected Variant ID:", newVariant);  
-
-    let currentVariant = this.dataset.key;
-    console.log("❌ Removing Variant ID:", currentVariant);
-
-    if (!newVariant || isNaN(parseInt(newVariant))) {  // ✅ Check if variant ID is valid
-        console.error("🚨 Invalid Variant ID: ", newVariant);
-        return;
-    }
-
-    let updates = {};
-    updates[currentVariant] = 0;
-    updates[newVariant] = parseInt(this.dataset.quantity);
-
-    console.log("🐀񉀠Sending Update:", JSON.stringify({ updates }));
-
-    fetch(window.Shopify.routes.root + 'cart/update.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updates })
-    })
-    .then(response => response.json())
-    .then((data) => {
-        if (data.status) {
-            console.error("🚨 Shopify Error:", data);
-            return;
-        }
-
-        console.log("✅ Cart Updated Successfully:", data);
-
-        if (this.cartPage) {
-            document.dispatchEvent(new CustomEvent('cart:build'));
-        } else {
-            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-        }
-
-        if (this.newPopup) {
-            setTimeout(() => {
+      super();
+      this.popup = this.querySelector("template");
+      this.cartPage = this.classList.contains('cartPageItem');
+      if(this.popup){
+        this.querySelector('[data-cart-popup-open]').addEventListener('click',function(){
+         
+          let popUpHtml = this.popup.content.cloneNode(true);
+          // popUpHtml.classList.add('activeCartPopUp');
+          
+          document.body.append(popUpHtml);
+          this.newPopup = document.querySelector('.activeCartPopUp');
+          if(this.newPopup){
+          this.newPopup.style.display = 'flex';
+            
+            if (typeof theme !== "undefined" && theme.sections) {
+  theme.sections.register('product', theme.Product, this.newPopup);
+} else {
+  console.warn("Theme object is not available.");
+}
+            this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
+            if(this.popUpClose){
+              this.popUpClose.addEventListener('click',function(event){
+                event.preventDefault();
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
-            }, 1000);
+              }.bind(this));
+            }
+            this.submitBtn = this.newPopup.querySelector('[data-submit-btn]');
+            if(this.submitBtn){
+            this.submitBtn.addEventListener('click',function(event){
+              event.preventDefault();
+              this.changeCartItems();
+            }.bind(this));
+          }
+          }
+        }.bind(this));
+        
+      }
+    }
+    changeCartItems(){
+        let currentVariant = this.dataset.key,
+          newVariant = this.dataset.newVariant;
+        
+        let updates = {};
+          updates[currentVariant] = 0;
+          updates[newVariant] = parseInt(this.dataset.quantity);
+        fetch(window.Shopify.routes.root + 'cart/update.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ updates })
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then((data) =>{
+          if(data.status) return;
+          if(this.cartPage){
+          document.dispatchEvent(new CustomEvent('cart:build'));
+          }else{
+          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
+          }
+          if(this.newPopup){
+            setTimeout(function(){
+                this.newPopup.style.display = 'none';
+                this.newPopup.remove();
+            }.bind(this),1000)
+          }
+       })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+    updateBtn(status){
+      if(this.submitBtn){
+        if(status == true){
+          this.submitBtn.removeAttribute('disabled')
         }
-    })
-    .catch((error) => {
-        console.error('🚨 Fetch Error:', error);
-    });
-}
+        else{
+          this.submitBtn.setAttribute('disabled','true')
+        }
+      }
+    }
+  
+  }
+  
+  customElements.define('cart-item-options', CartItemOptions);
 
 
-}
-
-customElements.define('cart-item-options', CartItemOptions);
+  class CartGiftWrapping extends HTMLElement {
+    constructor() {
+      super();
+      this.variant = this.dataset.giftWrapId;
+      this.cartSize = parseInt(this.dataset.cartItemsSize);
+      this.giftWrapStatus = parseInt(this.dataset.giftWrapsInCart);
+      this.cartPage = this.closest('[data-gift-wrap]')?.classList.contains('cart-page');
+      if(this.cartSize == 1 && this.giftWrapStatus > 0 ){
+        this.UpdateGiftWrap(0);
+      }
+      this.addEventListener('click',function(event){
+        event.preventDefault();
+        this.classList.add('disabled');
+        if(this.giftWrapStatus > 0){
+              this.UpdateGiftWrap(0);
+        }else{
+              this.UpdateGiftWrap(1);          
+        }
+      }.bind(this));
+    }
+    UpdateGiftWrap(quantity){
+        
+        let updates = {};
+          updates[this.variant] =quantity;
+        fetch(window.Shopify.routes.root + 'cart/update.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ updates })
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then((data) =>{
+          if(data.status) return;
+          if(this.cartPage){
+          document.dispatchEvent(new CustomEvent('cart:build'));
+          }else{
+          document.dispatchEvent(new CustomEvent('ajaxProduct:added')); 
+          }
+       })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  
+  }
+  
+  customElements.define('cart-gift-wrapping', CartGiftWrapping);
