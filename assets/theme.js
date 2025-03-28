@@ -99,7 +99,7 @@ class CartItemOptions extends HTMLElement {
 
 document.addEventListener("DOMContentLoaded", function () {
     let variantInputs = document.querySelectorAll("[data-variant-input]");
-    let submitButton = document.querySelector("[data-submit-btns]");
+    let submitButton = document.querySelectorAll("[data-submit-btns]");
 
     if (!submitButton) {
         console.error("Submit button not found! Check your HTML.");
