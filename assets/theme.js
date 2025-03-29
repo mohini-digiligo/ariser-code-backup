@@ -1,4 +1,3 @@
-
 // code for popup mini cart change options start
 class CartItemOptions extends HTMLElement {
     constructor() {
@@ -142,7 +141,6 @@ class CartItemOptions extends HTMLElement {
         console.error('🚨 Fetch Error:', error);
     });
 }
-
 // ✅ Function to close the popup cleanly
 closePopup() {
     if (this.newPopup) {
@@ -153,7 +151,6 @@ closePopup() {
         }, 500);
     }
 }
-
 // ✅ Function to update mini cart dynamically
 updateMiniCart() {
     fetch(window.Shopify.routes.root + 'cart.js')
@@ -164,10 +161,9 @@ updateMiniCart() {
         document.dispatchEvent(new CustomEvent("cart:updated", { detail: cartData }));
     });
 }
-
 }
-
 customElements.define('cart-item-options', CartItemOptions);
+
 // code for popup mini cart change options end
 
 
