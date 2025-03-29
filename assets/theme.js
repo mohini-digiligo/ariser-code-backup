@@ -229,8 +229,6 @@ class CartItemOptions extends HTMLElement {
     }
   
   changeCartItems() {
-   let cartItemElement = this.closest('.activeCartPopUp'); // Find the specific cart item
-    console.log(cartItemElement);
     let currentVariant = this.dataset.key ? this.dataset.key.split(":")[0] : null;
     if (!currentVariant) {
         console.error("🚨 Error: Unable to detect current variant.");
@@ -244,7 +242,7 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    let variantsElement = cartItemElement.querySelector('[data-variant-json]');
+    let variantsElement = document.getElementById('productVariants');
     if (!variantsElement) {
         console.error("🚨 Error: Product variant data is unavailable.");
         return;
