@@ -156,6 +156,7 @@ label[for='Filter-Availability-2'] span {
       margin: 0px 0px 0px !important;
 }
 
+ /* css start popup size and sleev */
 .modal.custom-popup-cart {
     top: 50%;
     left: 50%;
@@ -364,5 +365,6 @@ button#cart-new-btn:hover {
         padding: 45px;
     }
 }
+ /* css end popup size and sleev */
 
 
