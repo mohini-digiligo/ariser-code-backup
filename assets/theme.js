@@ -70,10 +70,14 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // ✅ Ensure the correct product's variant data is found
-    let cartItem = this.closest('.cart-item'); 
+    // ✅ Find the correct cart item using the variant ID
+    let cartItems = document.querySelectorAll('.cart-item');
+    let cartItem = Array.from(cartItems).find(item => {
+        return item.dataset.key && item.dataset.key.includes(currentVariant);
+    });
+
     if (!cartItem) {
-        console.error("🚨 Error: Could not find cart item.");
+        console.error("🚨 Error: Could not find matching cart item for variant ID:", currentVariant);
         return;
     }
 
@@ -158,6 +162,7 @@ class CartItemOptions extends HTMLElement {
 
     return false;
 }
+
 
 }
 
