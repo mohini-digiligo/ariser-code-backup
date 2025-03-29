@@ -90,7 +90,7 @@
         {%- else -%}
           <label
             for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-            class="variant__button-label{% unless product_available %} disabled{% endunless %}">{{ value | escape }}</label>
+            class="variant__button-label{% if product_available %} disabled{% endif %}">{{ value | escape }}</label>
        
         {%- endif -%}
         <span class="soldout-warning">
