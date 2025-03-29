@@ -218,6 +218,11 @@ class CartItemOptions extends HTMLElement {
 
     if (currentVariant === newVariant) {
         console.log("📌 Same variant selected. No update needed.");
+        setTimeout(() => {
+                window.location.reload();
+                this.newPopup.style.display = 'none';
+                this.newPopup.remove();
+        }, 500);
         return; // ❌ Stop execution if the variant is the same
     }
 
