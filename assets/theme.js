@@ -47,7 +47,7 @@ class CartItemOptions extends HTMLElement {
                     }
 
                     // ✅ Add event listener for variant selection
-                    this.variantInputs = this.newPopup.querySelectorAll('[data-variant-input]');
+                    this.variantInputs = this.newPopup.querySelectorAll('[data-variant-inputs]');
                     if (this.variantInputs.length > 0) {
                         this.variantInputs.forEach(input => {
                             input.addEventListener('change', this.enableSubmitButton.bind(this));
