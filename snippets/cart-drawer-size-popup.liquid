@@ -115,5 +115,8 @@ assign product_available = variant.available
     {%- endfor -%}
   </fieldset>
 </div>
+<script id="productVariants" type="application/json">
+    {{ product.variants | json }}
+</script>
 
  
