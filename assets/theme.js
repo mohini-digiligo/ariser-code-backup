@@ -208,11 +208,10 @@ class CartItemOptions extends HTMLElement {
         }
     }
 
-   changeCartItems() {
+  changeCartItems() {
     console.log('🛒 Updating cart...');
     let selectedOptions = {};
 
-    // Get selected size & sleeve
     document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
@@ -220,7 +219,6 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // Fetch available product variants from hidden JSON
     let variantsElement = document.getElementById('productVariants');
     if (!variantsElement) {
         console.error("🚨 Error: Product variant data is unavailable.");
@@ -243,20 +241,30 @@ class CartItemOptions extends HTMLElement {
     let newVariantID = matchedVariant.id;
     console.log("✅ Matched Variant ID:", newVariantID);
 
-    // Fetch current cart data to find the existing item
+    // 🔍 Debug current variant ID
+    if (!this.currentVariantID) {
+        console.error("🚨 Error: Current variant ID is missing!");
+        alert("Something went wrong. Try refreshing the page.");
+        return;
+    }
+
+    console.log("🔍 Current Variant ID:", this.currentVariantID);
+
+    // Fetch current cart data
     fetch('/cart.js')
         .then(response => response.json())
         .then(cart => {
-            let currentItem = cart.items.find(item => item.id === this.currentVariantID);
+            let currentItem = cart.items.find(item => item.id == this.currentVariantID);
 
             if (!currentItem) {
                 console.error("🚨 Existing cart item not found.");
+                alert("Item not found in the cart. Try again.");
                 return;
             }
 
             let newQuantity = currentItem.quantity; // Keep the same quantity
 
-            // ✅ Update cart: Remove old variant & add new one in a single request
+            // ✅ Update cart: Remove old variant & add new one
             return fetch('/cart/update.js', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -268,12 +276,17 @@ class CartItemOptions extends HTMLElement {
                 })
             });
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("🚨 Failed to update cart.");
+            }
+            return response.json();
+        })
         .then(data => {
             console.log("✅ Cart Updated:", data);
 
-            // ✅ Reload only the mini cart (without full page reload)
-            document.querySelector('.m-cart-drawer').innerHTML = ''; // Clear old cart
+            // ✅ Reload mini cart dynamically
+            document.querySelector('.m-cart-drawer').innerHTML = ''; 
             document.querySelector('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
 
             // ✅ Hide popup after update
