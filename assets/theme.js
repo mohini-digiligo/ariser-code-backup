@@ -256,6 +256,7 @@ class CartItemOptions extends HTMLElement {
         // ✅ Close the popup after 1 second
         if (this.newPopup) {
             setTimeout(() => {
+                window.location.reload();
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
             }, 1000);
