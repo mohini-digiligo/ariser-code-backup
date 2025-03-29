@@ -207,6 +207,8 @@ class CartItemOptions extends HTMLElement {
   changeCartItems() {
     let currentVariant = this.dataset.key.split(":")[0]; // Extract only the numeric variant ID
 
+    let currentVariantset = this.dataset.key
+
     let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
     if (!selectedVariant) {
         console.error("🚨 No variant selected!");
@@ -229,7 +231,7 @@ class CartItemOptions extends HTMLElement {
     }
 
     let updates = {};
-    updates[currentVariant] = 0; // ✅ Remove old variant from cart
+    updates[currentVariantset] = 0; // ✅ Remove old variant from cart
     updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
 
     console.log("🐀 Sending Update:", JSON.stringify({ updates }));
