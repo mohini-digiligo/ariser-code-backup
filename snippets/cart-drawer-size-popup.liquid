@@ -68,7 +68,7 @@
           data-option-name="{{ option.name }}"
           {% if option.selected_value == value %} checked="checked"{% endif %}
           {% unless product_available %} disabled{% endunless %}
-          class="{% unless product_available %} disabled{% endunless %} {{ option.name }}"
+          class="{% unless product_available %} disabled{% endunless %}{{ option.name }}"
           id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}">
 
         <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
