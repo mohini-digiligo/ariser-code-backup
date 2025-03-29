@@ -229,31 +229,50 @@ class CartItemOptions extends HTMLElement {
     }
   
  changeCartItems() {
-    let cartItemElement = this.closest('.cart-item'); // Get the specific cart item container
+    let cartItemElement = this.closest('.cart-item'); // Find the specific cart item
+
+    if (!cartItemElement) {
+        console.error("🚨 Error: Cart item container not found.");
+        return;
+    }
+
     let currentVariant = this.dataset.key ? this.dataset.key.split(":")[0] : null;
     if (!currentVariant) {
         console.error("🚨 Error: Unable to detect current variant.");
         return;
     }
 
-    // ✅ Fetch the correct product variant JSON inside the cart item
+    // ✅ Get the correct variant JSON inside this cart item
     let variantsElement = cartItemElement.querySelector('[data-variant-json]');
     if (!variantsElement || variantsElement.textContent.trim() === '') {
         console.error("🚨 Error: Product variant data is unavailable for this cart item.");
         return;
     }
 
-    let variants = JSON.parse(variantsElement.textContent); // ✅ Get the correct variants
+    let variants;
+    try {
+        variants = JSON.parse(variantsElement.textContent); // ✅ Parse the JSON safely
+    } catch (error) {
+        console.error("🚨 Error parsing variant JSON:", error);
+        return;
+    }
 
-    // ✅ Get the selected options (size/sleeve)
+    // ✅ Get selected options (size/sleeve)
     let selectedOptions = {};
-    cartItemElement.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
+    let selectedInputs = cartItemElement.querySelectorAll('[data-variant-inputs]:checked');
+
+    if (!selectedInputs.length) {
+        console.error("🚨 Error: No selected options found.");
+        return;
+    }
+
+    selectedInputs.forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
         selectedOptions[optionName] = optionValue;
     });
 
-    // ✅ Find the correct variant that matches the new selections
+    // ✅ Find the matching variant based on selected options
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             let optionKey = `option${index + 1}`;
