@@ -345,6 +345,10 @@ cart-item-options span {
 button#cart-new-btn {
     background: #e31e25;
 }
+button#cart-new-btn:hover {
+    border: 1px solid;
+    box-shadow: none;
+}
 .variant-wrapper.js.optoin-Fit {
     visibility: hidden;
 }
