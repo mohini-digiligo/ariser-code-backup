@@ -222,35 +222,49 @@ class CartItemOptions extends HTMLElement {
 
         // Find the correct variant ID based on selected options
         let variants = JSON.parse(document.getElementById('productVariants').textContent);
-        let matchedVariant = variants.find(variant => {
-            return Object.keys(selectedOptions).every(optionName => {
-                return variant.options.includes(selectedOptions[optionName]);
-            });
+           let matchedVariant = variants.find(variant => {
+        return Object.keys(selectedOptions).every((optionName, index) => {
+            return variant[`option${index + 1}`] === selectedOptions[optionName];
         });
+    });
 
         if (matchedVariant) {
             let newVariantID = matchedVariant.id;
             console.log("✅ Matched Variant ID:", newVariantID);
-               fetch('/cart/update.js', {
+               fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+        let currentItem = cart.items.find(item => item.id === this.currentVariantID);
+        if (currentItem) {
+            // Remove the old variant before adding a new one
+            return fetch('/cart/change.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: this.currentVariantID, quantity: 0 })
+            });
+        }
+    })
+    .then(() => {
+        // Add new variant to the cart
+        return fetch('/cart/add.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ updates: { [newVariantID]: 1 } }) // Adjust quantity as needed
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("✅ Cart Updated:", data);
-            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-            //$('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
-            setTimeout(() => {
-                window.location.reload();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }, 1000);
-        })
+            body: JSON.stringify({ id: newVariantID, quantity: 1 })
+        });
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("✅ Cart Updated:", data);
+        document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
+        
+        // Reload the cart drawer instead of full page reload
+        $('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
+        
+        // Hide the popup
+        this.newPopup.style.display = 'none';
+        this.newPopup.remove();
+    })
     .catch(error => console.error("🚨 Cart Update Failed:", error));
-        } else {
-            console.error("🚨 No matching variant found!");
-        }
     
 }
 
