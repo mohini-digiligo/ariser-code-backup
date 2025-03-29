@@ -5,10 +5,14 @@
   assign allowed_options = "Size,Sleeve" | split: ","
 -%}
 
+{%- assign unique_options = "" -%} <!-- Store unique options to prevent duplicates -->
+
 {%- for option in product.options_with_values -%}
   {%- assign option_name_downcased = option.name | downcase -%}
-  
-  {%- if allowed_options contains option.name -%} 
+
+  {%- if allowed_options contains option.name and unique_options does not contain option.name -%} 
+    {%- assign unique_options = unique_options | append: option.name | append: "," -%} <!-- Add to unique list -->
+
     <div class="variant-wrapper js optoin-{{ option.name }}" data-type="button">
       <label class="variant__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}"
         for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
