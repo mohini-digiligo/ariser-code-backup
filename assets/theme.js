@@ -212,7 +212,7 @@ class CartItemOptions extends HTMLElement {
     console.log('🛒 Updating cart...');
     let selectedOptions = {};
 
-    // Get selected size & sleeve options
+    // Collect selected variant options
     document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
@@ -220,22 +220,8 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // 🛑 Ensure `productVariants` exists before parsing
-    let variantsElement = document.getElementById('productVariants');
-    if (!variantsElement) {
-        console.error("🚨 Error: #productVariants element is missing from the page.");
-        alert("Error: Product variant data is unavailable.");
-        return;
-    }
-
-    let variants;
-    try {
-        variants = JSON.parse(variantsElement.textContent);
-    } catch (error) {
-        console.error("🚨 Error parsing product variants:", error);
-        return;
-    }
-
+    // Fetch variant data
+    let variants = JSON.parse(document.getElementById('productVariants').textContent);
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             return variant[`option${index + 1}`] === selectedOptions[optionName];
@@ -251,61 +237,32 @@ class CartItemOptions extends HTMLElement {
     let newVariantID = matchedVariant.id;
     console.log("✅ Matched Variant ID:", newVariantID);
 
-    if (newVariantID === this.currentVariantID) {
-        console.log("ℹ️ Same variant selected, no update needed.");
-        return;
-    }
+    // Update the existing cart item with the new variant
+    fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: this.currentVariantID, quantity: 0 }) // Remove old variant
+    }).then(() => {
+        return fetch('/cart/change.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: newVariantID, quantity: 1 }) // Add new variant instead of a new item
+        });
+    }).then(response => response.json())
+    .then(data => {
+        console.log("✅ Cart Updated:", data);
 
-    // Fetch the current cart
-    fetch('/cart.js')
-        .then(response => response.json())
-        .then(cart => {
-            let currentItem = cart.items.find(item => item.id === this.currentVariantID);
+        // Reload the mini cart dynamically
+        document.querySelector('.m-cart-drawer').innerHTML = ''; // Clear old cart
+        document.querySelector('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
 
-            if (!currentItem) {
-                console.warn("🚨 Current variant not found in cart.");
-                return Promise.resolve();
-            }
-
-            // Remove old variant
-            return fetch('/cart/change.js', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: this.currentVariantID, quantity: 0 })
-            });
-        })
-        .then(() => {
-            // Add the new variant
-            return fetch('/cart/add.js', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: newVariantID, quantity: 1 })
-            });
-        })
-        .then(response => response.json())
-        .then(cartData => {
-            console.log("✅ Cart Updated:", cartData);
-            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-
-            // Reload cart drawer **without refreshing the page**
-            let cartDrawer = document.querySelector('.m-cart-drawer');
-            if (cartDrawer) {
-                fetch('/cart')
-                    .then(response => response.text())
-                    .then(html => {
-                        let newCartContent = new DOMParser().parseFromString(html, 'text/html').querySelector("#MinimogCartDrawer");
-                        if (newCartContent) {
-                            cartDrawer.innerHTML = newCartContent.innerHTML;
-                        }
-                    });
-            }
-
-            // Hide and remove the popup
-            this.newPopup.style.display = 'none';
-            this.newPopup.remove();
-        })
-        .catch(error => console.error("🚨 Cart Update Failed:", error));
+        // Hide popup
+        this.newPopup.style.display = 'none';
+        this.newPopup.remove();
+    })
+    .catch(error => console.error("🚨 Cart Update Failed:", error));
 }
+
 
 }
 
