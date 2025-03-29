@@ -209,68 +209,90 @@ class CartItemOptions extends HTMLElement {
     }
 
     changeCartItems() {
-        console.log('🛒 Updating cart...');
-        let selectedOptions = {};
+    console.log('🛒 Updating cart...');
+    let selectedOptions = {};
 
-        document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
-            let optionName = selected.getAttribute('data-option-name');
-            let optionValue = selected.value;
-            console.log('✅ Selected:', optionName, optionValue);
-            selectedOptions[optionName] = optionValue;
+    // Get selected size & sleeve options
+    document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
+        let optionName = selected.getAttribute('data-option-name');
+        let optionValue = selected.value;
+        console.log('✅ Selected:', optionName, optionValue);
+        selectedOptions[optionName] = optionValue;
+    });
+
+    // Find the matching variant ID
+    let variants = JSON.parse(document.getElementById('productVariants').textContent);
+    let matchedVariant = variants.find(variant => {
+        return Object.keys(selectedOptions).every((optionName, index) => {
+            return variant[`option${index + 1}`] === selectedOptions[optionName];
         });
+    });
 
-        let variants = JSON.parse(document.getElementById('productVariants').textContent);
-        let matchedVariant = variants.find(variant => {
-            return Object.keys(selectedOptions).every((optionName, index) => {
-                return variant[`option${index + 1}`] === selectedOptions[optionName];
-            });
-        });
-
-        if (matchedVariant) {
-            let newVariantID = matchedVariant.id;
-            console.log("✅ Matched Variant ID:", newVariantID);
-
-            // Fetch current cart
-            fetch('/cart.js')
-                .then(response => response.json())
-                .then(cart => {
-                    let currentItem = cart.items.find(item => item.id === this.currentVariantID);
-
-                    if (currentItem) {
-                        // Remove old variant before adding the new one
-                        return fetch('/cart/change.js', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ id: this.currentVariantID, quantity: 0 })
-                        });
-                    }
-                })
-                .then(() => {
-                    // Add the new variant
-                    return fetch('/cart/add.js', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id: newVariantID, quantity: 1 })
-                    });
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("✅ Cart Updated:", data);
-                    document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-
-                    // ✅ Reload only the cart drawer
-                    document.querySelector('.m-cart-drawer').innerHTML = ''; // Clear drawer content
-                    document.querySelector('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
-
-                    // Hide and remove popup
-                    this.newPopup.style.display = 'none';
-                    this.newPopup.remove();
-                })
-                .catch(error => console.error("🚨 Cart Update Failed:", error));
-        } else {
-            console.error("🚨 No matching variant found!");
-        }
+    if (!matchedVariant) {
+        console.error("🚨 No matching variant found!");
+        alert("Selected size & sleeve combination is unavailable.");
+        return;
     }
+
+    let newVariantID = matchedVariant.id;
+    console.log("✅ Matched Variant ID:", newVariantID);
+
+    if (newVariantID === this.currentVariantID) {
+        console.log("ℹ️ Same variant selected, no update needed.");
+        return;
+    }
+
+    // Fetch the current cart
+    fetch('/cart.js')
+        .then(response => response.json())
+        .then(cart => {
+            let currentItem = cart.items.find(item => item.id === this.currentVariantID);
+
+            if (!currentItem) {
+                console.warn("🚨 Current variant not found in cart.");
+                return Promise.resolve();
+            }
+
+            // Remove old variant
+            return fetch('/cart/change.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: this.currentVariantID, quantity: 0 })
+            });
+        })
+        .then(() => {
+            // Add the new variant
+            return fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: newVariantID, quantity: 1 })
+            });
+        })
+        .then(response => response.json())
+        .then(cartData => {
+            console.log("✅ Cart Updated:", cartData);
+            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
+
+            // Reload cart drawer **without refreshing the page**
+            let cartDrawer = document.querySelector('.m-cart-drawer');
+            if (cartDrawer) {
+                fetch('/cart')
+                    .then(response => response.text())
+                    .then(html => {
+                        let newCartContent = new DOMParser().parseFromString(html, 'text/html').querySelector("#MinimogCartDrawer");
+                        if (newCartContent) {
+                            cartDrawer.innerHTML = newCartContent.innerHTML;
+                        }
+                    });
+            }
+
+            // Hide and remove the popup
+            this.newPopup.style.display = 'none';
+            this.newPopup.remove();
+        })
+        .catch(error => console.error("🚨 Cart Update Failed:", error));
+}
+
 }
 
 customElements.define('cart-item-options', CartItemOptions);
