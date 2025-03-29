@@ -60,13 +60,13 @@
         data-value="{{ value | escape }}">
 
 
-        <input type="radio"
-          name="option-{{ option_index }}"
-          data-option-name="{{ option.name }}"
-          data-variant-id="{{ product.variants | where: 'option1', value | map: 'id' | first }}"
-          value="{{ value | escape }}"
-          {% if option.selected_value == value %} checked {% endif %}
-        >
+              <input type="radio"
+        name="option-{{ option_index }}"
+        data-option-name="{{ option.name }}"
+        data-variant-id="{{ product.variants | where: 'option1', value | map: 'id' | first }}"
+        value="{{ value | escape }}"
+        {% if option.selected_value == value %} checked {% endif %}
+      >
         
         <input type="radio"
           form="{{ form_id }}"
