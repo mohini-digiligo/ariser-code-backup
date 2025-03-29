@@ -342,6 +342,9 @@ cart-item-options span {
 .variant-wrapper.js.optoin-Sleeve {
     line-height: 38px;
 }
+.variant-wrapper.js.optoin-Fit {
+    visibility: hidden;
+}
 .hidden { display: none; }
 .size-option { margin: 5px; padding: 10px; cursor: pointer; }
 .selected { background: #000; color: #fff; }
