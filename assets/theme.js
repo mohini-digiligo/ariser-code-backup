@@ -249,7 +249,8 @@ class CartItemOptions extends HTMLElement {
     }
     
     let variants = JSON.parse(variantsElement.textContent);
-    
+     console.error("current variant" , currentVariant);
+    console.error("variantsElement" , variantsElement);
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             let optionKey = `option${index + 1}`;
