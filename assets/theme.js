@@ -245,11 +245,13 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-
+        $(window).load(function() {
+        alert("hi 2");
+          });
         console.log("✅ Cart Updated Successfully:", data);
 
         // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
-        this.reloadMiniCartDrawer();
+        //this.reloadMiniCartDrawer();
 
         // ✅ Close the popup after 1 second
         if (this.newPopup) {
