@@ -205,9 +205,7 @@ class CartItemOptions extends HTMLElement {
     }
   
   changeCartItems() {
-    let currentVariant = this.dataset.key.split(":")[0]; // Extract only the numeric variant ID
-
-    let currentVariantset = this.dataset.key
+    let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
 
     let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
     if (!selectedVariant) {
@@ -218,8 +216,8 @@ class CartItemOptions extends HTMLElement {
     let newVariant = selectedVariant.getAttribute("data-variant-id").split(":")[0];
 
     if (currentVariant === newVariant) {
-        console.log("📌 Same variant selected. No update required.");
-        return;
+        console.log("📌 Same variant selected. No update needed.");
+        return; // ❌ Stop execution if the variant is the same
     }
 
     console.log("❌ Removing Variant ID:", currentVariant);
@@ -231,8 +229,8 @@ class CartItemOptions extends HTMLElement {
     }
 
     let updates = {};
-    updates[currentVariantset] = 0; // ✅ Remove old variant from cart
-    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
+    updates[currentVariant] = 0; // ✅ Ensure old variant is removed
+    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add the new variant
 
     console.log("🐀 Sending Update:", JSON.stringify({ updates }));
 
@@ -250,8 +248,8 @@ class CartItemOptions extends HTMLElement {
 
         console.log("✅ Cart Updated Successfully:", data);
 
-        // ✅ **Ensure No Duplicate Items in Mini Cart**
-        // this.reloadMiniCartDrawer();
+        // ✅ Refresh Mini Cart to prevent duplicate items
+        this.reloadMiniCartDrawer();
 
         // ✅ Close the popup after 1 second
         if (this.newPopup) {
@@ -265,6 +263,27 @@ class CartItemOptions extends HTMLElement {
         console.error('🚨 Fetch Error:', error);
     });
 }
+reloadMiniCartDrawer() {
+    let cartDrawer = document.querySelector("#MinimogCartDrawer");
+    if (cartDrawer) {
+        cartDrawer.classList.add("loading"); // Optional: Add loading effect
+        fetch(window.Shopify.routes.root + "cart")
+            .then(response => response.text())
+            .then(html => {
+                let newCartContent = new DOMParser().parseFromString(html, "text/html")
+                    .querySelector("#MinimogCartDrawer");
+                if (newCartContent) {
+                    cartDrawer.innerHTML = newCartContent.innerHTML;
+                    console.log("✅ Mini Cart Updated Successfully!");
+                }
+                cartDrawer.classList.remove("loading");
+            })
+            .catch(error => console.error("🚨 Error updating Mini Cart:", error));
+    } else {
+        console.warn("⚠️ Mini Cart Drawer (#MinimogCartDrawer) not found.");
+    }
+}
+
 
 
 
