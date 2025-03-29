@@ -13,20 +13,7 @@
     assign is_size = true
   endif
 -%}
-{% if template.suffix == 'bundle' %}
-<style>
-@media only screen and (max-width:768px){
-  .bundle-custom .label {
-  flex-direction: column!important;
-}
 
-   .bundle-custom .label .line-item-property__field{
-     width: 100%!important;
-  }
-}
-  
-</style>
-  {% endif %}
 <div class="variant-wrapper js optoin-{{ option.name }}" data-type="button">
   <label class="variant__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}{% unless variant_labels %} hidden-label{% endunless %} optoin-{{ option.name }}"
     for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
@@ -67,7 +54,6 @@
         assign variant = product.variants | where: 'option1', value | first
         assign product_available = variant.available
       -%}
-      
       <div
         class="variant-input"
         data-index="option{{ option_index }}"
