@@ -109,16 +109,16 @@ class CartItemOptions extends HTMLElement {
     }
 
     console.log("❌ Removing Variant ID:", currentVariant);
-    console.log("✅ Adding new Variant ID:", newVariant);
+    console.log("✅ Adding new Variant ID:", newVariantID);
 
-    if (!newVariant || isNaN(parseInt(newVariant))) {  
-        console.error("🚨 Invalid Variant ID: ", newVariant);
+    if (!newVariantID || isNaN(parseInt(newVariantID))) {  
+        console.error("🚨 Invalid Variant ID: ", newVariantID);
         return;
     }
 
     let updates = {};
     updates[currentVariant] = 0; // ✅ Remove old variant
-    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
+    updates[newVariantID] = parseInt(this.dataset.quantity); // ✅ Add new variant
 
     console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
 
