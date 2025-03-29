@@ -204,34 +204,35 @@ class CartItemOptions extends HTMLElement {
         }
     }
   
-   changeCartItems() {
-    let currentVariant = this.dataset.key.split(":")[0]; 
+  changeCartItems() {
+    let currentVariant = this.dataset.key.split(":")[0]; // Extract only the numeric variant ID
 
-    // ✅ Get the selected variant ID from the checked radio input
-    
-    let selectedVariant = document.querySelector('.Size:checked');
-    
+    let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
+    if (!selectedVariant) {
+        console.error("🚨 No variant selected!");
+        return;
+    }
 
-    let newVariant = selectedVariant.value;  // ✅ Correct way to get the new variant ID
+    let newVariant = selectedVariant.getAttribute("data-variant-id").split(":")[0];
 
     if (currentVariant === newVariant) {
         console.log("📌 Same variant selected. No update required.");
-        return; // 🚀 Exits the function here!
+        return;
     }
 
     console.log("❌ Removing Variant ID:", currentVariant);
-    console.log("✅ Selected new Variant ID:", newVariant);
+    console.log("✅ Adding new Variant ID:", newVariant);
 
-    if (!newVariant || isNaN(parseInt(newVariant))) {  // ✅ Check if variant ID is valid
+    if (!newVariant || isNaN(parseInt(newVariant))) {  
         console.error("🚨 Invalid Variant ID: ", newVariant);
         return;
     }
 
     let updates = {};
-    updates[currentVariant] = 0;
-    updates[newVariant] = parseInt(this.dataset.quantity);
+    updates[currentVariant] = 0; // ✅ Remove old variant from cart
+    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
 
-    console.log("🐀񉀠Sending Update:", JSON.stringify({ updates }));
+    console.log("🐀 Sending Update:", JSON.stringify({ updates }));
 
     fetch(window.Shopify.routes.root + 'cart/update.js', {
         method: 'POST',
@@ -244,17 +245,13 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-        
+
         console.log("✅ Cart Updated Successfully:", data);
 
-        if (this.cartPage) {
-            document.dispatchEvent(new CustomEvent('cart:build'));
-        } else {
-            document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-        }
+        // ✅ **Ensure No Duplicate Items in Mini Cart**
+        this.reloadMiniCartDrawer();
 
-        
-
+        // ✅ Close the popup after 1 second
         if (this.newPopup) {
             setTimeout(() => {
                 this.newPopup.style.display = 'none';
@@ -265,8 +262,8 @@ class CartItemOptions extends HTMLElement {
     .catch((error) => {
         console.error('🚨 Fetch Error:', error);
     });
-     
 }
+
 
 
 }
