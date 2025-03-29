@@ -229,7 +229,7 @@ class CartItemOptions extends HTMLElement {
     }
   
   changeCartItems() {
-    let cartItemElement = this.closest('[data-product-blocks]'); // Find the specific cart item
+    let cartItemElement = this.closest('.product-single__meta'); // Find the specific cart item
     let currentVariant = this.dataset.key ? this.dataset.key.split(":")[0] : null;
     if (!currentVariant) {
         console.error("🚨 Error: Unable to detect current variant.");
