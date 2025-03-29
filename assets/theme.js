@@ -308,7 +308,7 @@ class CartItemOptions extends HTMLElement {
 closePopup() {
     if (this.newPopup) {
         setTimeout(() => {
-           window.location.reload();
+          // window.location.reload();
             this.newPopup.style.display = 'none';
             this.newPopup.remove();
         }, 500);
