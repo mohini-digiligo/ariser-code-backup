@@ -51,8 +51,11 @@
     <legend class="hide">{{ option.name }}</legend>
     {%- for value in option.values -%}
       {%- liquid
-        assign variant = product.variants | where: 'option1', value | first
-        assign product_available = variant.available
+       assign variant = product.variants | where: 'option1', value | first
+if variant == blank
+  assign variant = product.variants | where: 'option2', value | first
+endif
+assign product_available = variant.available
       -%}
       <div
         class="variant-input"
