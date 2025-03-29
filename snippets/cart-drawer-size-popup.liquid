@@ -64,11 +64,10 @@
     <legend class="hide">{{ option.name }}</legend>
     {%- for value in option.values -%}
       {%- liquid
-        assign product_available = true
-        if product.options.size == 1
-          assign product_available = product.variants[forloop.index0].available
-        endif
+        assign variant = product.variants | where: 'option1', value | first
+        assign product_available = variant.available
       -%}
+      
       <div
         class="variant-input"
         data-index="option{{ option_index }}"
