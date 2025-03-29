@@ -273,6 +273,14 @@ class CartItemOptions extends HTMLElement {
 //     // ❌ Prevent Default Form Submission (Prevents Page Reload)
 //     return false;
 // }
+
+
+}
+
+customElements.define('cart-item-options', CartItemOptions);
+
+
+
   document.querySelectorAll('[data-variant-input]').forEach(input => {
     input.addEventListener('change', function () {
         let selectedOptions = {};
@@ -318,10 +326,6 @@ function updateCartVariant(newVariantID) {
     .catch(error => console.error("🚨 Cart Update Failed:", error));
 }
 
-
-}
-
-customElements.define('cart-item-options', CartItemOptions);
  
  
 
