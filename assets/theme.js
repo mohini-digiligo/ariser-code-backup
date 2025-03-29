@@ -256,7 +256,6 @@ class CartItemOptions extends HTMLElement {
        
         console.log("✅ Cart Updated Successfully:", data);
 
-        // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
 
         // ✅ Close the popup after 1 second
         if (this.newPopup) {
