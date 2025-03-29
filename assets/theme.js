@@ -60,9 +60,13 @@ class CartItemOptions extends HTMLElement {
     }
 
     changeCartItems() {
-    let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
-    let selectedOptions = {};
+    let currentVariant = this.dataset.key?.split(":")[0]; // Extract numeric variant ID
+    if (!currentVariant) {
+        console.error("🚨 Error: Invalid cart item key.");
+        return;
+    }
 
+    let selectedOptions = {};
     this.newPopup.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
@@ -70,14 +74,21 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // ✅ Get all cart items
-    let cartItems = document.querySelectorAll('[cart-item-options]');
-    if (!cartItems.length) {
-        console.error("🚨 Error: No cart items found.");
+    // ✅ Get Mini Cart Items
+    let cartItemsContainer = document.querySelector('.m-cart-drawer');
+    if (!cartItemsContainer) {
+        console.error("🚨 Error: Mini cart drawer not found.");
         return;
     }
 
-    // ✅ Find the correct cart item using the variant ID
+    let cartItems = cartItemsContainer.querySelectorAll('.cart-item');
+    if (!cartItems.length) {
+        console.error("🚨 Error: No cart items found in the mini cart.");
+        alert("No items in the mini cart.");
+        return;
+    }
+
+    // ✅ Find the Correct Cart Item
     let cartItem = Array.from(cartItems).find(item => {
         let itemVariantID = item.dataset.key?.split(":")[0]; // Ensure dataset key exists
         return itemVariantID === currentVariant;
@@ -89,7 +100,7 @@ class CartItemOptions extends HTMLElement {
         return;
     }
 
-    // ✅ Get variant JSON data for this product
+    // ✅ Get Product Variant JSON Data
     let productVariantsElement = cartItem.querySelector('.product-variants-json');
     if (!productVariantsElement) {
         console.error("🚨 Error: Product variant data is unavailable for this cart item.");
@@ -105,7 +116,7 @@ class CartItemOptions extends HTMLElement {
         return;
     }
 
-    // ✅ Find the correct variant based on selected options
+    // ✅ Find the Matching Variant
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             return variant[`option${index + 1}`] === selectedOptions[optionName];
@@ -173,6 +184,7 @@ class CartItemOptions extends HTMLElement {
 
     return false;
 }
+
 
 
 
