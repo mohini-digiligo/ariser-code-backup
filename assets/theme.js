@@ -208,11 +208,11 @@ class CartItemOptions extends HTMLElement {
         }
     }
 
-    changeCartItems() {
+   changeCartItems() {
     console.log('🛒 Updating cart...');
     let selectedOptions = {};
 
-    // Collect selected variant options
+    // Get selected size & sleeve
     document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
@@ -220,8 +220,14 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // Fetch variant data
-    let variants = JSON.parse(document.getElementById('productVariants').textContent);
+    // Fetch available product variants from hidden JSON
+    let variantsElement = document.getElementById('productVariants');
+    if (!variantsElement) {
+        console.error("🚨 Error: Product variant data is unavailable.");
+        return;
+    }
+    
+    let variants = JSON.parse(variantsElement.textContent);
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             return variant[`option${index + 1}`] === selectedOptions[optionName];
@@ -237,30 +243,44 @@ class CartItemOptions extends HTMLElement {
     let newVariantID = matchedVariant.id;
     console.log("✅ Matched Variant ID:", newVariantID);
 
-    // Update the existing cart item with the new variant
-    fetch('/cart/change.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: this.currentVariantID, quantity: 0 }) // Remove old variant
-    }).then(() => {
-        return fetch('/cart/change.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: newVariantID, quantity: 1 }) // Add new variant instead of a new item
-        });
-    }).then(response => response.json())
-    .then(data => {
-        console.log("✅ Cart Updated:", data);
+    // Fetch current cart data to find the existing item
+    fetch('/cart.js')
+        .then(response => response.json())
+        .then(cart => {
+            let currentItem = cart.items.find(item => item.id === this.currentVariantID);
 
-        // Reload the mini cart dynamically
-        document.querySelector('.m-cart-drawer').innerHTML = ''; // Clear old cart
-        document.querySelector('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
+            if (!currentItem) {
+                console.error("🚨 Existing cart item not found.");
+                return;
+            }
 
-        // Hide popup
-        this.newPopup.style.display = 'none';
-        this.newPopup.remove();
-    })
-    .catch(error => console.error("🚨 Cart Update Failed:", error));
+            let newQuantity = currentItem.quantity; // Keep the same quantity
+
+            // ✅ Update cart: Remove old variant & add new one in a single request
+            return fetch('/cart/update.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    updates: {
+                        [this.currentVariantID]: 0,  // Remove old variant
+                        [newVariantID]: newQuantity  // Add new variant with same quantity
+                    }
+                })
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Cart Updated:", data);
+
+            // ✅ Reload only the mini cart (without full page reload)
+            document.querySelector('.m-cart-drawer').innerHTML = ''; // Clear old cart
+            document.querySelector('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
+
+            // ✅ Hide popup after update
+            this.newPopup.style.display = 'none';
+            this.newPopup.remove();
+        })
+        .catch(error => console.error("🚨 Cart Update Failed:", error));
 }
 
 
