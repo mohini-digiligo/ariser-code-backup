@@ -229,10 +229,10 @@ class CartItemOptions extends HTMLElement {
     }
 
     let updates = {};
-    updates[currentVariant] = 0; // ✅ Ensure old variant is removed
-    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add the new variant
+    updates[currentVariant] = 0; // ✅ Remove old variant
+    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
 
-    console.log("🐀 Sending Update:", JSON.stringify({ updates }));
+    console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
 
     fetch(window.Shopify.routes.root + 'cart/update.js', {
         method: 'POST',
@@ -248,7 +248,7 @@ class CartItemOptions extends HTMLElement {
 
         console.log("✅ Cart Updated Successfully:", data);
 
-        // ✅ Refresh Mini Cart to prevent duplicate items
+        // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
         this.reloadMiniCartDrawer();
 
         // ✅ Close the popup after 1 second
@@ -262,7 +262,11 @@ class CartItemOptions extends HTMLElement {
     .catch((error) => {
         console.error('🚨 Fetch Error:', error);
     });
+
+    // ❌ Prevent Default Form Submission (Prevents Page Reload)
+    return false;
 }
+
 reloadMiniCartDrawer() {
     let cartDrawer = document.querySelector("#MinimogCartDrawer");
     if (cartDrawer) {
