@@ -1,57 +1,107 @@
+{%- assign swatch_file_extension = 'png' -%}
+{% assign packNum = "" %}
+{%- capture size_chart_title -%}
+  {{ 'products.general.size_chart' | t }} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-size-chart" viewBox="0 0 64 64"><path d="M22.39 33.53c-7.46 0-13.5-3.9-13.5-8.72s6-8.72 13.5-8.72 13.5 3.9 13.5 8.72a12 12 0 0 1-.22 1.73"/><ellipse cx="22.39" cy="24.81" rx="3.28" ry="2.12"/><path d="M8.89 24.81V38.5c0 7.9 6.4 9.41 14.3 9.41h31.92V33.53H22.39m24.39 0v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44m-8.13-7.44v7.44"/></svg>
+{%- endcapture -%}
+
 {%- liquid
-  assign allowed_options = "Size,Sleeve" | split: "," 
+  assign is_size = false
+  assign size_trigger = 'products.general.size_trigger' | t | downcase
+  assign downcased_option = option.name | downcase
+
+  if downcased_option contains size_trigger
+    assign is_size = true
+  endif
 -%}
 
-{%- for option in product.options_with_values -%}
-  {%- assign option_name_downcased = option.name | downcase -%}
+<div class="variant-wrapper js optoin-{{ option.name }}" data-type="button">
+  <label class="variant__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}{% unless variant_labels %} hidden-label{% endunless %} optoin-{{ option.name }}"
+    for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
+    {{ option.name }}
+    {%- if connect_to_sizechart and is_size -%}
+      <span class="variant__label-info">
+        &mdash;
+        {%- render
+          'tool-tip-trigger-sizechart',
+          title: size_chart_title,
+          content: section.blocks[sizechart_index].settings.size_chart.content,
+          context: 'size-chart',
+          product: product
+        -%}
+      </span>
+    {%- endif -%}
+    {%- if is_color -%}
+      <span class="variant__label-info">
+        &mdash;
+        <span
+          data-variant-color-label
+          data-index="{{ forloop.index0 }}"
+          data-option-index="{{ color_option_index }}">
+          {{ option.selected_value }}
+        </span>
+      </span>
+    {%- endif -%}
+  </label>
+  {%- assign option_index = forloop.index -%}
+  <fieldset class="variant-input-wrap no-auto-select"
+    name="{{ option.name }}"
+    data-index="option{{ option_index }}"
+    data-handle="{{ option.name | handleize }}"
+    id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
+    <legend class="hide">{{ option.name }}</legend>
+    {%- for value in option.values -%}
+      {%- liquid
+    assign variant = product.variants | where: 'option1', value | first
+    if variant == blank
+      assign variant = product.variants | where: 'option2', value | first
+    endif
+    assign product_available = variant.available
+-%}
+      <div
+        class="variant-input"
+        data-index="option{{ option_index }}"
+        data-value="{{ value | escape }}">
 
-  <!-- Debugging: Show Available Options -->
-  <p>Checking Option: {{ option.name }}</p>
-
-  {%- if allowed_options contains option.name -%}  
-    <div class="variant-wrapper js option-{{ option.name }}" data-type="button">
-      <label class="variant__label" for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
-        {{ option.name }}
-      </label>
-
-      <fieldset class="variant-input-wrap no-auto-select"
-        name="{{ option.name }}"
-        data-index="option{{ forloop.index }}"
-        data-handle="{{ option.name | handleize }}"
-        id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
-        
-        <legend class="hide">{{ option.name }}</legend>
-
-        {%- for value in option.values -%}
-          {%- assign variant = product.variants | where: 'option1', value | first -%}
-          {%- if variant == blank -%}
-            {%- assign variant = product.variants | where: 'option2', value | first -%}
-          {%- endif -%}
-          {%- assign product_available = variant.available -%}
-
-          <div class="variant-input" data-index="option{{ forloop.index }}" data-value="{{ value | escape }}">
-            
-            <input type="radio"
-              form="{{ form_id }}"
-              {% if option.selected_value == value %} checked {% endif %}
-              value="{{ value | escape }}"
-              name="{{ option.name }}"
-              data-index="option{{ forloop.index }}"
-              data-variant-inputs
-              {% if product_available == false %}disabled{% endif %}
-              class="{% unless product_available %} disabled{% endunless %}"
-              id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-              data-variant-id="{{ variant.id }}" />
-
-            <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-              class="variant__button-label{% unless product_available %} disabled{% endunless %}">{{ value | escape }}</label>
-          </div>
-        {%- endfor -%}
-      </fieldset>
-    </div>
-  {%- endif -%}
-{%- endfor -%}
-
+     
+        <input type="radio"
+          form="{{ form_id }}"
+           {% if option.selected_value == value %} checked {% endif %}
+          value="{{ value | escape }}"
+          data-index="option{{ option_index }}"
+          name="{{ option.name }}"
+          data-variant-inputs
+          data-option-name="{{ option.name }}"
+          value="{{ value | escape }}" 
+          {% if product_available == false %}disabled{% endif %}
+          {% if value contains "Pack" %}data-qty="{{ value | replace: "Pack of ", "" }}"{% endif %} 
+          class="{% unless product_available %} disabled {% endunless %}{{ option.name }}{% if is_color %} variant__input--color-swatch{% endif %}"
+          {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
+          {% if is_color %} data-color-index="{{ color_option_index }}"{% endif %}
+          id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
+          data-variant-id="{{ product.variants | where: 'option1', value | map: 'id' | first }}"
+    {% if value contains "Pack" %}data-qty="{{ value | replace: 'Pack of ', '' }}"{% endif %} 
+    class="{% unless product_available %} disabled{% endunless %}{% if is_color %} variant__input--color-swatch{% endif %}"
+    {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
+    {% if is_color %} data-color-index="{{ color_option_index }}"{% endif %}
+    id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}" >
+        {%- if is_color -%}
+          
+         
+        {%- else -%}
+          <label
+            for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
+            class="variant__button-label{% unless product_available %} disabled{% endunless %}">{{ value | escape }}</label>
+       
+        {%- endif -%}
+        <span class="soldout-warning">
+          Sold Out
+        </span>
+      </div>
+    {%- endfor -%}
+  </fieldset>
+</div>
 <script id="productVariants" type="application/json">
     {{ product.variants | json }}
 </script>
+
+ 
