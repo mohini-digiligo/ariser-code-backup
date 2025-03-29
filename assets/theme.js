@@ -137,7 +137,7 @@
 
 // customElements.define('cart-item-options', CartItemOptions);
 
-
+ 
 class CartItemOptions extends HTMLElement {
     constructor() {
         super();
