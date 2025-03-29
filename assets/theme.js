@@ -213,8 +213,10 @@ class CartItemOptions extends HTMLElement {
         
         // Get all selected values for options
         document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
-            let optionName = selected.getAttribute('data-option-name');
+            let optionName = selected.getAttribute('data-option-name'); 
+            console.log(optionName);
             let optionValue = selected.value;
+           console.log(optionValue);
             selectedOptions[optionName] = optionValue;
         });
 
