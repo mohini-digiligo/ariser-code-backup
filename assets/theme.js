@@ -157,7 +157,7 @@ class CartItemOptions extends HTMLElement {
 
 }
 
-customElements.define('cart-item-options', CartItemOptions);
+customElements.define('cart-item-options', CartItemOptions); 
  
 // class CartItemOptions extends HTMLElement {
 //     constructor() {
