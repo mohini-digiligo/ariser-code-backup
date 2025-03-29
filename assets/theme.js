@@ -228,51 +228,30 @@ class CartItemOptions extends HTMLElement {
         }
     }
   
- changeCartItems() {
-    let cartItemElement = this.closest('.cart-item'); // Find the specific cart item
-
-    if (!cartItemElement) {
-        console.error("🚨 Error: Cart item container not found.");
-        return;
-    }
-
+  changeCartItems() {
+    let cartItemElement = this.closest('[data-product-blocks]'); // Find the specific cart item
     let currentVariant = this.dataset.key ? this.dataset.key.split(":")[0] : null;
     if (!currentVariant) {
         console.error("🚨 Error: Unable to detect current variant.");
         return;
     }
 
-    // ✅ Get the correct variant JSON inside this cart item
-    let variantsElement = cartItemElement.querySelector('[data-variant-json]');
-    if (!variantsElement || variantsElement.textContent.trim() === '') {
-        console.error("🚨 Error: Product variant data is unavailable for this cart item.");
-        return;
-    }
-
-    let variants;
-    try {
-        variants = JSON.parse(variantsElement.textContent); // ✅ Parse the JSON safely
-    } catch (error) {
-        console.error("🚨 Error parsing variant JSON:", error);
-        return;
-    }
-
-    // ✅ Get selected options (size/sleeve)
     let selectedOptions = {};
-    let selectedInputs = cartItemElement.querySelectorAll('[data-variant-inputs]:checked');
-
-    if (!selectedInputs.length) {
-        console.error("🚨 Error: No selected options found.");
-        return;
-    }
-
-    selectedInputs.forEach(selected => {
+    document.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
         selectedOptions[optionName] = optionValue;
     });
 
-    // ✅ Find the matching variant based on selected options
+    let variantsElement = cartItemElement.querySelector('[data-variant-json]');
+    if (!variantsElement) {
+        console.error("🚨 Error: Product variant data is unavailable.");
+        return;
+    }
+    
+    let variants = JSON.parse(variantsElement.textContent);
+     console.error("current variant" , currentVariant);
+    console.error("variantsElement" , variantsElement);
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             let optionKey = `option${index + 1}`;
@@ -312,13 +291,39 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-
+       
         console.log("✅ Cart Updated Successfully:", data);
+
+        // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
         this.updateMiniCart();
+
+        // ✅ Close the popup after 1 second
         this.closePopup();
     })
     .catch((error) => {
         console.error('🚨 Fetch Error:', error);
+    });
+}
+
+// ✅ Function to close the popup cleanly
+closePopup() {
+    if (this.newPopup) {
+        setTimeout(() => {
+          // window.location.reload();
+            this.newPopup.style.display = 'none';
+            this.newPopup.remove();
+        }, 500);
+    }
+}
+
+// ✅ Function to update mini cart dynamically
+updateMiniCart() {
+    fetch(window.Shopify.routes.root + 'cart.js')
+    .then(response => response.json())
+    .then(cartData => {
+        console.log("🛒 Updated Cart:", cartData);
+        // Trigger an event or manually update the cart UI
+        document.dispatchEvent(new CustomEvent("cart:updated", { detail: cartData }));
     });
 }
 
