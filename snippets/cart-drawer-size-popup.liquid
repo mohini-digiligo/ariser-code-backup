@@ -82,6 +82,7 @@
           data-variant-input
           data-option-name="{{ option.name }}"
           value="{{ value | escape }}" 
+          {% unless product_available %} disabled{% endunless %}
           {% if value contains "Pack" %}data-qty="{{ value | replace: "Pack of ", "" }}"{% endif %} 
           class="{% unless product_available %} disabled {% endunless %}{{ option.name }}{% if is_color %} variant__input--color-swatch{% endif %}"
           {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
