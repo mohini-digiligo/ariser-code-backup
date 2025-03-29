@@ -207,72 +207,117 @@ class CartItemOptions extends HTMLElement {
         }
     }
   
-  changeCartItems() {
-    let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
+//   changeCartItems() {
+//     let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
 
-    let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
-    if (!selectedVariant) {
-        console.error("🚨 No variant selected!");
-        return;
-    }
+//     let selectedVariant = this.newPopup.querySelector('[data-variant-input]:checked');
+//     if (!selectedVariant) {
+//         console.error("🚨 No variant selected!");
+//         return;
+//     }
 
-    let newVariant = selectedVariant.getAttribute("data-variant-id").split(":")[0];
+//     let newVariant = selectedVariant.getAttribute("data-variant-id").split(":")[0];
 
-    if (currentVariant === newVariant) {
-        console.log("📌 Same variant selected. No update needed.");
-        setTimeout(() => {
-                window.location.reload();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-        }, 500);
-        return; // ❌ Stop execution if the variant is the same
-    }
+//     if (currentVariant === newVariant) {
+//         console.log("📌 Same variant selected. No update needed.");
+//         setTimeout(() => {
+//                 window.location.reload();
+//                 this.newPopup.style.display = 'none';
+//                 this.newPopup.remove();
+//         }, 500);
+//         return; // ❌ Stop execution if the variant is the same
+//     }
 
-    console.log("❌ Removing Variant ID:", currentVariant);
-    console.log("✅ Adding new Variant ID:", newVariant);
+//     console.log("❌ Removing Variant ID:", currentVariant);
+//     console.log("✅ Adding new Variant ID:", newVariant);
 
-    if (!newVariant || isNaN(parseInt(newVariant))) {  
-        console.error("🚨 Invalid Variant ID: ", newVariant);
-        return;
-    }
+//     if (!newVariant || isNaN(parseInt(newVariant))) {  
+//         console.error("🚨 Invalid Variant ID: ", newVariant);
+//         return;
+//     }
 
-    let updates = {};
-    updates[currentVariant] = 0; // ✅ Remove old variant
-    updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
+//     let updates = {};
+//     updates[currentVariant] = 0; // ✅ Remove old variant
+//     updates[newVariant] = parseInt(this.dataset.quantity); // ✅ Add new variant
 
-    console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
+//     console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
 
-    fetch(window.Shopify.routes.root + 'cart/update.js', {
+//     fetch(window.Shopify.routes.root + 'cart/update.js', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ updates })
+//     })
+//     .then(response => response.json())
+//     .then((data) => {
+//         if (data.status) {
+//             console.error("🚨 Shopify Error:", data);
+//             return;
+//         }
+       
+//         console.log("✅ Cart Updated Successfully:", data);
+
+
+//         // ✅ Close the popup after 1 second
+//         if (this.newPopup) {
+//             setTimeout(() => {
+//                 window.location.reload();
+//                 this.newPopup.style.display = 'none';
+//                 this.newPopup.remove();
+//             }, 1000);
+//         }
+//     })
+//     .catch((error) => {
+//         console.error('🚨 Fetch Error:', error);
+//     });
+
+//     // ❌ Prevent Default Form Submission (Prevents Page Reload)
+//     return false;
+// }
+  document.querySelectorAll('[data-variant-input]').forEach(input => {
+    input.addEventListener('change', function () {
+        let selectedOptions = {};
+        
+        // Get all selected values for options
+        document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
+            let optionName = selected.getAttribute('data-option-name');
+            let optionValue = selected.value;
+            selectedOptions[optionName] = optionValue;
+        });
+
+        // Find the correct variant ID based on selected options
+        let variants = JSON.parse(document.getElementById('productVariants').textContent);
+        let matchedVariant = variants.find(variant => {
+            return Object.keys(selectedOptions).every(optionName => {
+                return variant.options.includes(selectedOptions[optionName]);
+            });
+        });
+
+        if (matchedVariant) {
+            let newVariantID = matchedVariant.id;
+            console.log("✅ Matched Variant ID:", newVariantID);
+            updateCartVariant(newVariantID);
+        } else {
+            console.error("🚨 No matching variant found!");
+        }
+    });
+});
+
+// Function to update the cart via AJAX
+function updateCartVariant(newVariantID) {
+    fetch('/cart/update.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updates })
+        body: JSON.stringify({ updates: { [newVariantID]: 1 } }) // Adjust quantity as needed
     })
     .then(response => response.json())
-    .then((data) => {
-        if (data.status) {
-            console.error("🚨 Shopify Error:", data);
-            return;
-        }
-       
-        console.log("✅ Cart Updated Successfully:", data);
-
-
-        // ✅ Close the popup after 1 second
-        if (this.newPopup) {
-            setTimeout(() => {
-                window.location.reload();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }, 1000);
-        }
+    .then(data => {
+        console.log("✅ Cart Updated:", data);
+        document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
+        $('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
     })
-    .catch((error) => {
-        console.error('🚨 Fetch Error:', error);
-    });
-
-    // ❌ Prevent Default Form Submission (Prevents Page Reload)
-    return false;
+    .catch(error => console.error("🚨 Cart Update Failed:", error));
 }
+
 
 }
 
