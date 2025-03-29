@@ -287,6 +287,7 @@ reloadMiniCartDrawer() {
 
 
 
+
 }
 
 customElements.define('cart-item-options', CartItemOptions);
