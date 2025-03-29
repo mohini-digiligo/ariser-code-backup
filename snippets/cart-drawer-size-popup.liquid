@@ -50,10 +50,7 @@
     id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
     <legend class="hide">{{ option.name }}</legend>
     {%- for value in option.values -%}
-      {%- liquid
-        assign variant = product.variants | where: 'option1', value | first
-        assign product_available = variant.available
-      -%}
+     
       <div
         class="variant-input"
         data-index="option{{ option_index }}"
