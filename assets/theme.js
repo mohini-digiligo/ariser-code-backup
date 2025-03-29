@@ -244,14 +244,13 @@ class CartItemOptions extends HTMLElement {
         } else {
             console.error("🚨 No matching variant found!");
         }
-    });
+    };
 }
 
 
 }
 
 customElements.define('cart-item-options', CartItemOptions);
-
 
  
  
