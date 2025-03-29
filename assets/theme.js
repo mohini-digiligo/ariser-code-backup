@@ -220,8 +220,22 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // Find the matching variant ID
-    let variants = JSON.parse(document.getElementById('productVariants').textContent);
+    // 🛑 Ensure `productVariants` exists before parsing
+    let variantsElement = document.getElementById('productVariants');
+    if (!variantsElement) {
+        console.error("🚨 Error: #productVariants element is missing from the page.");
+        alert("Error: Product variant data is unavailable.");
+        return;
+    }
+
+    let variants;
+    try {
+        variants = JSON.parse(variantsElement.textContent);
+    } catch (error) {
+        console.error("🚨 Error parsing product variants:", error);
+        return;
+    }
+
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             return variant[`option${index + 1}`] === selectedOptions[optionName];
