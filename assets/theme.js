@@ -71,7 +71,7 @@ class CartItemOptions extends HTMLElement {
     });
 
     // ✅ Get all cart items
-    let cartItems = document.querySelectorAll('.scd-item');
+    let cartItems = document.querySelectorAll('[cart-item-options]');
     if (!cartItems.length) {
         console.error("🚨 Error: No cart items found.");
         return;
