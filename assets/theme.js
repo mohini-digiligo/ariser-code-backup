@@ -283,6 +283,7 @@ customElements.define('cart-item-options', CartItemOptions);
 
   document.querySelectorAll('[data-variant-input]').forEach(input => {
     input.addEventListener('change', function () {
+       console.log('echo');
         let selectedOptions = {};
         
         // Get all selected values for options
