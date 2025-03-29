@@ -68,7 +68,7 @@ class CartItemOptions extends HTMLElement {
   changeCartItems() {
     let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
     let selectedOptions = {};
-    document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
+    document.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
         console.log('✅ Selected:', optionName, optionValue);
