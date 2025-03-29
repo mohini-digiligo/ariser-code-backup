@@ -241,6 +241,11 @@ class CartItemOptions extends HTMLElement {
             console.log("✅ Cart Updated:", data);
             document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
             //$('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
+            setTimeout(() => {
+                window.location.reload();
+                this.newPopup.style.display = 'none';
+                this.newPopup.remove();
+            }, 1000);
         })
     .catch(error => console.error("🚨 Cart Update Failed:", error));
         } else {
