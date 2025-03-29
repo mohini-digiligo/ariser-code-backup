@@ -60,93 +60,105 @@ class CartItemOptions extends HTMLElement {
     }
 
     changeCartItems() {
-        let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
-        let selectedOptions = {};
+    let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
+    let selectedOptions = {};
 
-        this.newPopup.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
-            let optionName = selected.getAttribute('data-option-name');
-            let optionValue = selected.value;
-            console.log('✅ Selected:', optionName, optionValue);
-            selectedOptions[optionName] = optionValue;
+    this.newPopup.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
+        let optionName = selected.getAttribute('data-option-name');
+        let optionValue = selected.value;
+        console.log('✅ Selected:', optionName, optionValue);
+        selectedOptions[optionName] = optionValue;
+    });
+
+    // ✅ Ensure the correct product's variant data is found
+    let cartItem = this.closest('.cart-item'); 
+    if (!cartItem) {
+        console.error("🚨 Error: Could not find cart item.");
+        return;
+    }
+
+    let productVariantsElement = cartItem.querySelector('.product-variants-json');
+    if (!productVariantsElement) {
+        console.error("🚨 Error: Product variant data is unavailable for this cart item.");
+        return;
+    }
+
+    let variants;
+    try {
+        variants = JSON.parse(productVariantsElement.textContent);
+    } catch (error) {
+        console.error("🚨 Error parsing variant JSON:", error);
+        return;
+    }
+
+    let matchedVariant = variants.find(variant => {
+        return Object.keys(selectedOptions).every((optionName, index) => {
+            return variant[`option${index + 1}`] === selectedOptions[optionName];
         });
+    });
 
-        // ✅ Find the correct variant data for the current product
-        let productVariantsElement = this.closest('.cart-item').querySelector('.product-variants-json');
-        if (!productVariantsElement) {
-            console.error("🚨 Error: Product variant data is unavailable for this cart item.");
+    if (!matchedVariant) {
+        console.error("🚨 No matching variant found!");
+        alert("Selected size & sleeve combination is unavailable.");
+        return;
+    }
+
+    let newVariantID = matchedVariant.id;
+    console.log("✅ Matched Variant ID:", newVariantID);
+
+    if (currentVariant === newVariantID) {
+        console.log("📌 Same variant selected. No update needed.");
+        setTimeout(() => {
+            this.newPopup.style.display = 'none';
+            this.newPopup.remove();
+        }, 500);
+        return;
+    }
+
+    console.log("❌ Removing Variant ID:", currentVariant);
+    console.log("✅ Adding new Variant ID:", newVariantID);
+
+    if (!newVariantID || isNaN(parseInt(newVariantID))) {  
+        console.error("🚨 Invalid Variant ID: ", newVariantID);
+        return;
+    }
+
+    let updates = {};
+    updates[currentVariant] = 0; // ✅ Remove old variant
+    updates[newVariantID] = parseInt(this.dataset.quantity); // ✅ Add new variant
+
+    console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
+
+    fetch(window.Shopify.routes.root + 'cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates })
+    })
+    .then(response => response.json())
+    .then((data) => {
+        if (data.status) {
+            console.error("🚨 Shopify Error:", data);
             return;
         }
 
-        let variants = JSON.parse(productVariantsElement.textContent);
-        let matchedVariant = variants.find(variant => {
-            return Object.keys(selectedOptions).every((optionName, index) => {
-                return variant[`option${index + 1}`] === selectedOptions[optionName];
-            });
-        });
+        console.log("✅ Cart Updated Successfully:", data);
 
-        if (!matchedVariant) {
-            console.error("🚨 No matching variant found!");
-            alert("Selected size & sleeve combination is unavailable.");
-            return;
-        }
+        document.dispatchEvent(new CustomEvent('cart:updated'));
 
-        let newVariantID = matchedVariant.id;
-        console.log("✅ Matched Variant ID:", newVariantID);
-
-        if (currentVariant === newVariantID) {
-            console.log("📌 Same variant selected. No update needed.");
+        if (this.newPopup) {
             setTimeout(() => {
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
-            }, 500);
-            return;
+            }, 1000);
         }
+    })
+    .catch((error) => {
+        console.error('🚨 Fetch Error:', error);
+    });
 
-        console.log("❌ Removing Variant ID:", currentVariant);
-        console.log("✅ Adding new Variant ID:", newVariantID);
+    return false;
+}
 
-        if (!newVariantID || isNaN(parseInt(newVariantID))) {  
-            console.error("🚨 Invalid Variant ID: ", newVariantID);
-            return;
-        }
-
-        let updates = {};
-        updates[currentVariant] = 0; // ✅ Remove old variant
-        updates[newVariantID] = parseInt(this.dataset.quantity); // ✅ Add new variant
-
-        console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
-
-        fetch(window.Shopify.routes.root + 'cart/update.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ updates })
-        })
-        .then(response => response.json())
-        .then((data) => {
-            if (data.status) {
-                console.error("🚨 Shopify Error:", data);
-                return;
-            }
-            
-            console.log("✅ Cart Updated Successfully:", data);
-
-            // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
-            document.dispatchEvent(new CustomEvent('cart:updated'));
-
-            // ✅ Close the popup after 1 second
-            if (this.newPopup) {
-                setTimeout(() => {
-                    this.newPopup.style.display = 'none';
-                    this.newPopup.remove();
-                }, 1000);
-            }
-        })
-        .catch((error) => {
-            console.error('🚨 Fetch Error:', error);
-        });
-
-        return false;
-    }
 }
 
 customElements.define('cart-item-options', CartItemOptions);
