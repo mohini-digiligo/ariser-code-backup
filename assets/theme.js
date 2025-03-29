@@ -182,6 +182,10 @@ class CartItemOptions extends HTMLElement {
                         this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
                             this.changeCartItems();
+                             let elements = document.querySelector('.m-cart-drawer');
+                             if (elements) {
+                                elements.classList.add('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+                             }
                         }.bind(this));
                     }
 
