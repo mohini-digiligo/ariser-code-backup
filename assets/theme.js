@@ -242,7 +242,7 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    let variantsElement = document.getElementById('productVariants');
+    let variantsElement = document.getElementById('productVariantsnew');
     if (!variantsElement) {
         console.error("🚨 Error: Product variant data is unavailable.");
         return;
