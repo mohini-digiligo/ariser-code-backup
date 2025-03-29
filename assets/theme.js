@@ -182,6 +182,7 @@ class CartItemOptions extends HTMLElement {
                         this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
                             this.changeCartItems();
+                             window.location.reload();
                              let elements = document.querySelector('.m-cart-drawer');
                              if (elements) {
                                 elements.classList.add('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
@@ -258,7 +259,7 @@ class CartItemOptions extends HTMLElement {
         // ✅ Close the popup after 1 second
         if (this.newPopup) {
             setTimeout(() => {
-                window.location.reload();
+               
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
             }, 1000);
