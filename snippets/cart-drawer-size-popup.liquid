@@ -84,7 +84,7 @@
     {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
     {% if is_color %} data-color-index="{{ color_option_index }}"{% endif %}
     id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}" >
-        {%- if is_color -%}
+        {%- if is_size -%}
           
          
         {%- else -%}
