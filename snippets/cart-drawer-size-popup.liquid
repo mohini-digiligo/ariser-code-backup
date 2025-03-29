@@ -50,7 +50,10 @@
     id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
     <legend class="hide">{{ option.name }}</legend>
     {%- for value in option.values -%}
-     
+      {%- liquid
+        assign variant = product.variants | where: 'option1', value | first
+        assign product_available = variant.available
+      -%}
       <div
         class="variant-input"
         data-index="option{{ option_index }}"
@@ -64,7 +67,7 @@
           data-variant-input
           data-option-name="{{ option.name }}"
           value="{{ value | escape }}" 
-          {% unless product_available %} disabled{% endunless %}
+         
           {% if value contains "Pack" %}data-qty="{{ value | replace: "Pack of ", "" }}"{% endif %} 
           class="{% unless product_available %} disabled {% endunless %}{{ option.name }}{% if is_color %} variant__input--color-swatch{% endif %}"
           {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
