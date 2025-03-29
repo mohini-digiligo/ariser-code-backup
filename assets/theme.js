@@ -9,7 +9,7 @@ class CartItemOptions extends HTMLElement {
                 let popUpHtml = this.popup.content.cloneNode(true);
                 let element = document.querySelector('.m-cart-drawer');
                 if (element) {
-                    element.classList.remove('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+                    element.classList.remove('m-cart-drawer--active'); 
                 }
                 document.body.append(popUpHtml);
                 this.newPopup = document.querySelector('.activeCartPopUp');
@@ -19,17 +19,14 @@ class CartItemOptions extends HTMLElement {
 
                     if (typeof theme !== "undefined" && theme.sections) {
                         theme.sections.register('product', theme.Product, this.newPopup);
-                    } else {
-                        console.warn("Theme object is not available.");
                     }
 
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
                         this.popUpClose.addEventListener('click', function (event) {
-                          
-                           let elements = document.querySelector('.m-cart-drawer');
+                            let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
-                                elements.classList.add('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+                                elements.classList.add('m-cart-drawer--active'); 
                             }
                             event.preventDefault();
                             this.newPopup.style.display = 'none';
@@ -42,11 +39,9 @@ class CartItemOptions extends HTMLElement {
                         this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
                             this.changeCartItems();
-                             
                         }.bind(this));
                     }
 
-                    // ✅ Add event listener for variant selection
                     this.variantInputs = this.newPopup.querySelectorAll('[data-variant-inputs]');
                     if (this.variantInputs.length > 0) {
                         this.variantInputs.forEach(input => {
@@ -58,33 +53,47 @@ class CartItemOptions extends HTMLElement {
         }
     }
 
-    // ✅ Function to enable submit button when size changes
     enableSubmitButton() {
         if (this.submitBtn) {
             this.submitBtn.removeAttribute('disabled');
         }
     }
-  
-  changeCartItems() {
+
+    changeCartItems() {
     let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
     let selectedOptions = {};
-    document.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
+
+    this.newPopup.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
         console.log('✅ Selected:', optionName, optionValue);
         selectedOptions[optionName] = optionValue;
     });
 
-    let variantsElement = document.getElementById('productVariants');
-    if (!variantsElement) {
-        console.error("🚨 Error: Product variant data is unavailable.");
+    // ✅ Ensure the correct product's variant data is found
+    let cartItem = this.closest('.cart-item'); 
+    if (!cartItem) {
+        console.error("🚨 Error: Could not find cart item.");
         return;
     }
-    
-    let variants = JSON.parse(variantsElement.textContent);
+
+    let productVariantsElement = cartItem.querySelector('.product-variants-json');
+    if (!productVariantsElement) {
+        console.error("🚨 Error: Product variant data is unavailable for this cart item.");
+        return;
+    }
+
+    let variants;
+    try {
+        variants = JSON.parse(productVariantsElement.textContent);
+    } catch (error) {
+        console.error("🚨 Error parsing variant JSON:", error);
+        return;
+    }
+
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
-            return variant[option${index + 1}] === selectedOptions[optionName];
+            return variant[`option${index + 1}`] === selectedOptions[optionName];
         });
     });
 
@@ -97,15 +106,13 @@ class CartItemOptions extends HTMLElement {
     let newVariantID = matchedVariant.id;
     console.log("✅ Matched Variant ID:", newVariantID);
 
-
     if (currentVariant === newVariantID) {
         console.log("📌 Same variant selected. No update needed.");
         setTimeout(() => {
-                window.location.reload();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
+            this.newPopup.style.display = 'none';
+            this.newPopup.remove();
         }, 500);
-        return; // ❌ Stop execution if the variant is the same
+        return;
     }
 
     console.log("❌ Removing Variant ID:", currentVariant);
@@ -133,15 +140,13 @@ class CartItemOptions extends HTMLElement {
             console.error("🚨 Shopify Error:", data);
             return;
         }
-       
+
         console.log("✅ Cart Updated Successfully:", data);
 
-        // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
+        document.dispatchEvent(new CustomEvent('cart:updated'));
 
-        // ✅ Close the popup after 1 second
         if (this.newPopup) {
             setTimeout(() => {
-                window.location.reload();
                 this.newPopup.style.display = 'none';
                 this.newPopup.remove();
             }, 1000);
@@ -151,13 +156,12 @@ class CartItemOptions extends HTMLElement {
         console.error('🚨 Fetch Error:', error);
     });
 
-    // ❌ Prevent Default Form Submission (Prevents Page Reload)
     return false;
 }
 
 }
 
-customElements.define('cart-item-options', CartItemOptions); 
+customElements.define('cart-item-options', CartItemOptions);
  
 // class CartItemOptions extends HTMLElement {
 //     constructor() {
