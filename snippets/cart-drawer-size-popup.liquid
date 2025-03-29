@@ -1,20 +1,16 @@
 {%- liquid
-  assign swatch_file_extension = 'png'
-  assign packNum = ""
-
   assign allowed_options = "Size,Sleeve" | split: "," 
-  assign unique_options = ""  <!-- Store unique options to prevent duplicates -->
 -%}
 
 {%- for option in product.options_with_values -%}
   {%- assign option_name_downcased = option.name | downcase -%}
 
-  {%- if allowed_options contains option_name_downcased and unique_options does not contain option_name_downcased -%} 
-    {%- assign unique_options = unique_options | append: option_name_downcased | append: "," -%} <!-- Add to unique list -->
+  <!-- Debugging: Show Available Options -->
+  <p>Checking Option: {{ option.name }}</p>
 
-    <div class="variant-wrapper js optoin-{{ option.name }}" data-type="button">
-      <label class="variant__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}"
-        for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
+  {%- if allowed_options contains option.name -%}  
+    <div class="variant-wrapper js option-{{ option.name }}" data-type="button">
+      <label class="variant__label" for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
         {{ option.name }}
       </label>
 
@@ -25,30 +21,28 @@
         id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
         
         <legend class="hide">{{ option.name }}</legend>
-        
+
         {%- for value in option.values -%}
-          {%- liquid
-            assign variant = product.variants | where: 'option1', value | first
-            if variant == blank
-              assign variant = product.variants | where: 'option2', value | first
-            endif
-            assign product_available = variant.available
-          -%}
+          {%- assign variant = product.variants | where: 'option1', value | first -%}
+          {%- if variant == blank -%}
+            {%- assign variant = product.variants | where: 'option2', value | first -%}
+          {%- endif -%}
+          {%- assign product_available = variant.available -%}
+
           <div class="variant-input" data-index="option{{ forloop.index }}" data-value="{{ value | escape }}">
             
             <input type="radio"
               form="{{ form_id }}"
               {% if option.selected_value == value %} checked {% endif %}
               value="{{ value | escape }}"
-              data-index="option{{ forloop.index }}"
               name="{{ option.name }}"
+              data-index="option{{ forloop.index }}"
               data-variant-inputs
-              data-option-name="{{ option.name }}"
               {% if product_available == false %}disabled{% endif %}
               class="{% unless product_available %} disabled{% endunless %}"
               id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-              data-variant-id="{{ product.variants | where: 'option1', value | map: 'id' | first }}" />
-            
+              data-variant-id="{{ variant.id }}" />
+
             <label for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
               class="variant__button-label{% unless product_available %} disabled{% endunless %}">{{ value | escape }}</label>
           </div>
