@@ -12,11 +12,13 @@
 
 {%- liquid
   assign size_options = "size,sleeve" | split: "," 
-  assign downcased_option = option.name | downcase
   assign is_size_or_sleeve = false
 
-  if size_options contains downcased_option
-    assign is_size_or_sleeve = true
+  if option.name
+    assign downcased_option = option.name | downcase
+    if size_options contains downcased_option
+      assign is_size_or_sleeve = true
+    endif
   endif
 -%}
 
