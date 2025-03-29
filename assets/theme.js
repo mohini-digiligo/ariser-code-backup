@@ -240,7 +240,7 @@ class CartItemOptions extends HTMLElement {
         .then(data => {
             console.log("✅ Cart Updated:", data);
             document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-            $('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
+            //$('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
         })
     .catch(error => console.error("🚨 Cart Update Failed:", error));
         } else {
