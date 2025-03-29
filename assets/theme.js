@@ -249,7 +249,7 @@ class CartItemOptions extends HTMLElement {
         console.log("✅ Cart Updated Successfully:", data);
 
         // ✅ **Ensure No Duplicate Items in Mini Cart**
-        this.reloadMiniCartDrawer();
+        // this.reloadMiniCartDrawer();
 
         // ✅ Close the popup after 1 second
         if (this.newPopup) {
