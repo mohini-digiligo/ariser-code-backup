@@ -138,20 +138,19 @@
 // customElements.define('cart-item-options', CartItemOptions);
 
 
-
-
 class CartItemOptions extends HTMLElement {
     constructor() {
         super();
         this.popup = this.querySelector("template");
         this.cartPage = this.classList.contains('cartPageItem');
+        this.currentVariantID = null; // Store current variant ID
 
         if (this.popup) {
             this.querySelector('[data-cart-popup-open]').addEventListener('click', function () {
                 let popUpHtml = this.popup.content.cloneNode(true);
                 let element = document.querySelector('.m-cart-drawer');
                 if (element) {
-                    element.classList.remove('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+                    element.classList.remove('m-cart-drawer--active');
                 }
                 document.body.append(popUpHtml);
                 this.newPopup = document.querySelector('.activeCartPopUp');
@@ -168,10 +167,9 @@ class CartItemOptions extends HTMLElement {
                     this.popUpClose = this.newPopup.querySelector('[data-cart-popup-close]');
                     if (this.popUpClose) {
                         this.popUpClose.addEventListener('click', function (event) {
-                          
-                           let elements = document.querySelector('.m-cart-drawer');
+                            let elements = document.querySelector('.m-cart-drawer');
                             if (elements) {
-                                elements.classList.add('m-cart-drawer--active'); // Keeps only 'm-cart-drawer' and removes other classes
+                                elements.classList.add('m-cart-drawer--active');
                             }
                             event.preventDefault();
                             this.newPopup.style.display = 'none';
@@ -184,91 +182,95 @@ class CartItemOptions extends HTMLElement {
                         this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
                             this.changeCartItems();
-                             
                         }.bind(this));
                     }
 
-                    // ✅ Add event listener for variant selection
                     this.variantInputs = this.newPopup.querySelectorAll('[data-variant-input]');
                     if (this.variantInputs.length > 0) {
                         this.variantInputs.forEach(input => {
                             input.addEventListener('change', this.enableSubmitButton.bind(this));
                         });
                     }
+
+                    // ✅ Store current variant ID
+                    let cartItemID = this.getAttribute('data-cart-item-id');
+                    if (cartItemID) {
+                        this.currentVariantID = parseInt(cartItemID);
+                    }
                 }
             }.bind(this));
         }
     }
 
-    // ✅ Function to enable submit button when size changes
     enableSubmitButton() {
         if (this.submitBtn) {
             this.submitBtn.removeAttribute('disabled');
         }
     }
-  
-  changeCartItems() {
-    console.log('echo');
+
+    changeCartItems() {
+        console.log('🛒 Updating cart...');
         let selectedOptions = {};
-        
-        // Get all selected values for options
+
         document.querySelectorAll('[data-variant-input]:checked').forEach(selected => {
-            let optionName = selected.getAttribute('data-option-name'); 
-            console.log('optionName', optionName);
+            let optionName = selected.getAttribute('data-option-name');
             let optionValue = selected.value;
-           console.log('optionValu', optionValue);
+            console.log('✅ Selected:', optionName, optionValue);
             selectedOptions[optionName] = optionValue;
         });
 
-        // Find the correct variant ID based on selected options
         let variants = JSON.parse(document.getElementById('productVariants').textContent);
-           let matchedVariant = variants.find(variant => {
-        return Object.keys(selectedOptions).every((optionName, index) => {
-            return variant[`option${index + 1}`] === selectedOptions[optionName];
+        let matchedVariant = variants.find(variant => {
+            return Object.keys(selectedOptions).every((optionName, index) => {
+                return variant[`option${index + 1}`] === selectedOptions[optionName];
+            });
         });
-    });
 
         if (matchedVariant) {
             let newVariantID = matchedVariant.id;
             console.log("✅ Matched Variant ID:", newVariantID);
-               fetch('/cart.js')
-    .then(response => response.json())
-    .then(cart => {
-        let currentItem = cart.items.find(item => item.id === this.currentVariantID);
-        if (currentItem) {
-            // Remove the old variant before adding a new one
-            return fetch('/cart/change.js', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: this.currentVariantID, quantity: 0 })
-            });
+
+            // Fetch current cart
+            fetch('/cart.js')
+                .then(response => response.json())
+                .then(cart => {
+                    let currentItem = cart.items.find(item => item.id === this.currentVariantID);
+
+                    if (currentItem) {
+                        // Remove old variant before adding the new one
+                        return fetch('/cart/change.js', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: this.currentVariantID, quantity: 0 })
+                        });
+                    }
+                })
+                .then(() => {
+                    // Add the new variant
+                    return fetch('/cart/add.js', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: newVariantID, quantity: 1 })
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("✅ Cart Updated:", data);
+                    document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
+
+                    // ✅ Reload only the cart drawer
+                    document.querySelector('.m-cart-drawer').innerHTML = ''; // Clear drawer content
+                    document.querySelector('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
+
+                    // Hide and remove popup
+                    this.newPopup.style.display = 'none';
+                    this.newPopup.remove();
+                })
+                .catch(error => console.error("🚨 Cart Update Failed:", error));
+        } else {
+            console.error("🚨 No matching variant found!");
         }
-    })
-    .then(() => {
-        // Add new variant to the cart
-        return fetch('/cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: newVariantID, quantity: 1 })
-        });
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("✅ Cart Updated:", data);
-        document.dispatchEvent(new CustomEvent('ajaxProduct:added'));
-        
-        // Reload the cart drawer instead of full page reload
-        $('.m-cart-drawer').load(location.href + " #MinimogCartDrawer");
-        
-        // Hide the popup
-        this.newPopup.style.display = 'none';
-        this.newPopup.remove();
-    })
-    .catch(error => console.error("🚨 Cart Update Failed:", error));
-    
-}
-
-
+    }
 }
 
 customElements.define('cart-item-options', CartItemOptions);
