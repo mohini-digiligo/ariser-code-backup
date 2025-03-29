@@ -183,7 +183,7 @@ class CartItemOptions extends HTMLElement {
                     if (this.submitBtn) {
                         this.submitBtn.addEventListener('click', function (event) {
                             event.preventDefault();
-                            this.changeCartItems();
+                           // this.changeCartItems();
                              
                         }.bind(this));
                     }
