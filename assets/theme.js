@@ -70,20 +70,30 @@ class CartItemOptions extends HTMLElement {
         selectedOptions[optionName] = optionValue;
     });
 
-    // ✅ Find the correct cart item using the variant ID
+    // ✅ Get all cart items
     let cartItems = document.querySelectorAll('.cart-item');
-    let cartItem = Array.from(cartItems).find(item => {
-        return item.dataset.key && item.dataset.key.includes(currentVariant);
-    });
-
-    if (!cartItem) {
-        console.error("🚨 Error: Could not find matching cart item for variant ID:", currentVariant);
+    if (!cartItems.length) {
+        console.error("🚨 Error: No cart items found.");
         return;
     }
 
+    // ✅ Find the correct cart item using the variant ID
+    let cartItem = Array.from(cartItems).find(item => {
+        let itemVariantID = item.dataset.key?.split(":")[0]; // Ensure dataset key exists
+        return itemVariantID === currentVariant;
+    });
+
+    if (!cartItem) {
+        console.error(`🚨 Error: Could not find matching cart item for variant ID: ${currentVariant}`);
+        alert("Error: Could not find matching cart item.");
+        return;
+    }
+
+    // ✅ Get variant JSON data for this product
     let productVariantsElement = cartItem.querySelector('.product-variants-json');
     if (!productVariantsElement) {
         console.error("🚨 Error: Product variant data is unavailable for this cart item.");
+        alert("Product variant data is missing.");
         return;
     }
 
@@ -95,6 +105,7 @@ class CartItemOptions extends HTMLElement {
         return;
     }
 
+    // ✅ Find the correct variant based on selected options
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
             return variant[`option${index + 1}`] === selectedOptions[optionName];
@@ -162,6 +173,7 @@ class CartItemOptions extends HTMLElement {
 
     return false;
 }
+
 
 
 }
