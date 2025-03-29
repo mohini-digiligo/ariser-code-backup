@@ -229,12 +229,16 @@ class CartItemOptions extends HTMLElement {
     }
   
   changeCartItems() {
-    let currentVariant = this.dataset.key.split(":")[0]; // Extract numeric variant ID
+    let currentVariant = this.dataset.key ? this.dataset.key.split(":")[0] : null;
+    if (!currentVariant) {
+        console.error("🚨 Error: Unable to detect current variant.");
+        return;
+    }
+
     let selectedOptions = {};
     document.querySelectorAll('[data-variant-inputs]:checked').forEach(selected => {
         let optionName = selected.getAttribute('data-option-name');
         let optionValue = selected.value;
-        console.log('✅ Selected:', optionName, optionValue);
         selectedOptions[optionName] = optionValue;
     });
 
@@ -245,9 +249,11 @@ class CartItemOptions extends HTMLElement {
     }
     
     let variants = JSON.parse(variantsElement.textContent);
+    
     let matchedVariant = variants.find(variant => {
         return Object.keys(selectedOptions).every((optionName, index) => {
-            return variant[`option${index + 1}`] === selectedOptions[optionName];
+            let optionKey = `option${index + 1}`;
+            return variant[optionKey] === selectedOptions[optionName];
         });
     });
 
@@ -260,28 +266,15 @@ class CartItemOptions extends HTMLElement {
     let newVariantID = matchedVariant.id;
     console.log("✅ Matched Variant ID:", newVariantID);
 
-
     if (currentVariant === newVariantID) {
         console.log("📌 Same variant selected. No update needed.");
-        setTimeout(() => {
-                window.location.reload();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-        }, 500);
-        return; // ❌ Stop execution if the variant is the same
-    }
-
-    console.log("❌ Removing Variant ID:", currentVariant);
-    console.log("✅ Adding new Variant ID:", newVariantID);
-
-    if (!newVariantID || isNaN(parseInt(newVariantID))) {  
-        console.error("🚨 Invalid Variant ID: ", newVariantID);
+        this.closePopup();
         return;
     }
 
     let updates = {};
-    updates[currentVariant] = 0; // ✅ Remove old variant
-    updates[newVariantID] = parseInt(this.dataset.quantity); // ✅ Add new variant
+    updates[currentVariant] = 0; // Remove old variant
+    updates[newVariantID] = parseInt(this.dataset.quantity || 1); // Add new variant
 
     console.log("🐀 Sending AJAX Update:", JSON.stringify({ updates }));
 
@@ -300,22 +293,35 @@ class CartItemOptions extends HTMLElement {
         console.log("✅ Cart Updated Successfully:", data);
 
         // ✅ Refresh Mini Cart Drawer **WITHOUT Reloading the Page**
+        this.updateMiniCart();
 
         // ✅ Close the popup after 1 second
-        if (this.newPopup) {
-            setTimeout(() => {
-                window.location.reload();
-                this.newPopup.style.display = 'none';
-                this.newPopup.remove();
-            }, 1000);
-        }
+        this.closePopup();
     })
     .catch((error) => {
         console.error('🚨 Fetch Error:', error);
     });
+}
 
-    // ❌ Prevent Default Form Submission (Prevents Page Reload)
-    return false;
+// ✅ Function to close the popup cleanly
+closePopup() {
+    if (this.newPopup) {
+        setTimeout(() => {
+            this.newPopup.style.display = 'none';
+            this.newPopup.remove();
+        }, 500);
+    }
+}
+
+// ✅ Function to update mini cart dynamically
+updateMiniCart() {
+    fetch(window.Shopify.routes.root + 'cart.js')
+    .then(response => response.json())
+    .then(cartData => {
+        console.log("🛒 Updated Cart:", cartData);
+        // Trigger an event or manually update the cart UI
+        document.dispatchEvent(new CustomEvent("cart:updated", { detail: cartData }));
+    });
 }
 
 }
