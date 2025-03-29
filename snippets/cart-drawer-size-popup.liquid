@@ -84,13 +84,13 @@
     {% if is_color %} data-color-name="{{ value | escape }}"{% endif %}
     {% if is_color %} data-color-index="{{ color_option_index }}"{% endif %}
     id="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}" >
-        {%- if is_size -%}
+        {%- if is_color -%}
           
          
         {%- else -%}
           <label
             for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ option.name | handleize }}-{{ value | url_encode }}"
-            class="variant__button-label{% if product_available %} disabled{% endif %}">{{ value | escape }}</label>
+            class="variant__button-label{% unless product_available %} disabled{% endunless %}">{{ value | escape }}</label>
        
         {%- endif -%}
         <span class="soldout-warning">
