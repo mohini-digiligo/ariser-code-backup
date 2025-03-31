@@ -346,6 +346,7 @@ box-shadow: 0 0 0 1px #cfcfcf;
 }
 button#cart-new-btn {
     background: #e31e25;
+      margin-top: 15px;
 }
 button#cart-new-btn:hover {
     border: 1px solid;
