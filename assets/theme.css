@@ -367,5 +367,7 @@ button#cart-new-btn:hover {
     }
 }
  /* css end popup size and sleev */
-
+.sf-complementary-products:not(.show_as_collapsible) h3.complementary-product-heading {
+    padding-bottom: 20px;
+}
 
