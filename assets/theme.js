@@ -182,11 +182,12 @@ customElements.define('cart-item-options', CartItemOptions);
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
-  let swiperInstance;
+  let swiperInstance = null;
+  let isUpdating = false; // Prevent multiple executions
 
   function initializeSwiper() {
     if (swiperInstance) {
-      swiperInstance.destroy(true, true); // Destroy previous instance
+      swiperInstance.destroy(true, true); // Destroy existing instance to avoid duplicates
     }
 
     swiperInstance = new Swiper(".swiper", {
@@ -209,24 +210,33 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
+  function onCartUpdate() {
+    if (isUpdating) return; // Prevent multiple triggers
+
+    isUpdating = true;
+    console.log("🛒 Cart updated, reinitializing Swiper...");
+
+    setTimeout(() => {
+      initializeSwiper();
+      isUpdating = false; // Allow future updates
+    }, 500); // Delay to prevent spam updates
+  }
+
   function monitorCartDrawer() {
     const cartDrawer = document.querySelector("m-cart-drawer-items");
 
     if (cartDrawer) {
-      const observer = new MutationObserver(
-        debounce(() => {
-          console.log("🛒 Cart updated, reinitializing Swiper...");
-          initializeSwiper();
-        }, 500) // 500ms debounce to prevent rapid execution
-      );
+      const observer = new MutationObserver(debounce(onCartUpdate, 500));
 
       observer.observe(cartDrawer, { childList: true, subtree: true });
     }
   }
 
+  // Initial Load
   initializeSwiper();
   monitorCartDrawer();
 });
+
 
 
 
