@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Listen for Shopify section updates and cart changes
-    document.addEventListener("shopify:section:load", reinitializeSwiper);
+    //document.addEventListener("shopify:section:load", reinitializeSwiper);
     document.addEventListener("cart:updated", reinitializeSwiper);
     document.addEventListener("cart:open", reinitializeSwiper);
 
