@@ -390,4 +390,9 @@ product-recommendations__slide {
     padding: 0;
     width: 100%;
 }
+.flickity-slider {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
 
