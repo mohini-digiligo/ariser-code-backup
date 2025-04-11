@@ -165,9 +165,9 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
-
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance;
+    let isUpdating = false; // Prevents multiple reinitializations
 
     function initSwiper() {
         let sliderContainer = document.querySelector(".swiper.product-slider");
@@ -200,26 +200,25 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    // **Detect Add to Cart and Remove Item Actions**
+    // **Throttle function to limit reinitialization frequency**
+    function throttle(func, delay) {
+        if (isUpdating) return;
+        isUpdating = true;
+        setTimeout(() => {
+            func();
+            isUpdating = false;
+        }, delay);
+    }
+
+    // **Detect Cart Changes Efficiently**
     function watchCartChanges() {
         const cartWrapper = document.querySelector("[data-cart-recommendations]");
 
         if (!cartWrapper) return;
 
-        const observer = new MutationObserver((mutationsList) => {
-            let cartChanged = false;
-
-            for (let mutation of mutationsList) {
-                if (mutation.type === "childList") {
-                    cartChanged = true;
-                    break;
-                }
-            }
-
-            if (cartChanged) {
-                console.log("♻️ Cart updated, reinitializing Swiper...");
-                initSwiper();
-            }
+        const observer = new MutationObserver(() => {
+            console.log("♻️ Cart updated, attempting to reinitialize Swiper...");
+            throttle(initSwiper, 500); // Throttle to prevent multiple triggers
         });
 
         observer.observe(cartWrapper, { childList: true, subtree: true });
@@ -231,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // **Start Watching for Cart Updates**
     watchCartChanges();
 });
+
 
 
 // Js for recommaned product cart drawer end 
