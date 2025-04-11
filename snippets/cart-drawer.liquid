@@ -44,13 +44,14 @@
           {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
-  <div class="carousel product-slider" data-flickity='{ "wrapAround": true, "autoPlay": 3000, "prevNextButtons": true }'>
+  <div class="swiper product-slider">
+    <div class="swiper-wrapper">
       {% for cartItem in cart.items %}
         {% if cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
           {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
             {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
             {% if line_items == 0 %}
-              <div class="carousel-cell product-recommendations__slide">
+              <div class="swiper-slide product-recommendations__slide">
                 {%- render 'product-grid-item',
                   image_style: 'default',
                   product: refProduct,
@@ -68,6 +69,12 @@
       {% endfor %}
     </div>
 
+    {% if hasRecommendations %}
+      <!-- Navigation buttons -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    {% endif %}
+  </div>
 {%- endcapture -%}
 
 <div class="cart-recommendations-wrapper" data-cart-recommendations>
@@ -215,7 +222,7 @@
   </div>
                        
 </m-cart-drawer>
-                      <!-- <script>
+                      <script>
                         document.addEventListener("DOMContentLoaded", function () {
   var swiper = new Swiper(".product-slider", {
     slidesPerView: 1, // Show 1 product at a time
@@ -231,6 +238,6 @@
     },
   });
 });
-                      </script> -->
+                      </script>
 
                       
