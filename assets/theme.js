@@ -171,8 +171,14 @@ customElements.define('cart-item-options', CartItemOptions);
 // Js for recommaned product cart drawer start
 
 document.addEventListener("DOMContentLoaded", function () {
+    var swiperInstance;
+
     function initSwiper() {
-        var swiper = new Swiper(".swiper.product-slider", {
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true);
+        }
+
+        swiperInstance = new Swiper(".swiper.product-slider", {
             slidesPerView: 1,
             spaceBetween: 10,
             navigation: {
@@ -186,16 +192,32 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Swiper on page load
     initSwiper();
 
-    // Reinitialize Swiper when the cart drawer opens
+    // Reinitialize when cart drawer updates
     document.addEventListener("shopify:section:load", function () {
-        setTimeout(initSwiper, 500); // Delay to ensure elements are loaded
+        setTimeout(initSwiper, 500);
     });
 
-    // Also reinitialize when the cart updates
+    // Reinitialize when the cart is updated
     document.addEventListener("cart:updated", function () {
         setTimeout(initSwiper, 500);
     });
+
+    // If your theme has a custom cart drawer event, listen for it
+    document.addEventListener("cart:open", function () {
+        setTimeout(initSwiper, 500);
+    });
+
+    // Observe changes in the cart drawer
+    const observer = new MutationObserver(function () {
+        setTimeout(initSwiper, 500);
+    });
+
+    const cartDrawer = document.querySelector(".cart-recommendations-wrapper");
+    if (cartDrawer) {
+        observer.observe(cartDrawer, { childList: true, subtree: true });
+    }
 });
+
 
 
 // Js for recommaned product cart drawer end 
