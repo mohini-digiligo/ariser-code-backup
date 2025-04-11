@@ -172,7 +172,7 @@ customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
   var swiper = new Swiper(".product-slider", {
-    slidesPerView: 3,  // Adjust based on your layout
+    slidesPerView: 2,  // Adjust based on your layout
     spaceBetween: 10,  // Adds space between slides
     loop: true,        // Enables infinite loop
     navigation: {
