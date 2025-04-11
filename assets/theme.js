@@ -172,12 +172,12 @@ customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
   var swiper = new Swiper(".product-slider", {
-    slidesPerView: 2,  // Adjust based on your layout
+    slidesPerView: 1,  // Adjust based on your layout
     spaceBetween: 10,  // Adds space between slides
     loop: true,        // Enables infinite loop
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: ".swiper-button-nexted",
+      prevEl: ".swiper-button-preved",
     },
     autoplay: {
       delay: 3000, // Auto-slide every 3 seconds
