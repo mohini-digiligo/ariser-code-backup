@@ -406,7 +406,7 @@ mini cart drower for recommanded product  */
     position: relative;
     transition: height 0.35s;
 }
-cart-recommendations .grid-item__link, cart-recommendations .grid-product__link, cart-recommendations .grid__item-image-wrapper{
+.recomanded{
   {
     align-items: center;
     display: flex !important
