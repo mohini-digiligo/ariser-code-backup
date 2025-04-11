@@ -216,7 +216,9 @@
       </div>
     </div>
   </div>
-   {% assign totalItems = 0 %}
+  
+</div>
+ {% assign totalItems = 0 %}
           {%- capture recommendationsContent -%}
             {% for cartItem in cart.items %}
              {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
@@ -254,7 +256,6 @@
               </cart-recommendations>
           {% endif %}
             </div>
-</div>
 
 <!-- Product Recommendation slider end -->
 
