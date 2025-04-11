@@ -377,32 +377,21 @@ button#cart-new-btn:hover {
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
     max-height: fit-content !important;
 }
-.product-recommendations__slide {
-        display: flex;
-        flex-wrap: wrap;
+
+.product-single__related {
+  position: relative;
+  overflow: hidden;
 }
-.product-recommendations__slide {
-    display: block;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    width: 100%;
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.flickity-slider {
-    height: 100%;
-    position: absolute;
-    width: 100%;
+.swiper-button-prev,
+.swiper-button-next {
+  color: #000; /* Change arrow color */
 }
-.flickity-enabled.is-draggable .flickity-viewport {
-    cursor: move;
-    cursor: grab;
-}
-.flickity-viewport {
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    transition: height 0.35s;
-}
+
 .recomanded{
     align-items: center;
     display: flex !important
