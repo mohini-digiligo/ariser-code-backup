@@ -216,6 +216,30 @@
       </div>
     </div>
   </div>
+   {% assign totalItems = 0 %}
+          {%- capture recommendationsContent -%}
+            {% for cartItem in cart.items %}
+             {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
+               {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
+               {% if line_items == 0 %}
+                <div class="product-recommendations__slide">
+                  {%- render 'product-grid-item',
+                    image_style: 'default',
+                    product: refProduct,
+                    per_row: 1,
+                    type: 'horizontal',
+                    sizes: '112px',
+                    complementaryProduct: true
+                  -%}
+                </div>
+                 {% assign totalItems = totalItems | plus: 1 %}
+               {% endif %}
+            {%- endfor -%}
+               {% if totalItems > 0 %}
+                 {% break %}
+                 {% endif %}
+            {%- endfor -%}
+          {%- endcapture -%}
   <div class="cart-recommendations-wrapper" data-cart-recommendations>
           {% if recommendationsContent != blank %}
               <cart-recommendations>
