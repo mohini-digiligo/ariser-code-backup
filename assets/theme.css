@@ -406,10 +406,9 @@ product-recommendations__slide {
     position: relative;
     transition: height 0.35s;
 }
-cart-recommendations .grid__item-image-wrapper{
+cart-recommendations .grid-item__link, cart-recommendations .grid-product__link, cart-recommendations .grid__item-image-wrapper{
   {
     align-items: center;
-    display: flex;
-
+    display: flex !important
 }
 
