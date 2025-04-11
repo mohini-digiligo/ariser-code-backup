@@ -205,6 +205,8 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             console.log("✅ Swiper Initialized.");
+        } else {
+            console.log("⚠️ No .swiper.product-slider found!");
         }
     }
 
@@ -214,6 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             let cartDrawer = document.querySelector("m-cart-drawer-items");
             if (cartDrawer) {
+                console.log("📦 Cart drawer detected, fetching new content...");
                 fetch(window.location.pathname)
                     .then(response => response.text())
                     .then(html => {
@@ -223,11 +226,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         let newCartDrawer = doc.querySelector("m-cart-drawer-items");
                         if (newCartDrawer) {
                             cartDrawer.innerHTML = newCartDrawer.innerHTML;
+                            console.log("🔄 Cart drawer updated!");
 
                             // Reinitialize Swiper
                             initSwiper();
+                        } else {
+                            console.log("⚠️ New cart drawer content not found in response!");
                         }
-                    });
+                    })
+                    .catch(error => console.error("❌ Error fetching cart content:", error));
+            } else {
+                console.log("⚠️ No m-cart-drawer-items found!");
             }
         }, 500);
     }
@@ -235,9 +244,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial Swiper setup
     initSwiper();
 
-    // Event listeners for cart updates
-    document.addEventListener("cart:updated", reinitializeCartAndSwiper);
-    document.addEventListener("cart:change", reinitializeCartAndSwiper);
+    // Debugging: Check if event listeners are correctly attached
+    document.addEventListener("cart:updated", () => {
+        console.log("🛒 cart:updated event detected!");
+        reinitializeCartAndSwiper();
+    });
+
+    document.addEventListener("cart:change", () => {
+        console.log("🔄 cart:change event detected!");
+        reinitializeCartAndSwiper();
+    });
+
+    document.addEventListener("shopify:section:load", () => {
+        console.log("📢 Shopify section reloaded!");
+        reinitializeCartAndSwiper();
+    });
 });
 
 
