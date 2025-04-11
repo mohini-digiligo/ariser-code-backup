@@ -183,11 +183,11 @@ customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
   let swiperInstance = null;
-  let isUpdating = false; // Prevent multiple executions
+  let isUpdating = false; // Prevent multiple triggers
 
   function initializeSwiper() {
     if (swiperInstance) {
-      swiperInstance.destroy(true, true); // Destroy existing instance to avoid duplicates
+      swiperInstance.destroy(true, true); // Destroy old instance
     }
 
     swiperInstance = new Swiper(".swiper", {
@@ -202,16 +202,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Swiper Initialized.");
   }
 
-  function debounce(func, delay) {
-    let timeout;
-    return function () {
-      clearTimeout(timeout);
-      timeout = setTimeout(func, delay);
-    };
-  }
-
-  function onCartUpdate() {
-    if (isUpdating) return; // Prevent multiple triggers
+  function reinitializeSwiper() {
+    if (isUpdating) return; // Prevent multiple rapid executions
 
     isUpdating = true;
     console.log("🛒 Cart updated, reinitializing Swiper...");
@@ -219,14 +211,21 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       initializeSwiper();
       isUpdating = false; // Allow future updates
-    }, 500); // Delay to prevent spam updates
+    }, 1000); // Slight delay to prevent excessive calls
   }
 
   function monitorCartDrawer() {
     const cartDrawer = document.querySelector("m-cart-drawer-items");
 
     if (cartDrawer) {
-      const observer = new MutationObserver(debounce(onCartUpdate, 500));
+      const observer = new MutationObserver((mutationsList) => {
+        for (let mutation of mutationsList) {
+          if (mutation.type === "childList") {
+            reinitializeSwiper();
+            break; // Stop checking further once an update is detected
+          }
+        }
+      });
 
       observer.observe(cartDrawer, { childList: true, subtree: true });
     }
@@ -236,6 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeSwiper();
   monitorCartDrawer();
 });
+
 
 
 
