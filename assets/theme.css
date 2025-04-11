@@ -409,7 +409,7 @@ product-recommendations__slide {
 cart-recommendations .grid__item-image-wrapper{
   {
     align-items: center;
-    display: flex !important;
+    display: flex;
 
 }
 
