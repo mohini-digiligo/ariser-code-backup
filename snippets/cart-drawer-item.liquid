@@ -216,3 +216,86 @@
 </div>
 
 <!-- Product Recommendation slider -->
+
+  <!-- start code by devp -->
+
+<!--cart reccomendation-->
+  
+
+{% for item in cart.items %}
+  {% assign rec_product = item.product  %}
+  {% break %}
+{%- endfor -%}
+
+
+          {%- liquid
+  assign recommend_products = true
+
+  if recommendations.products and recommendations.products_count > 0
+    assign related_collection = recommendations
+  endif
+
+  assign number_of_products = 5
+-%}
+
+<product-recommendations
+  id="Recommendations-cart-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="product-recommendations"
+  data-enable="{{ recommend_products }}"
+  data-product-id="{{ rec_product.id }}"
+  data-intent="related"
+  data-url="{{ routes.product_recommendations_url }}?section_id=template--14693086625855__product-recommendations&product_id={{ rec_product.id }}&limit=5"
+  data-limit="5">
+
+  <div
+    data-section-id="{{ rec_product.id }}"
+    data-subsection
+    data-section-type="collection-grid"
+    class="index-section">
+    <div class="page-width">
+      <header class="section-header">
+        <h3 class="section-header__title">
+          You May Also Like
+        </h3>
+      </header>
+    </div>
+
+    <div class="page-width page-width--flush-small">
+      <div class="grid-overflow-wrapper">
+        {%- if recommend_products -%}
+          <div class="product-recommendations-placeholder">
+            {% comment %}
+              This content is visually hidden and replaced when recommended products show up
+            {% endcomment %}
+            <div class="grid grid--uniform visually-invisible" aria-hidden="true">
+              {%- render 'product-grid-item',
+                product: rec_product,
+                quick_shop_enable: false
+              -%}
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if related_collection.products_count > 0 -%}
+          <div class="product-recommendations page-width">
+            <div class="grid grid--uniform" data-aos="overflow__animation">
+              {%- for product in related_collection.products limit: number_of_products -%}
+                {% comment %} On smaller screen sizes, 39vw is used for grid items in the CSS {% endcomment %}
+                {%- render 'product-grid-item',
+                  product: rec_product,
+                  per_row: 5,
+                  quick_shop_enable: false,
+                  fallback: '39vw',
+                -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</product-recommendations>
+
+<!--cart reccomendation-->
+
+            <!-- end code by  devp -->
