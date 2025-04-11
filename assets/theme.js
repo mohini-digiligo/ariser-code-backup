@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Initialize Swiper on page load
-    initSwiper();
+   // initSwiper();
 });
 
 
