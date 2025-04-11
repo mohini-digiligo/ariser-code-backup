@@ -391,7 +391,7 @@ a.btn.complementary-product-link {
 a.btn.complementary-product-link:hover {
     box-shadow: 0 0 0 .0 .5rem var(--color-btn-bg-hover);
 }
-.swiper-button-next:after, .swiper-button-prev:after {
+/* .swiper-button-next:after, .swiper-button-prev:after {
     background: #e31e25;
     color: white;
     font-size:18px !important;
@@ -416,7 +416,7 @@ a.btn.complementary-product-link:hover {
 .swiper-button-prev,
 .swiper-button-next {
   color: #000;
-}
+} */
 
 
 .carousel-cell {
