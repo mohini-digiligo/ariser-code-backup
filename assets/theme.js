@@ -169,24 +169,68 @@ customElements.define('cart-item-options', CartItemOptions);
 
 
 // Js for recommaned product cart drawer start
-function initSwiper() {
-    if (swiperInstance) {
-        swiperInstance.destroy(true, true);
+document.addEventListener("DOMContentLoaded", function () {
+    let swiperInstance;
+
+    function initSwiper() {
+        let sliderContainer = document.querySelector(".swiper.product-slider");
+
+        // Ensure Swiper is applied only if the slider exists
+        if (!sliderContainer) {
+            console.warn("Swiper slider not found, delaying initialization...");
+            return;
+        }
+
+        // Destroy existing instance if already initialized
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true);
+        }
+
+        let slideCount = document.querySelectorAll(".swiper.product-slider .swiper-slide").length;
+        let enableLoop = slideCount > 2; // Enable loop only if there are at least 3 slides
+
+        swiperInstance = new Swiper(".swiper.product-slider", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            loop: enableLoop,
+        });
+
+        console.log("Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    let slideCount = document.querySelectorAll(".swiper.product-slider .swiper-slide").length;
-    let enableLoop = slideCount > 2; // Enable loop only if there are at least 3 slides
+    // Initialize Swiper on page load
+    initSwiper();
 
-    swiperInstance = new Swiper(".swiper.product-slider", {
-        slidesPerView: 1,
-        spaceBetween: 10,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        loop: enableLoop,
-    });
-}
+    function reinitializeSwiper() {
+        setTimeout(() => {
+            console.log("Reinitializing Swiper after cart update...");
+            initSwiper();
+        }, 500);
+    }
+
+    // Listen for Shopify cart updates
+    document.addEventListener("shopify:section:load", reinitializeSwiper);
+    document.addEventListener("cart:updated", reinitializeSwiper);
+    document.addEventListener("cart:open", reinitializeSwiper);
+
+    // Watch for changes in the cart recommendations
+    const cartRecommendations = document.querySelector("[data-cart-recommendations]");
+    if (cartRecommendations) {
+        const observer = new MutationObserver(reinitializeSwiper);
+        observer.observe(cartRecommendations, { childList: true, subtree: true });
+    }
+
+    // Debugging: Check if Swiper is properly attached
+    setInterval(() => {
+        if (!document.querySelector(".swiper.product-slider")) {
+            console.warn("Swiper slider missing. Rechecking...");
+        }
+    }, 2000);
+});
 
 // Js for recommaned product cart drawer end 
 
