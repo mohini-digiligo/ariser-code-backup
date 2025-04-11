@@ -395,4 +395,8 @@ product-recommendations__slide {
     position: absolute;
     width: 100%;
 }
+.flickity-enabled.is-draggable .flickity-viewport {
+    cursor: move;
+    cursor: grab;
+}
 
