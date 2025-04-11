@@ -218,24 +218,29 @@ document.addEventListener("DOMContentLoaded", function () {
             if (cartDrawer) {
                 console.log("📦 Cart drawer detected, fetching new content...");
 
-                fetch("/cart")
-                    .then(response => response.text())
-                    .then(html => {
-                        let parser = new DOMParser();
-                        let doc = parser.parseFromString(html, "text/html");
+                // Fetch only the cart drawer section from Shopify
+                fetch(window.location.pathname + "?sections=cart-drawer")
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data["cart-drawer"]) {
+                            let parser = new DOMParser();
+                            let doc = parser.parseFromString(data["cart-drawer"], "text/html");
 
-                        let newCartDrawer = doc.querySelector("m-cart-drawer-items");
-                        if (newCartDrawer) {
-                            cartDrawer.innerHTML = newCartDrawer.innerHTML;
-                            console.log("🔄 Cart drawer updated!");
+                            let newCartDrawer = doc.querySelector("m-cart-drawer-items");
+                            if (newCartDrawer) {
+                                cartDrawer.innerHTML = newCartDrawer.innerHTML;
+                                console.log("🔄 Cart drawer updated!");
 
-                            // Reinitialize Swiper after updating cart
-                            initSwiper();
+                                // Reinitialize Swiper after updating cart
+                                initSwiper();
+                            } else {
+                                console.log("⚠️ New cart drawer content not found in response!");
+                            }
                         } else {
-                            console.log("⚠️ New cart drawer content not found in response!");
+                            console.log("❌ No cart-drawer section found in response!");
                         }
                     })
-                    .catch(error => console.error("❌ Error fetching cart content:", error));
+                    .catch(error => console.error("❌ Error fetching cart section:", error));
             } else {
                 console.log("⚠️ No m-cart-drawer-items found!");
             }
@@ -245,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Observe changes in the cart drawer
     let cartDrawer = document.querySelector("m-cart-drawer-items");
     if (cartDrawer) {
-        let observer = new MutationObserver((mutations) => {
+        let observer = new MutationObserver(() => {
             console.log("🛒 Detected change in cart drawer.");
             reinitializeCartAndSwiper();
         });
@@ -273,6 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reinitializeCartAndSwiper();
     });
 });
+
 
 
 
