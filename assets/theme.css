@@ -380,8 +380,14 @@ mini cart drower for recommanded product  */
 }
 
     .product-recommendations__slide {
-        display: flex
-;
+        display: flex;
         flex-wrap: wrap;
     }
+product-recommendations__slide {
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
 
