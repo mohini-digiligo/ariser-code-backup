@@ -377,7 +377,7 @@ button#cart-new-btn:hover {
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
     max-height: fit-content !important;
 }
-/* .grid-product__meta {
+.grid-product__meta {
      line-height: 1.4;
     padding: 0px 27px 0px 25px;
     position: relative;
@@ -390,8 +390,8 @@ a.btn.complementary-product-link {
 }
 a.btn.complementary-product-link:hover {
     box-shadow: 0 0 0 .0 .5rem var(--color-btn-bg-hover);
-} */
-/* .swiper-button-next:after, .swiper-button-prev:after {
+} 
+ .swiper-button-next:after, .swiper-button-prev:after {
     background: #e31e25;
     color: white;
     font-size:18px !important;
@@ -416,29 +416,10 @@ a.btn.complementary-product-link:hover {
 .swiper-button-prev,
 .swiper-button-next {
   color: #000;
-} */
-
-
-.carousel-cell {
-    width: 100%;
-    padding: 10px;
-}
-.product-slider {
-    max-width: 100%;
-    overflow: hidden;
 }
 
-.flickity-viewport {
-    min-height: 300px; /* Adjust height as needed */
-}
-.carousel-cell {
-    width: 100%;
-    height: 300px; /* Make sure slides have a height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f8f8; /* Light gray for testing */
-}
+
+
 
 
 
