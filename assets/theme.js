@@ -228,6 +228,7 @@ customElements.define('cart-item-options', CartItemOptions);
 // });
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance;
+    let isReinitializing = false; // Prevent multiple reinitializations
 
     function initSwiper() {
         let sliderContainer = document.querySelector(".swiper.product-slider");
@@ -258,10 +259,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
+        isReinitializing = false; // Reset flag after initialization
     }
 
     // Function to retry Swiper initialization when Shopify updates the cart
     function reinitializeSwiper() {
+        if (isReinitializing) return; // Prevent multiple calls
+        isReinitializing = true;
+
         setTimeout(() => {
             console.log("♻️ Reinitializing Swiper after cart update...");
             initSwiper();
@@ -291,6 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Swiper on page load
     initSwiper();
 });
+
 
 
 // Js for recommaned product cart drawer end 
