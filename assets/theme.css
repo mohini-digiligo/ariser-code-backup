@@ -383,10 +383,17 @@ button#cart-new-btn:hover {
     position: relative;
 }
 a.btn.complementary-product-link {
-    background: #d8373d;
+    background: #e31e25;
     margin-top: 10px;
     color: white;
     padding: 6px 12px;
+}
+.swiper-button-next:after, .swiper-button-prev:after {
+    background: #e31e25;
+    color: white;
+    font-size: 18px;
+    padding: 11px 15px;
+    border-radius: 20px;
 }
 .product-single__related {
   position: relative;
