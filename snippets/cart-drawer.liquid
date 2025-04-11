@@ -40,7 +40,7 @@
               {% endfor %}
               
             </div>
-                {% assign totalItems = 0 %} 
+          {% assign totalItems = 0 %} 
           {%- capture recommendationsContent -%}
             {% for cartItem in cart.items %}
              {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
