@@ -66,15 +66,16 @@
             {% endif %}
           {% endfor %}
         {% endif %}
-      {% endfor %}
-    </div>
-
-    {% if hasRecommendations %}
+         {% if hasRecommendations %}
       <!-- Navigation buttons -->
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     {% endif %}
   </div>
+      {% endfor %}
+    </div>
+
+   
 {%- endcapture -%}
 
 <div class="cart-recommendations-wrapper" data-cart-recommendations>
