@@ -371,3 +371,11 @@ button#cart-new-btn:hover {
     padding-bottom: 20px !important;
 }
 
+
+/* 
+mini cart drower for recommanded product  */
+
+.m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
+    max-height: fit-content;
+}
+
