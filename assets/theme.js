@@ -184,20 +184,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   function reloadCartRecommendations() {
-    let recommendationsWrapper = document.querySelector(".cart-recommendations-wrapper");
-    if (recommendationsWrapper) {
-      fetch(window.location.pathname) // Fetch the same page content
-        .then(response => response.text())
-        .then(html => {
-          let parser = new DOMParser();
-          let doc = parser.parseFromString(html, "text/html");
-          let newRecommendations = doc.querySelector(".cart-recommendations-wrapper");
-          if (newRecommendations) {
-            recommendationsWrapper.innerHTML = newRecommendations.innerHTML;
-            initializeSwiper(); // Reinitialize Swiper after content reload
-          }
-        });
-    }
+    setTimeout(() => {
+      let recommendationsWrapper = document.querySelector(".cart-recommendations-wrapper");
+      if (recommendationsWrapper) {
+        fetch(window.location.pathname) // Fetch the updated page content
+          .then(response => response.text())
+          .then(html => {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(html, "text/html");
+            let newRecommendations = doc.querySelector(".cart-recommendations-wrapper");
+            if (newRecommendations) {
+              recommendationsWrapper.innerHTML = newRecommendations.innerHTML;
+              initializeSwiper(); // Reinitialize Swiper after update
+            }
+          });
+      }
+    }, 5000); // Delay update by 5 seconds
   }
 
   function initializeSwiper() {
@@ -218,11 +220,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Monitor cart updates and reload recommendations
-  document.addEventListener("cart:updated", reloadCartRecommendations);
-  document.addEventListener("cart:change", reloadCartRecommendations);
-});
-
+  // Listen for cart updates and trigger reload with delay
+  document.addEventListener("cart:updated", reloadCartRecommendations
 
 
 
