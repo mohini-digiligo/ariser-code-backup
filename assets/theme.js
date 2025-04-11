@@ -165,21 +165,64 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
+// document.addEventListener("DOMContentLoaded", function () {
+//   var swiper = new Swiper(".product-slider", {
+//     slidesPerView: 1, // Show 1 product at a time
+//     spaceBetween: 10, // Adjust spacing between slides
+//     loop: true, // Enable infinite loop
+//     navigation: {
+//       nextEl: ".swiper-button-next",
+//       prevEl: ".swiper-button-prev",
+//     },
+//     autoplay: {
+//       delay: 3000, // Auto-slide every 3 seconds
+//       disableOnInteraction: false, // Keep autoplay even after user interaction
+//     },
+//   });
+// });
+
+
 document.addEventListener("DOMContentLoaded", function () {
-  var swiper = new Swiper(".product-slider", {
-    slidesPerView: 1, // Show 1 product at a time
-    spaceBetween: 10, // Adjust spacing between slides
-    loop: true, // Enable infinite loop
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    autoplay: {
-      delay: 3000, // Auto-slide every 3 seconds
-      disableOnInteraction: false, // Keep autoplay even after user interaction
-    },
-  });
+  function reloadCartRecommendations() {
+    let recommendationsWrapper = document.querySelector(".cart-recommendations-wrapper");
+    if (recommendationsWrapper) {
+      fetch(window.location.pathname) // Fetch the same page content
+        .then(response => response.text())
+        .then(html => {
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(html, "text/html");
+          let newRecommendations = doc.querySelector(".cart-recommendations-wrapper");
+          if (newRecommendations) {
+            recommendationsWrapper.innerHTML = newRecommendations.innerHTML;
+            initializeSwiper(); // Reinitialize Swiper after content reload
+          }
+        });
+    }
+  }
+
+  function initializeSwiper() {
+    if (typeof Swiper !== "undefined") {
+      new Swiper(".product-slider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      });
+    }
+  }
+
+  // Monitor cart updates and reload recommendations
+  document.addEventListener("cart:updated", reloadCartRecommendations);
+  document.addEventListener("cart:change", reloadCartRecommendations);
 });
+
 
 
 
