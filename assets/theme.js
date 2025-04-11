@@ -165,111 +165,20 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
-// document.addEventListener("DOMContentLoaded", function () {
-//   var swiper = new Swiper(".product-slider", {
-//     slidesPerView: 1, // Show 1 product at a time
-//     spaceBetween: 10, // Adjust spacing between slides
-//     loop: true, // Enable infinite loop
-//     navigation: {
-//       nextEl: ".swiper-button-next",
-//       prevEl: ".swiper-button-prev",
-//     },
-//     autoplay: {
-//       delay: 3000, // Auto-slide every 3 seconds
-//       disableOnInteraction: false, // Keep autoplay even after user interaction
-//     },
-//   });
-// });
-
 document.addEventListener("DOMContentLoaded", function () {
-    let swiperInstance;
-    let cartUpdateTimeout; // Debounce timer
-
-    function initSwiper() {
-        if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy existing Swiper instance
-        }
-
-        if (document.querySelector(".swiper.product-slider")) {
-            swiperInstance = new Swiper(".swiper.product-slider", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                loop: true,
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-            });
-
-            console.log("✅ Swiper Initialized.");
-        } else {
-            console.log("⚠️ No .swiper.product-slider found!");
-        }
-    }
-
-    function reinitializeCartAndSwiper() {
-        clearTimeout(cartUpdateTimeout); // Clear any existing timer
-        cartUpdateTimeout = setTimeout(() => { // Debounce to avoid multiple calls
-            console.log("♻️ Reinitializing Swiper after cart update...");
-
-            let cartDrawer = document.querySelector("m-cart-drawer-items");
-            if (cartDrawer) {
-                console.log("📦 Cart drawer detected, fetching new content...");
-
-                fetch(window.location.pathname + "?sections=cart-drawer")
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data["cart-drawer"]) {
-                            let parser = new DOMParser();
-                            let doc = parser.parseFromString(data["cart-drawer"], "text/html");
-
-                            let newCartDrawer = doc.querySelector("m-cart-drawer-items");
-                            if (newCartDrawer) {
-                                cartDrawer.innerHTML = newCartDrawer.innerHTML;
-                                console.log("🔄 Cart drawer updated!");
-
-                                // Reinitialize Swiper after updating cart
-                                initSwiper();
-                            } else {
-                                console.log("⚠️ New cart drawer content not found in response!");
-                            }
-                        } else {
-                            console.log("❌ No cart-drawer section found in response!");
-                        }
-                    })
-                    .catch(error => console.error("❌ Error fetching cart section:", error));
-            } else {
-                console.log("⚠️ No m-cart-drawer-items found!");
-            }
-        }, 500); // Debounce: wait 500ms before executing
-    }
-
-    // Observe changes in the cart drawer (but debounce calls)
-    let cartDrawer = document.querySelector("m-cart-drawer-items");
-    if (cartDrawer) {
-        let observer = new MutationObserver(() => {
-            console.log("🛒 Detected change in cart drawer.");
-            reinitializeCartAndSwiper();
-        });
-
-        observer.observe(cartDrawer, { childList: true, subtree: true });
-        console.log("👀 Cart drawer observer initialized.");
-    }
-
-    // Initial Swiper setup
-    initSwiper();
-
-    // Listen for Shopify events (also debounced)
-    ["cart:updated", "cart:change", "shopify:section:load"].forEach(event => {
-        document.addEventListener(event, () => {
-            console.log(`🛒 ${event} event detected!`);
-            reinitializeCartAndSwiper();
-        });
-    });
+  var swiper = new Swiper(".product-slider", {
+    slidesPerView: 1, // Show 1 product at a time
+    spaceBetween: 10, // Adjust spacing between slides
+    loop: true, // Enable infinite loop
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    autoplay: {
+      delay: 3000, // Auto-slide every 3 seconds
+      disableOnInteraction: false, // Keep autoplay even after user interaction
+    },
+  });
 });
 
 
