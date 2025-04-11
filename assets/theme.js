@@ -200,12 +200,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (newCartDrawer && oldCartDrawer) {
                     oldCartDrawer.innerHTML = newCartDrawer.innerHTML; // Update cart content
                     console.log("🔄 #MinimogCartDrawer updated!");
+
+                    // Wait a moment before initializing Swiper to ensure content is loaded
+                    setTimeout(initializeSwiper, 500);
                 } else {
                     console.error("⚠️ New #MinimogCartDrawer content not found!");
                 }
             })
             .catch((error) => console.error("❌ Error updating cart drawer:", error))
             .finally(() => (isUpdating = false));
+    }
+
+    function initializeSwiper() {
+        console.log("♻️ Reinitializing Swiper...");
+
+        // Destroy existing Swiper instance if it exists
+        if (window.productSwiper && typeof window.productSwiper.destroy === "function") {
+            window.productSwiper.destroy(true, true);
+        }
+
+        // Reinitialize Swiper
+        window.productSwiper = new Swiper(".product-slider", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
+
+        console.log("✅ Swiper Initialized.");
     }
 
     // Listen for Add to Cart & Remove Item Clicks
@@ -215,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 
 
 
