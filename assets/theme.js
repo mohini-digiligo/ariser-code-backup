@@ -176,8 +176,8 @@ document.addEventListener("DOMContentLoaded", function () {
     spaceBetween: 10,  // Adds space between slides
     loop: true,        // Enables infinite loop
     navigation: {
-      nextEl: ".swiper-button-nexted",
-      prevEl: ".swiper-button-preved",
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
     },
     autoplay: {
       delay: 3000, // Auto-slide every 3 seconds
