@@ -187,8 +187,8 @@ document.addEventListener("DOMContentLoaded", function () {
         spaceBetween: 10, // Adjust spacing between slides
         loop: true, // Infinite loop
         navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-prev",
+            prevEl: ".swiper-button-next",
         },
         autoplay: {
             delay: 3000, // Auto-slide every 3 seconds
@@ -196,6 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     });
 });
+
 
 
 
