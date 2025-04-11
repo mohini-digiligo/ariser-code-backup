@@ -165,28 +165,29 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
-document.addEventListener("DOMContentLoaded", function () {
-  var swiper = new Swiper(".product-slider", {
-    slidesPerView: 1, // Show 1 product at a time
-    spaceBetween: 10, // Adjust spacing between slides
-    loop: true, // Enable infinite loop
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    autoplay: {
-      delay: 3000, // Auto-slide every 3 seconds
-      disableOnInteraction: false, // Keep autoplay even after user interaction
-    },
-  });
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   var swiper = new Swiper(".product-slider", {
+//     slidesPerView: 1, // Show 1 product at a time
+//     spaceBetween: 10, // Adjust spacing between slides
+//     loop: true, // Enable infinite loop
+//     navigation: {
+//       nextEl: ".swiper-button-next",
+//       prevEl: ".swiper-button-prev",
+//     },
+//     autoplay: {
+//       delay: 3000, // Auto-slide every 3 seconds
+//       disableOnInteraction: false, // Keep autoplay even after user interaction
+//     },
+//   });
+// });
 
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance;
+    let cartUpdateTimeout; // Debounce timer
 
     function initSwiper() {
         if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy the existing Swiper instance
+            swiperInstance.destroy(true, true); // Destroy existing Swiper instance
         }
 
         if (document.querySelector(".swiper.product-slider")) {
@@ -211,14 +212,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function reinitializeCartAndSwiper() {
-        console.log("♻️ Reinitializing Swiper after cart update...");
+        clearTimeout(cartUpdateTimeout); // Clear any existing timer
+        cartUpdateTimeout = setTimeout(() => { // Debounce to avoid multiple calls
+            console.log("♻️ Reinitializing Swiper after cart update...");
 
-        setTimeout(() => {
             let cartDrawer = document.querySelector("m-cart-drawer-items");
             if (cartDrawer) {
                 console.log("📦 Cart drawer detected, fetching new content...");
 
-                // Fetch only the cart drawer section from Shopify
                 fetch(window.location.pathname + "?sections=cart-drawer")
                     .then(response => response.json())
                     .then(data => {
@@ -244,10 +245,10 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 console.log("⚠️ No m-cart-drawer-items found!");
             }
-        }, 500);
+        }, 500); // Debounce: wait 500ms before executing
     }
 
-    // Observe changes in the cart drawer
+    // Observe changes in the cart drawer (but debounce calls)
     let cartDrawer = document.querySelector("m-cart-drawer-items");
     if (cartDrawer) {
         let observer = new MutationObserver(() => {
@@ -262,20 +263,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial Swiper setup
     initSwiper();
 
-    // Debugging: Check if event listeners are correctly attached
-    document.addEventListener("cart:updated", () => {
-        console.log("🛒 cart:updated event detected!");
-        reinitializeCartAndSwiper();
-    });
-
-    document.addEventListener("cart:change", () => {
-        console.log("🔄 cart:change event detected!");
-        reinitializeCartAndSwiper();
-    });
-
-    document.addEventListener("shopify:section:load", () => {
-        console.log("📢 Shopify section reloaded!");
-        reinitializeCartAndSwiper();
+    // Listen for Shopify events (also debounced)
+    ["cart:updated", "cart:change", "shopify:section:load"].forEach(event => {
+        document.addEventListener(event, () => {
+            console.log(`🛒 ${event} event detected!`);
+            reinitializeCartAndSwiper();
+        });
     });
 });
 
