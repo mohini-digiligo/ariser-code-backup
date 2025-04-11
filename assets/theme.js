@@ -170,153 +170,21 @@ customElements.define('cart-item-options', CartItemOptions);
 
 // Js for recommaned product cart drawer
 
-// Prevent vertical scroll while using flickity sliders
-  (function() {
-    var e = !1;
-    var t;
-  
-    document.body.addEventListener('touchstart', function(i) {
-      if (!i.target.closest('.flickity-slider')) {
-        return e = !1;
-        void 0;
-      }
-      e = !0;
-      t = {
-        x: i.touches[0].pageX,
-        y: i.touches[0].pageY
-      }
-    })
-  
-    document.body.addEventListener('touchmove', function(i) {
-      if (e && i.cancelable) {
-        var n = {
-          x: i.touches[0].pageX - t.x,
-          y: i.touches[0].pageY - t.y
-        };
-        Math.abs(n.x) > Flickity.defaults.dragThreshold && i.preventDefault()
-      }
-    }, { passive: !1 })
-  })();
-
-
-initImageZoom: function() {
-        var container = this.container.querySelector(this.selectors.imageContainer);
-        if (!container) {
-          return;
-        }
-        var imageZoom = new theme.Photoswipe(container, this.sectionId);
-        container.addEventListener('photoswipe:afterChange', function(evt) {
-          if (this.flickity) {
-            this.flickity.goToSlide(evt.detail.index);
-          }
-        }.bind(this));
-      },
-  
-      getThumbIndex: function(target) {
-        return target.dataset.index;
-      },
-  
-      updateVariantImage: function(evt) {
-        var variant = evt.detail.variant;
-        var sizedImgUrl = theme.Images.getSizedImageUrl(variant.featured_media.preview_image.src, this.settings.imageSize);
-  
-        var newImage = this.container.querySelector('.product__thumb[data-id="' + variant.featured_media.id + '"]');
-        if(newImage){
-          var imageIndex = this.getThumbIndex(newImage);
-        }
-  
-        // If there is no index, slider is not initalized
-        if (typeof imageIndex === 'undefined') {
-          return;
-        }
-  
-        // Go to that variant image's slide
-        if (this.flickity) {
-          this.flickity.goToSlide(imageIndex);
-        }
-      },
-  
-      initProductSlider: function(variant) {
-        // Stop if only a single image, but add active class to first slide
-        if (this.cache.mainSlider?.querySelectorAll(selectors.slide).length <= 1) {
-          var slide = this.cache.mainSlider?.querySelector(selectors.slide);
-          if (slide) {
-            slide.classList.add('is-selected');
-          }
-          return;
-        }
-  
-        // Destroy slider in preparation of new initialization
-        if (this.flickity && typeof this.flickity.destroy === 'function') {
-          this.flickity.destroy();
-        }
-  
-        // If variant argument exists, slideshow is reinitializing because of the
-        // image set feature enabled and switching to a new group.
-        // currentSlideIndex
-        if (!variant) {
-          var activeSlide = this.cache.mainSlider?.querySelector(selectors.startingSlide);
-          this.settings.currentSlideIndex = this._slideIndex(activeSlide);
-        }
-  
-        var mainSliderArgs = {
-          dragThreshold: 25,
-          adaptiveHeight: true,
-          avoidReflow: true,
-          initialIndex: this.settings.currentSlideIndex,
-          childNav: this.cache.thumbSlider,
-          childNavScroller: this.cache.thumbScroller,
-          childVertical: this.cache.thumbSlider.dataset.position === 'beside',
-          pageDots: true, // mobile only with CSS
-          wrapAround: true,
-          callbacks: {
-            onInit: this.onSliderInit.bind(this),
-            onChange: this.onSlideChange.bind(this)
-          }
-        };
-  
-        // Override default settings if image set feature enabled
-        if (this.settings.imageSetName) {
-          var imageSetArgs = this.imageSetArguments(variant);
-          mainSliderArgs = Object.assign({}, mainSliderArgs, imageSetArgs);
-          this.updateImageSetThumbs(mainSliderArgs.imageSet);
-        }
-      if(this.cache.mainSlider){
-        this.flickity = new theme.Slideshow(this.cache.mainSlider, mainSliderArgs);
-      }
-      },
-  
-      onSliderInit: function(slide) {
-        // If slider is initialized with image set feature active,
-        // initialize any videos/media when they are first slide
-        if (this.settings.imageSetName) {
-          this.prepMediaOnSlide(slide);
-        }
-      },
-  
-      onSlideChange: function(index) {
-        if (!this.flickity) return;
-  
-        var prevSlide = this.cache.mainSlider?.querySelector('.product-main-slide[data-index="'+this.settings.currentSlideIndex+'"]');
-  
-        // If imageSetName exists, use a more specific selector
-        var nextSlide = this.settings.imageSetName ?
-                        this.cache.mainSlider?.querySelectorAll('.flickity-slider .product-main-slide')[index] :
-                        this.cache.mainSlider?.querySelector('.product-main-slide[data-index="'+index+'"]');
-  
-        prevSlide.setAttribute('tabindex', '-1');
-        nextSlide.setAttribute('tabindex', 0);
-  
-        // Pause any existing slide video/media
-        this.stopMediaOnSlide(prevSlide);
-  
-        // Prep next slide video/media
-        this.prepMediaOnSlide(nextSlide);
-  
-        // Update current slider index
-        this.settings.currentSlideIndex = index;
-      }
-
+document.addEventListener("DOMContentLoaded", function () {
+  var swiper = new Swiper(".product-slider", {
+    slidesPerView: 1, // Show 1 product at a time
+    spaceBetween: 10, // Adjust spacing between slides
+    loop: true, // Enable infinite loop
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    autoplay: {
+      delay: 3000, // Auto-slide every 3 seconds
+      disableOnInteraction: false, // Keep autoplay even after user interaction
+    },
+  });
+});
 
 
 
