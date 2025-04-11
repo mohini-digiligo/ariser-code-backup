@@ -50,7 +50,7 @@
           {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
             {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
             {% if line_items == 0 %}
-              <div class="swiper-slide product-recommendations__slide">
+              <div class="carousel-cell product-recommendations__slide">
                 {%- render 'product-grid-item',
                   image_style: 'default',
                   product: refProduct,
@@ -68,7 +68,6 @@
       {% endfor %}
     </div>
 
-    </div>
 {%- endcapture -%}
 
 <div class="cart-recommendations-wrapper" data-cart-recommendations>
