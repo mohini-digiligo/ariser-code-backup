@@ -168,7 +168,6 @@ customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance;
-    let debounceTimer;
 
     function initSwiper() {
         let sliderContainer = document.querySelector(".swiper.product-slider");
@@ -201,29 +200,36 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    // **Debounced function to prevent multiple reinitializations**
-    function reinitializeSwiper() {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            console.log("♻️ Reinitializing Swiper after cart update...");
-            initSwiper();
-        }, 300); // Adjust debounce delay as needed
+    // **Detect Add to Cart and Remove Item Actions**
+    function watchCartChanges() {
+        const cartWrapper = document.querySelector("[data-cart-recommendations]");
+
+        if (!cartWrapper) return;
+
+        const observer = new MutationObserver((mutationsList) => {
+            let cartChanged = false;
+
+            for (let mutation of mutationsList) {
+                if (mutation.type === "childList") {
+                    cartChanged = true;
+                    break;
+                }
+            }
+
+            if (cartChanged) {
+                console.log("♻️ Cart updated, reinitializing Swiper...");
+                initSwiper();
+            }
+        });
+
+        observer.observe(cartWrapper, { childList: true, subtree: true });
     }
 
-    // Listen for Shopify section updates and cart changes
-    document.addEventListener("shopify:section:load", reinitializeSwiper);
-    document.addEventListener("cart:updated", reinitializeSwiper);
-    document.addEventListener("cart:open", reinitializeSwiper);
-
-    // Observe changes in the cart recommendations section
-    const cartRecommendations = document.querySelector("[data-cart-recommendations]");
-    if (cartRecommendations) {
-        const observer = new MutationObserver(reinitializeSwiper);
-        observer.observe(cartRecommendations, { childList: true, subtree: true });
-    }
-
-    // Initialize Swiper on page load
+    // **Initialize Swiper on Page Load**
     initSwiper();
+
+    // **Start Watching for Cart Updates**
+    watchCartChanges();
 });
 
 
