@@ -181,30 +181,32 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance = null;
-    let isUpdating = false; // Prevent multiple reloads
+    let isUpdating = false;
 
     function initializeSwiper() {
+        // Destroy previous Swiper instance if exists
         if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy previous instance
+            swiperInstance.destroy(true, true);
         }
 
-        swiperInstance = new Swiper(".swiper", {
-            slidesPerView: 1,
+        // Initialize Swiper
+        swiperInstance = new Swiper(".swiper.product-slider", {
+            slidesPerView: 2,
             spaceBetween: 10,
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
             },
+            loop: true,
         });
 
         console.log("✅ Swiper Initialized.");
     }
 
     function reloadCartDrawer() {
-        if (isUpdating) return; // Prevent multiple calls
+        if (isUpdating) return; // Prevent multiple updates
         isUpdating = true;
 
         fetch(window.Shopify.routes.root + "cart.js")
@@ -224,7 +226,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (newDrawer && oldDrawer) {
                             oldDrawer.innerHTML = newDrawer.innerHTML; // Update cart content
                             console.log("🔄 Cart drawer updated!");
-                            initializeSwiper(); // Reinitialize Swiper
+                            
+                            // Ensure Swiper is initialized again
+                            initializeSwiper();
                         } else {
                             console.error("⚠️ New cart drawer content not found!");
                         }
@@ -234,14 +238,14 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // Monitor Add to Cart and Remove Item Actions
+    // Listen for Add to Cart & Remove Item Clicks
     document.body.addEventListener("click", function (event) {
         if (event.target.matches("[data-add-to-cart], .remove-item-button")) {
             reloadCartDrawer();
         }
     });
 
-    // Initial Swiper Load
+    // Initialize Swiper on page load
     initializeSwiper();
 });
 
