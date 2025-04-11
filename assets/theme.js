@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
       prevEl: ".swiper-button-prev",
     },
     autoplay: {
-      delay: 3000, // Auto-slide every 3 seconds
+      delay: 30000, // Auto-slide every 3 seconds
       disableOnInteraction: false,
     },
   });
