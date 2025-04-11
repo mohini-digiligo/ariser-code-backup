@@ -263,15 +263,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Function to retry Swiper initialization when Shopify updates the cart
-    // function reinitializeSwiper() {
-    //     if (isReinitializing) return; // Prevent multiple calls
-    //     isReinitializing = true;
+    function reinitializeSwiper() {
+        if (isReinitializing) return; // Prevent multiple calls
+        isReinitializing = true;
 
-    //     setTimeout(() => {
-    //         console.log("♻️ Reinitializing Swiper after cart update...");
-    //         initSwiper();
-    //     }, 1000); // Delay to ensure section is fully loaded
-    // }
+        setTimeout(() => {
+            console.log("♻️ Reinitializing Swiper after cart update...");
+            initSwiper();
+        }, 1000); // Delay to ensure section is fully loaded
+    }
 
     // Listen for Shopify section updates and cart changes
     document.addEventListener("shopify:section:load", reinitializeSwiper);
