@@ -181,6 +181,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    var flkty = new Flickity('.product-slider', {
+        wrapAround: true,
+        autoPlay: 3000,
+        prevNextButtons: true,
+        pageDots: false,
+    });
+})
+
 // document.addEventListener("DOMContentLoaded", function () {
 //     let swiperInstance;
 //     let isUpdating = false; // Prevent multiple updates
