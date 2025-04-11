@@ -251,11 +251,14 @@
                   {{ block.settings.live_views_text | replace: live_views_numb, live_views_current }}
                 </div>
               </div>
+
+
+                      
             {%- when 'variant_picker' -%}
               <div class="product__variant-picker product-options">
                 {% render 'product-option', product: product, section: section, size_title: size_title, product_form_id: product_form_id, update_browser_history: update_browser_history %}
               </div> 
-                       {% render 'cross-variant', current_product: product %}
+                      
                     <div class="product-block" {% if block.settings.product_dynamic_variants_enable %}data-dynamic-variants-enabled{% endif %} {{ block.shopify_attributes }}>
                       {%- unless product.has_only_default_variant -%}
                         {%- for option in product.options_with_values -%}
@@ -293,6 +296,9 @@
                         {%- endfor -%}
                       {%- endunless -%}
                     </div>
+
+
+                      
                    
             {%- when 'buy_buttons' -%}
               {% liquid
