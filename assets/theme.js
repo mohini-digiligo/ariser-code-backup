@@ -165,21 +165,21 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
-// document.addEventListener("DOMContentLoaded", function () {
-//   var swiper = new Swiper(".product-slider", {
-//     slidesPerView: 1, // Show 1 product at a time
-//     spaceBetween: 10, // Adjust spacing between slides
-//     loop: true, // Enable infinite loop
-//     navigation: {
-//       nextEl: ".swiper-button-next",
-//       prevEl: ".swiper-button-prev",
-//     },
-//     autoplay: {
-//       delay: 3000, // Auto-slide every 3 seconds
-//       disableOnInteraction: false, // Keep autoplay even after user interaction
-//     },
-//   });
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  var swiper = new Swiper(".product-slider", {
+    slidesPerView: 1, // Show 1 product at a time
+    spaceBetween: 10, // Adjust spacing between slides
+    loop: true, // Enable infinite loop
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    autoplay: {
+      delay: 3000, // Auto-slide every 3 seconds
+      disableOnInteraction: false, // Keep autoplay even after user interaction
+    },
+  });
+});
 
 
 
