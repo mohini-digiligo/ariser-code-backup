@@ -167,7 +167,7 @@ customElements.define('cart-item-options', CartItemOptions);
 // code for popup mini cart change options end
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance;
-    let isUpdating = false; // Prevents multiple reinitializations
+    let isUpdating = false; // Prevent multiple updates
 
     function initSwiper() {
         let sliderContainer = document.querySelector(".swiper.product-slider");
@@ -180,12 +180,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let slides = sliderContainer.querySelectorAll(".swiper-slide");
         let slideCount = slides.length;
+        let enableLoop = slideCount > 2; // Loop mode only if more than 2 slides
 
+        // Destroy existing Swiper instance before reinitializing
         if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy existing instance
+            swiperInstance.destroy(true, true);
         }
-
-        let enableLoop = slideCount > 2; // Enable loop mode only if there are enough slides
 
         swiperInstance = new Swiper(".swiper.product-slider", {
             slidesPerView: 1,
@@ -195,12 +195,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 prevEl: ".swiper-button-prev",
             },
             loop: enableLoop,
+            loopAdditionalSlides: slideCount, // Prevents loop issues
         });
 
         console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    // **Throttle function to limit reinitialization frequency**
+    // **Throttle function to prevent excessive reinitializations**
     function throttle(func, delay) {
         if (isUpdating) return;
         isUpdating = true;
@@ -210,15 +211,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }, delay);
     }
 
-    // **Detect Cart Changes Efficiently**
+    // **Detect Cart Changes**
     function watchCartChanges() {
         const cartWrapper = document.querySelector("[data-cart-recommendations]");
-
         if (!cartWrapper) return;
 
         const observer = new MutationObserver(() => {
-            console.log("♻️ Cart updated, attempting to reinitialize Swiper...");
-            throttle(initSwiper, 500); // Throttle to prevent multiple triggers
+            console.log("♻️ Cart updated, reinitializing Swiper...");
+            throttle(initSwiper, 500);
         });
 
         observer.observe(cartWrapper, { childList: true, subtree: true });
@@ -226,10 +226,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // **Initialize Swiper on Page Load**
     initSwiper();
-
-    // **Start Watching for Cart Updates**
     watchCartChanges();
 });
+
 
 
 
