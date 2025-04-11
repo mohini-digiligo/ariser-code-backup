@@ -226,77 +226,41 @@ customElements.define('cart-item-options', CartItemOptions);
 //     // Initialize Swiper on page load
 //     initSwiper();
 // });
-document.addEventListener("DOMContentLoaded", function () {
-    let swiperInstance;
-    let isReinitializing = false; // Prevent multiple calls
+let swiperInstance; // Store Swiper instance globally
 
-    function initSwiper() {
-        let sliderContainer = document.querySelector(".swiper.product-slider");
-
-        if (!sliderContainer) {
-            console.warn("Swiper slider not found. Waiting for DOM update...");
-            setTimeout(initSwiper, 500); // Retry after 500ms
-            return;
-        }
-
-        let slides = sliderContainer.querySelectorAll(".swiper-slide");
-        let slideCount = slides.length;
-
-        if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy existing Swiper instance
-        }
-
-        let enableLoop = slideCount > 2; // Enable loop mode only if enough slides
-
-        swiperInstance = new Swiper(".swiper.product-slider", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            loop: enableLoop,
-        });
-
-        console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
-        isReinitializing = false; // Reset flag
+function initializeSwiper() {
+    if (swiperInstance) {
+        swiperInstance.destroy(true, true); // Destroy previous instance
+        console.log("🛑 Destroying previous Swiper instance...");
     }
 
-    function reinitializeSwiper() {
-        if (isReinitializing) return; // Prevent multiple calls
-        isReinitializing = true;
-
-        console.log("♻️ Reinitializing Swiper after cart update...");
-
-        setTimeout(() => {
-            initSwiper();
-        }, 800); // Delay to ensure the cart has fully updated
-    }
-
-    // Shopify cart updates
-    document.addEventListener("shopify:section:load", reinitializeSwiper);
-    document.addEventListener("cart:updated", reinitializeSwiper);
-    document.addEventListener("cart:open", reinitializeSwiper);
-
-    // Detect cart item removal
-    document.addEventListener("click", function (event) {
-        if (event.target.matches(".cart-remove, .cart-remove *")) {
-            console.log("🗑 Product removed. Waiting for cart update...");
-            setTimeout(reinitializeSwiper, 1000); // Ensure cart updates before reinitializing
-        }
+    swiperInstance = new Swiper(".swiper-container", {
+        loop: true,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
     });
 
-    // Observe changes in the cart recommendations section
-    const cartRecommendations = document.querySelector("[data-cart-recommendations]");
-    if (cartRecommendations) {
-        const observer = new MutationObserver(() => {
-            reinitializeSwiper();
-        });
-        observer.observe(cartRecommendations, { childList: true, subtree: true });
-    }
+    console.log("♻️ Swiper Initialized/Reinitialized!");
+}
 
-    // Initialize Swiper on page load
-    initSwiper();
+// Function to handle cart update and reinitialize Swiper
+function onCartUpdate() {
+    console.log("♻️ Reinitializing Swiper after cart update...");
+    initializeSwiper();
+}
+
+// Attach event listener only once
+document.addEventListener("DOMContentLoaded", () => {
+    initializeSwiper(); // Initial load
+
+    // Use event delegation to prevent multiple bindings
+    document.body.addEventListener("cartUpdated", onCartUpdate);
 });
 
 
