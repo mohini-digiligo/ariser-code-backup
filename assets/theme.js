@@ -171,11 +171,11 @@ customElements.define('cart-item-options', CartItemOptions);
 // Js for recommaned product cart drawer start
 
 document.addEventListener("DOMContentLoaded", function () {
-    var swiperInstance;
+    let swiperInstance;
 
     function initSwiper() {
         if (swiperInstance) {
-            swiperInstance.destroy(true, true);
+            swiperInstance.destroy(true, true); // Destroy existing instance
         }
 
         swiperInstance = new Swiper(".swiper.product-slider", {
@@ -192,32 +192,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Swiper on page load
     initSwiper();
 
-    // Reinitialize when cart drawer updates
-    document.addEventListener("shopify:section:load", function () {
-        setTimeout(initSwiper, 500);
-    });
+    // Function to check and reinitialize Swiper when recommendations change
+    function reinitializeSwiper() {
+        setTimeout(function () {
+            if (document.querySelector(".swiper.product-slider")) {
+                initSwiper();
+            }
+        }, 500);
+    }
 
-    // Reinitialize when the cart is updated
-    document.addEventListener("cart:updated", function () {
-        setTimeout(initSwiper, 500);
-    });
+    // Listen for Shopify cart updates
+    document.addEventListener("shopify:section:load", reinitializeSwiper);
+    document.addEventListener("cart:updated", reinitializeSwiper);
+    document.addEventListener("cart:open", reinitializeSwiper);
 
-    // If your theme has a custom cart drawer event, listen for it
-    document.addEventListener("cart:open", function () {
-        setTimeout(initSwiper, 500);
-    });
-
-    // Observe changes in the cart drawer
-    const observer = new MutationObserver(function () {
-        setTimeout(initSwiper, 500);
-    });
-
-    const cartDrawer = document.querySelector(".cart-recommendations-wrapper");
-    if (cartDrawer) {
-        observer.observe(cartDrawer, { childList: true, subtree: true });
+    // Observe cart-recommendations-wrapper for changes
+    const cartRecommendations = document.querySelector("[data-cart-recommendations]");
+    if (cartRecommendations) {
+        const observer = new MutationObserver(reinitializeSwiper);
+        observer.observe(cartRecommendations, { childList: true, subtree: true });
     }
 });
-
 
 
 // Js for recommaned product cart drawer end 
