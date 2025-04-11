@@ -185,26 +185,28 @@ document.addEventListener("DOMContentLoaded", function () {
     let isUpdating = false;
 
     function reloadMinimogCartDrawer() {
-        if (isUpdating) return; // Prevent multiple updates
+        if (isUpdating) return;
         isUpdating = true;
 
-        fetch(window.Shopify.routes.root + "cart")
+        fetch("/cart.js") // Shopify's AJAX cart endpoint
+            .then((res) => res.json())
+            .then((cartData) => {
+                return fetch("/?section_id=cart-drawer"); // Get the updated cart drawer section
+            })
             .then((res) => res.text())
             .then((html) => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, "text/html");
-
                 const newCartDrawer = doc.querySelector("#MinimogCartDrawer");
                 const oldCartDrawer = document.querySelector("#MinimogCartDrawer");
 
                 if (newCartDrawer && oldCartDrawer) {
-                    oldCartDrawer.innerHTML = newCartDrawer.innerHTML; // Update cart content
-                    console.log("🔄 #MinimogCartDrawer updated!");
+                    oldCartDrawer.innerHTML = newCartDrawer.innerHTML;
+                    console.log("✅ #MinimogCartDrawer updated!");
 
-                    // Wait a moment before initializing Swiper to ensure content is loaded
-                    setTimeout(initializeSwiper, 500);
+                    setTimeout(initializeSwiper, 500); // Wait before initializing Swiper
                 } else {
-                    console.error("⚠️ New #MinimogCartDrawer content not found!");
+                    console.error("⚠️ Updated #MinimogCartDrawer not found!");
                 }
             })
             .catch((error) => console.error("❌ Error updating cart drawer:", error))
@@ -214,12 +216,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function initializeSwiper() {
         console.log("♻️ Reinitializing Swiper...");
 
-        // Destroy existing Swiper instance if it exists
         if (window.productSwiper && typeof window.productSwiper.destroy === "function") {
             window.productSwiper.destroy(true, true);
         }
 
-        // Reinitialize Swiper
         window.productSwiper = new Swiper(".product-slider", {
             slidesPerView: 1,
             spaceBetween: 10,
