@@ -181,25 +181,27 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
-  function reloadCartRecommendations() {
+  function reloadCartDrawer() {
     setTimeout(() => {
-      let recommendationsWrapper = document.querySelector(".cart-recommendations-wrapper");
-      if (recommendationsWrapper) {
-        fetch(window.location.pathname) // Fetch the updated page content
-          .then(response => response.text())
-          .then(html => {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(html, "text/html");
-            let newRecommendations = doc.querySelector(".cart-recommendations-wrapper");
-            if (newRecommendations) {
-              recommendationsWrapper.innerHTML = newRecommendations.innerHTML;
-              initializeSwiper(); // Reinitialize Swiper after update
-            }
-          });
-      }
-    }, 5000); // Delay update by 5 seconds
+      fetch(window.location.pathname) // Fetch updated page content
+        .then(response => response.text())
+        .then(html => {
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(html, "text/html");
+
+          // Replace cart drawer content
+          let newCartDrawer = doc.querySelector("m-cart-drawer-items");
+          let cartDrawer = document.querySelector("m-cart-drawer-items");
+
+          if (newCartDrawer && cartDrawer) {
+            cartDrawer.innerHTML = newCartDrawer.innerHTML;
+
+            // Reinitialize Swiper
+            initializeSwiper();
+          }
+        });
+    }, 500); // Small delay to ensure update completion
   }
 
   function initializeSwiper() {
@@ -220,9 +222,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Listen for cart updates and trigger reload with delay
-  document.addEventListener("cart:updated", reloadCartRecommendations
-
+  // Listen for cart updates and reload the drawer & Swiper
+  document.addEventListener("cart:updated", reloadCartDrawer);
+  document.addEventListener("cart:change", reloadCartDrawer);
+});
 
 
 
