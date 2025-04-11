@@ -175,19 +175,20 @@ document.addEventListener("DOMContentLoaded", function () {
     function initSwiper() {
         let sliderContainer = document.querySelector(".swiper.product-slider");
 
-        // Ensure Swiper is applied only if the slider exists
         if (!sliderContainer) {
             console.warn("Swiper slider not found, delaying initialization...");
             return;
         }
 
-        // Destroy existing instance if already initialized
+        let slides = document.querySelectorAll(".swiper.product-slider .swiper-slide");
+        let slideCount = slides.length;
+
+        // Destroy existing instance
         if (swiperInstance) {
             swiperInstance.destroy(true, true);
         }
 
-        let slideCount = document.querySelectorAll(".swiper.product-slider .swiper-slide").length;
-        let enableLoop = slideCount > 2; // Enable loop only if there are at least 3 slides
+        let enableLoop = slideCount > 2; // Ensure loop mode only when 3+ slides exist
 
         swiperInstance = new Swiper(".swiper.product-slider", {
             slidesPerView: 1,
@@ -212,25 +213,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500);
     }
 
-    // Listen for Shopify cart updates
+    // Listen for Shopify section updates
     document.addEventListener("shopify:section:load", reinitializeSwiper);
     document.addEventListener("cart:updated", reinitializeSwiper);
     document.addEventListener("cart:open", reinitializeSwiper);
 
-    // Watch for changes in the cart recommendations
+    // Observe changes in the cart recommendations section
     const cartRecommendations = document.querySelector("[data-cart-recommendations]");
     if (cartRecommendations) {
         const observer = new MutationObserver(reinitializeSwiper);
         observer.observe(cartRecommendations, { childList: true, subtree: true });
     }
 
-    // Debugging: Check if Swiper is properly attached
+    // Debugging: Check if Swiper disappears
     setInterval(() => {
         if (!document.querySelector(".swiper.product-slider")) {
             console.warn("Swiper slider missing. Rechecking...");
         }
     }, 2000);
 });
+
 
 // Js for recommaned product cart drawer end 
 
