@@ -68,6 +68,7 @@
                   <h2 class="text-2xl md:text-3xl md:leading-[42px] pr-2">{{ product.title }}</h2>
                 {% else %}
                   <h1 class="text-2xl md:text-3xl md:leading-[42px] pr-2">{{ product.title }}</h1>
+                  <h1>test</h1>      
                 {% endif %}
                 {% if section.settings.show_atwl and section.settings.layout != 'layout-7' %}
                   <div class="hidden md:block absolute right-0 top-0">
@@ -253,7 +254,7 @@
               </div>
 
 
-                <h1>test</h1>      
+                
             {%- when 'variant_picker' -%}
               <div class="product__variant-picker product-options">
                 {% render 'product-option', product: product, section: section, size_title: size_title, product_form_id: product_form_id, update_browser_history: update_browser_history %}
