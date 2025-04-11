@@ -171,20 +171,32 @@ customElements.define('cart-item-options', CartItemOptions);
 // Js for recommaned product cart drawer start
 
 document.addEventListener("DOMContentLoaded", function () {
-  var swiper = new Swiper(".product-slider", {
-    slidesPerView: 1,  // Adjust based on your layout
-    spaceBetween: 10,  // Adds space between slides
-    loop: true,        // Enables infinite loop
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    autoplay: {
-      delay: 3000, // Auto-slide every 3 seconds
-      disableOnInteraction: false,
-    },
-  });
+    function initSwiper() {
+        var swiper = new Swiper(".swiper.product-slider", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            loop: true,
+        });
+    }
+
+    // Initialize Swiper on page load
+    initSwiper();
+
+    // Reinitialize Swiper when the cart drawer opens
+    document.addEventListener("shopify:section:load", function () {
+        setTimeout(initSwiper, 500); // Delay to ensure elements are loaded
+    });
+
+    // Also reinitialize when the cart updates
+    document.addEventListener("cart:updated", function () {
+        setTimeout(initSwiper, 500);
+    });
 });
+
 
 // Js for recommaned product cart drawer end 
 
