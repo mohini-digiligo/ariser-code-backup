@@ -182,71 +182,38 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    let swiperInstance = null;
     let isUpdating = false;
 
-    function initializeSwiper() {
-        // Destroy previous Swiper instance if exists
-        if (swiperInstance) {
-            swiperInstance.destroy(true, true);
-        }
-
-        // Initialize Swiper
-        swiperInstance = new Swiper(".swiper.product-slider", {
-            slidesPerView: 2,
-            spaceBetween: 10,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            loop: true,
-        });
-
-        console.log("✅ Swiper Initialized.");
-    }
-
-    function reloadCartDrawer() {
+    function reloadMinimogCartDrawer() {
         if (isUpdating) return; // Prevent multiple updates
         isUpdating = true;
 
-        fetch(window.Shopify.routes.root + "cart.js")
-            .then((response) => response.json())
-            .then((cart) => {
-                console.log("🛒 Cart updated, reloading drawer...");
+        fetch(window.Shopify.routes.root + "cart")
+            .then((res) => res.text())
+            .then((html) => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
 
-                fetch(window.Shopify.routes.root + "cart")
-                    .then((res) => res.text())
-                    .then((html) => {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, "text/html");
+                const newCartDrawer = doc.querySelector("#MinimogCartDrawer");
+                const oldCartDrawer = document.querySelector("#MinimogCartDrawer");
 
-                        const newDrawer = doc.querySelector("m-cart-drawer-items");
-                        const oldDrawer = document.querySelector("m-cart-drawer-items");
-
-                        if (newDrawer && oldDrawer) {
-                            oldDrawer.innerHTML = newDrawer.innerHTML; // Update cart content
-                            console.log("🔄 Cart drawer updated!");
-                            
-                            // Ensure Swiper is initialized again
-                            initializeSwiper();
-                        } else {
-                            console.error("⚠️ New cart drawer content not found!");
-                        }
-                    })
-                    .catch((error) => console.error("❌ Error fetching new cart:", error))
-                    .finally(() => (isUpdating = false));
-            });
+                if (newCartDrawer && oldCartDrawer) {
+                    oldCartDrawer.innerHTML = newCartDrawer.innerHTML; // Update cart content
+                    console.log("🔄 #MinimogCartDrawer updated!");
+                } else {
+                    console.error("⚠️ New #MinimogCartDrawer content not found!");
+                }
+            })
+            .catch((error) => console.error("❌ Error updating cart drawer:", error))
+            .finally(() => (isUpdating = false));
     }
 
     // Listen for Add to Cart & Remove Item Clicks
     document.body.addEventListener("click", function (event) {
         if (event.target.matches("[data-add-to-cart], .remove-item-button")) {
-            reloadCartDrawer();
+            reloadMinimogCartDrawer();
         }
     });
-
-    // Initialize Swiper on page load
-    initializeSwiper();
 });
 
 
