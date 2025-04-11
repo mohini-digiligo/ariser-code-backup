@@ -419,5 +419,16 @@ a.btn.complementary-product-link:hover {
 }
 
 
+.carousel-cell {
+    width: 100%;
+    padding: 10px;
+}
+.product-slider {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+
+
 
 
