@@ -202,7 +202,16 @@
             </m-gift-wrapping-input>
           {%- endif -%}
         </div>
-         <!--cart reccomendation-->
+         
+        
+        <m-cart-remove-button
+          id="MinimogCartDrawer-Remove-{{ item.index | plus: 1 }}"
+          data-index="{{ item.index | plus: 1 }}"
+        >
+          <span class="scd-item__remove underline p-2 ml-2 cursor-pointer{% unless gift_wrap_id == nil or item.id != gift_wrap_id %} hidden{% endunless %}">
+            {{- 'cart.general.remove' | t -}}
+          </span>
+          <!--cart reccomendation-->
   
 
 {% for item in cart.items %}
@@ -280,14 +289,6 @@
 </product-recommendations>
 
 <!--cart reccomendation-->
-        
-        <m-cart-remove-button
-          id="MinimogCartDrawer-Remove-{{ item.index | plus: 1 }}"
-          data-index="{{ item.index | plus: 1 }}"
-        >
-          <span class="scd-item__remove underline p-2 ml-2 cursor-pointer{% unless gift_wrap_id == nil or item.id != gift_wrap_id %} hidden{% endunless %}">
-            {{- 'cart.general.remove' | t -}}
-          </span>
         </m-cart-remove-button>
       </div>
     </div>
