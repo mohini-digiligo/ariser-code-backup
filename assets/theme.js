@@ -169,51 +169,24 @@ customElements.define('cart-item-options', CartItemOptions);
 
 
 // Js for recommaned product cart drawer start
-
-document.addEventListener("DOMContentLoaded", function () {
-    let swiperInstance;
-
-    function initSwiper() {
-        if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy existing instance
-        }
-
-        swiperInstance = new Swiper(".swiper.product-slider", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            loop: true,
-        });
+function initSwiper() {
+    if (swiperInstance) {
+        swiperInstance.destroy(true, true);
     }
 
-    // Initialize Swiper on page load
-    initSwiper();
+    let slideCount = document.querySelectorAll(".swiper.product-slider .swiper-slide").length;
+    let enableLoop = slideCount > 2; // Enable loop only if there are at least 3 slides
 
-    // Function to check and reinitialize Swiper when recommendations change
-    function reinitializeSwiper() {
-        setTimeout(function () {
-            if (document.querySelector(".swiper.product-slider")) {
-                initSwiper();
-            }
-        }, 500);
-    }
-
-    // Listen for Shopify cart updates
-    document.addEventListener("shopify:section:load", reinitializeSwiper);
-    document.addEventListener("cart:updated", reinitializeSwiper);
-    document.addEventListener("cart:open", reinitializeSwiper);
-
-    // Observe cart-recommendations-wrapper for changes
-    const cartRecommendations = document.querySelector("[data-cart-recommendations]");
-    if (cartRecommendations) {
-        const observer = new MutationObserver(reinitializeSwiper);
-        observer.observe(cartRecommendations, { childList: true, subtree: true });
-    }
-});
-
+    swiperInstance = new Swiper(".swiper.product-slider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        loop: enableLoop,
+    });
+}
 
 // Js for recommaned product cart drawer end 
 
