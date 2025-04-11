@@ -182,6 +182,71 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    let swiperInstance = null;
+    let isUpdating = false; // Prevent multiple reloads
+
+    function initializeSwiper() {
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true); // Destroy previous instance
+        }
+
+        swiperInstance = new Swiper(".swiper", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+
+        console.log("✅ Swiper Initialized.");
+    }
+
+    function reloadCartDrawer() {
+        if (isUpdating) return; // Prevent multiple calls
+        isUpdating = true;
+
+        fetch(window.Shopify.routes.root + "cart.js")
+            .then((response) => response.json())
+            .then((cart) => {
+                console.log("🛒 Cart updated, reloading drawer...");
+
+                fetch(window.Shopify.routes.root + "cart")
+                    .then((res) => res.text())
+                    .then((html) => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, "text/html");
+
+                        const newDrawer = doc.querySelector("m-cart-drawer-items");
+                        const oldDrawer = document.querySelector("m-cart-drawer-items");
+
+                        if (newDrawer && oldDrawer) {
+                            oldDrawer.innerHTML = newDrawer.innerHTML; // Update cart content
+                            console.log("🔄 Cart drawer updated!");
+                            initializeSwiper(); // Reinitialize Swiper
+                        } else {
+                            console.error("⚠️ New cart drawer content not found!");
+                        }
+                    })
+                    .catch((error) => console.error("❌ Error fetching new cart:", error))
+                    .finally(() => (isUpdating = false));
+            });
+    }
+
+    // Monitor Add to Cart and Remove Item Actions
+    document.body.addEventListener("click", function (event) {
+        if (event.target.matches("[data-add-to-cart], .remove-item-button")) {
+            reloadCartDrawer();
+        }
+    });
+
+    // Initial Swiper Load
+    initializeSwiper();
+});
+
+
+
 
 
 
