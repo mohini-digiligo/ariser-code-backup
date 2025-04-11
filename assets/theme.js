@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function initSwiper() {
         if (swiperInstance) {
-            swiperInstance.destroy(true, true); // Destroy existing Swiper instance
+            swiperInstance.destroy(true, true); // Destroy the existing Swiper instance
         }
 
         if (document.querySelector(".swiper.product-slider")) {
@@ -217,7 +217,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let cartDrawer = document.querySelector("m-cart-drawer-items");
             if (cartDrawer) {
                 console.log("📦 Cart drawer detected, fetching new content...");
-                fetch(window.location.pathname)
+
+                fetch("/cart")
                     .then(response => response.text())
                     .then(html => {
                         let parser = new DOMParser();
@@ -228,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             cartDrawer.innerHTML = newCartDrawer.innerHTML;
                             console.log("🔄 Cart drawer updated!");
 
-                            // Reinitialize Swiper
+                            // Reinitialize Swiper after updating cart
                             initSwiper();
                         } else {
                             console.log("⚠️ New cart drawer content not found in response!");
@@ -239,6 +240,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("⚠️ No m-cart-drawer-items found!");
             }
         }, 500);
+    }
+
+    // Observe changes in the cart drawer
+    let cartDrawer = document.querySelector("m-cart-drawer-items");
+    if (cartDrawer) {
+        let observer = new MutationObserver((mutations) => {
+            console.log("🛒 Detected change in cart drawer.");
+            reinitializeCartAndSwiper();
+        });
+
+        observer.observe(cartDrawer, { childList: true, subtree: true });
+        console.log("👀 Cart drawer observer initialized.");
     }
 
     // Initial Swiper setup
@@ -260,6 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reinitializeCartAndSwiper();
     });
 });
+
 
 
 
