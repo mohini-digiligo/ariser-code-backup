@@ -44,9 +44,10 @@
           {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
-  <div class="swiper product-slider">
-    <div class="swiper-wrapper">
+  
       {% for cartItem in cart.items %}
+        <div class="swiper product-slider">
+    <div class="swiper-wrapper">
         {% if cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
           {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
             {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
