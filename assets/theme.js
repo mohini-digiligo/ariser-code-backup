@@ -219,10 +219,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function openMinimogCartDrawer() {
         console.log("🔓 Opening MinimogCartDrawer...");
 
-        const cartDrawer = document.querySelector("#MinimogCartDrawer");
+        const cartDrawer = document.querySelector(".m-cart-drawer ");
         if (cartDrawer) {
-            cartDrawer.classList.add("is-open"); // Add open class (if needed)
-            document.body.classList.add("minimog-cart-open"); // Ensure body class applies
+            cartDrawer.classList.add("m-cart-drawer--active"); // Add open class (if needed)
+            // document.body.classList.add("minimog-cart-open"); // Ensure body class applies
 
             // If your theme has a JS function to open the drawer, call it here
             if (typeof window.MinimogTheme?.cart?.open === "function") {
