@@ -172,19 +172,20 @@ customElements.define('cart-item-options', CartItemOptions);
 
 document.addEventListener("DOMContentLoaded", function () {
   var swiper = new Swiper(".product-slider", {
-    slidesPerView: 1, // Show 1 product at a time
-    spaceBetween: 10, // Adjust spacing between slides
-    loop: true, // Enable infinite loop
+    slidesPerView: 3,  // Adjust based on your layout
+    spaceBetween: 10,  // Adds space between slides
+    loop: true,        // Enables infinite loop
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
     autoplay: {
       delay: 3000, // Auto-slide every 3 seconds
-      disableOnInteraction: false, // Keep autoplay even after user interaction
+      disableOnInteraction: false,
     },
   });
 });
+
 
 
 
