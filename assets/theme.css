@@ -379,7 +379,7 @@ button#cart-new-btn:hover {
 }
 .grid-product__meta {
     line-height: var(--typeBaselineHeightMinus01);
-    padding: 10px 0 6px 0;
+    10px 27px 6px 25px;
     position: relative;
 }
 
