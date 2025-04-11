@@ -44,8 +44,7 @@
           {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
-  <div class="swiper product-slider">
-    <div class="swiper-wrapper">
+  <div class="carousel product-slider" data-flickity='{ "wrapAround": true, "autoPlay": 3000, "prevNextButtons": true }'>
       {% for cartItem in cart.items %}
         {% if cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
           {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
@@ -69,12 +68,7 @@
       {% endfor %}
     </div>
 
-    {% if hasRecommendations %}
-      <!-- Navigation buttons -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    {% endif %}
-  </div>
+    </div>
 {%- endcapture -%}
 
 <div class="cart-recommendations-wrapper" data-cart-recommendations>
