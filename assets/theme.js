@@ -168,7 +168,7 @@ customElements.define('cart-item-options', CartItemOptions);
 
 
 
-// Js for recommaned product cart drawer
+// Js for recommaned product cart drawer start
 
 document.addEventListener("DOMContentLoaded", function () {
   var swiper = new Swiper(".product-slider", {
@@ -185,6 +185,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 });
+
+// Js for recommaned product cart drawer end 
 
 
 
