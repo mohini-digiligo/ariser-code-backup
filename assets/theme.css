@@ -382,14 +382,20 @@ button#cart-new-btn:hover {
   position: relative;
   overflow: hidden;
 }
+.swiper {
+  width: 100%;
+  height: auto;
+}
 .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f9f9f9;
+  padding: 20px;
 }
 .swiper-button-prev,
 .swiper-button-next {
-  color: #000; /* Change arrow color */
+  color: #000;
 }
 
 /* .recomanded{
