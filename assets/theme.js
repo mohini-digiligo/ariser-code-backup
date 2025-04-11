@@ -201,14 +201,24 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Swiper Initialized.");
   }
 
+  function debounce(func, delay) {
+    let timeout;
+    return function () {
+      clearTimeout(timeout);
+      timeout = setTimeout(func, delay);
+    };
+  }
+
   function monitorCartDrawer() {
     const cartDrawer = document.querySelector("m-cart-drawer-items");
-    
+
     if (cartDrawer) {
-      const observer = new MutationObserver(() => {
-        console.log("🛒 Cart updated, reinitializing Swiper...");
-        initializeSwiper();
-      });
+      const observer = new MutationObserver(
+        debounce(() => {
+          console.log("🛒 Cart updated, reinitializing Swiper...");
+          initializeSwiper();
+        }, 500) // 500ms debounce to prevent rapid execution
+      );
 
       observer.observe(cartDrawer, { childList: true, subtree: true });
     }
