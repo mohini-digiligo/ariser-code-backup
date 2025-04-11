@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var swiper = new Swiper(".product-slider", {
     slidesPerView: 1,  // Adjust based on your layout
     spaceBetween: 10,  // Adds space between slides
-    loop: false,        // Enables infinite loop
+    loop: true,        // Enables infinite loop
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
