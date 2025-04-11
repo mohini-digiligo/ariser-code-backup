@@ -388,6 +388,9 @@ a.btn.complementary-product-link {
     color: white;
     padding: 6px 12px;
 }
+a.btn.complementary-product-link:hover {
+    box-shadow: 0 0 0 .0 .5rem var(--color-btn-bg-hover);
+}
 .swiper-button-next:after, .swiper-button-prev:after {
     background: #e31e25;
     color: white;
