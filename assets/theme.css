@@ -372,17 +372,15 @@ button#cart-new-btn:hover {
 }
 
 
-/* 
-mini cart drower for recommanded product  */
+/* mini cart drower for recommanded product  */
 
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
     max-height: fit-content !important;
 }
-
-    .product-recommendations__slide {
+.product-recommendations__slide {
         display: flex;
         flex-wrap: wrap;
-    }
+}
 .product-recommendations__slide {
     display: block;
     margin: 0;
@@ -399,7 +397,6 @@ mini cart drower for recommanded product  */
     cursor: move;
     cursor: grab;
 }
-
 .flickity-viewport {
     height: 100%;
     overflow: hidden;
@@ -407,7 +404,6 @@ mini cart drower for recommanded product  */
     transition: height 0.35s;
 }
 .recomanded{
-  {
     align-items: center;
     display: flex !important
 }
