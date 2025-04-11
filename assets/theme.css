@@ -376,6 +376,6 @@ button#cart-new-btn:hover {
 mini cart drower for recommanded product  */
 
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
-    max-height: fit-content;
+    max-height: fit-content !important;
 }
 
