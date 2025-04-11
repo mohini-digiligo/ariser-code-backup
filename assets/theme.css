@@ -377,6 +377,11 @@ button#cart-new-btn:hover {
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
     max-height: fit-content !important;
 }
+.grid-product__meta {
+    line-height: var(--typeBaselineHeightMinus01);
+    padding: 10px 0 6px 0;
+    position: relative;
+}
 
 .product-single__related {
   position: relative;
@@ -397,5 +402,7 @@ button#cart-new-btn:hover {
 .swiper-button-next {
   color: #000;
 }
+
+
 
 
