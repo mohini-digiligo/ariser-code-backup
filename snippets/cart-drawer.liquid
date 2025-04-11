@@ -47,7 +47,9 @@
              
             
           </form>
-          <!--cart reccomendation-->
+          
+        </m-cart-drawer-items>
+        <!--cart reccomendation-->
   
 
 {% for item in cart.items %}
@@ -125,7 +127,6 @@
 </product-recommendations>
 
 <!--cart reccomendation-->
-        </m-cart-drawer-items>
         <div class="m-cart-drawer--footer scd__footer py-4 px-6" id="MinimogCartDrawerFooter">
           {% render 'cart-addons', form_id: 'cart-drawer-form' %}
 
