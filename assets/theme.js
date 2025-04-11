@@ -182,50 +182,64 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  function reloadCartDrawer() {
-    setTimeout(() => {
-      fetch(window.location.pathname) // Fetch updated page content
-        .then(response => response.text())
-        .then(html => {
-          let parser = new DOMParser();
-          let doc = parser.parseFromString(html, "text/html");
+    let swiperInstance;
 
-          // Replace cart drawer content
-          let newCartDrawer = doc.querySelector("m-cart-drawer-items");
-          let cartDrawer = document.querySelector("m-cart-drawer-items");
+    function initSwiper() {
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true); // Destroy existing Swiper instance
+        }
 
-          if (newCartDrawer && cartDrawer) {
-            cartDrawer.innerHTML = newCartDrawer.innerHTML;
+        if (document.querySelector(".swiper.product-slider")) {
+            swiperInstance = new Swiper(".swiper.product-slider", {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                loop: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+            });
 
-            // Reinitialize Swiper
-            initializeSwiper();
-          }
-        });
-    }, 500); // Small delay to ensure update completion
-  }
-
-  function initializeSwiper() {
-    if (typeof Swiper !== "undefined") {
-      new Swiper(".product-slider", {
-        slidesPerView: 1,
-        spaceBetween: 10,
-        loop: true,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false,
-        },
-      });
+            console.log("✅ Swiper Initialized.");
+        }
     }
-  }
 
-  // Listen for cart updates and reload the drawer & Swiper
-  document.addEventListener("cart:updated", reloadCartDrawer);
-  document.addEventListener("cart:change", reloadCartDrawer);
+    function reinitializeCartAndSwiper() {
+        console.log("♻️ Reinitializing Swiper after cart update...");
+
+        setTimeout(() => {
+            let cartDrawer = document.querySelector("m-cart-drawer-items");
+            if (cartDrawer) {
+                fetch(window.location.pathname)
+                    .then(response => response.text())
+                    .then(html => {
+                        let parser = new DOMParser();
+                        let doc = parser.parseFromString(html, "text/html");
+
+                        let newCartDrawer = doc.querySelector("m-cart-drawer-items");
+                        if (newCartDrawer) {
+                            cartDrawer.innerHTML = newCartDrawer.innerHTML;
+
+                            // Reinitialize Swiper
+                            initSwiper();
+                        }
+                    });
+            }
+        }, 500);
+    }
+
+    // Initial Swiper setup
+    initSwiper();
+
+    // Event listeners for cart updates
+    document.addEventListener("cart:updated", reinitializeCartAndSwiper);
+    document.addEventListener("cart:change", reinitializeCartAndSwiper);
 });
+
 
 
 
