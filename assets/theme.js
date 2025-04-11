@@ -204,6 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     oldCartDrawer.innerHTML = newCartDrawer.innerHTML;
                     console.log("✅ #MinimogCartDrawer updated!");
 
+                    // Open the cart drawer after update
+                    openMinimogCartDrawer();
+
                     setTimeout(initializeSwiper, 500); // Wait before initializing Swiper
                 } else {
                     console.error("⚠️ Updated #MinimogCartDrawer not found!");
@@ -211,6 +214,21 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch((error) => console.error("❌ Error updating cart drawer:", error))
             .finally(() => (isUpdating = false));
+    }
+
+    function openMinimogCartDrawer() {
+        console.log("🔓 Opening MinimogCartDrawer...");
+
+        const cartDrawer = document.querySelector("#MinimogCartDrawer");
+        if (cartDrawer) {
+            cartDrawer.classList.add("is-open"); // Add open class (if needed)
+            document.body.classList.add("minimog-cart-open"); // Ensure body class applies
+
+            // If your theme has a JS function to open the drawer, call it here
+            if (typeof window.MinimogTheme?.cart?.open === "function") {
+                window.MinimogTheme.cart.open();
+            }
+        }
     }
 
     function initializeSwiper() {
