@@ -167,103 +167,63 @@ customElements.define('cart-item-options', CartItemOptions);
 // code for popup mini cart change options end
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    let swiperInstance;
 
-// Js for recommaned product cart drawer start
-// document.addEventListener("DOMContentLoaded", function () {
-//     let swiperInstance;
+    function initSwiper() {
+        let sliderContainer = document.querySelector(".swiper.product-slider");
 
-//     function initSwiper() {
-//         let sliderContainer = document.querySelector(".swiper.product-slider");
+        if (!sliderContainer) {
+            console.warn("Swiper slider not found. Waiting for DOM update...");
+            setTimeout(initSwiper, 500); // Wait and retry
+            return;
+        }
 
-//         if (!sliderContainer) {
-//             console.warn("Swiper slider not found. Waiting for DOM update...");
-//             setTimeout(initSwiper, 500); // Wait and retry
-//             return;
-//         }
+        let slides = sliderContainer.querySelectorAll(".swiper-slide");
+        let slideCount = slides.length;
 
-//         let slides = sliderContainer.querySelectorAll(".swiper-slide");
-//         let slideCount = slides.length;
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true); // Destroy existing instance
+        }
 
-//         if (swiperInstance) {
-//             swiperInstance.destroy(true, true); // Destroy existing instance
-//         }
+        let enableLoop = slideCount > 2; // Enable loop mode only if there are enough slides
 
-//         let enableLoop = slideCount > 2; // Enable loop mode only if there are enough slides
+        swiperInstance = new Swiper(".swiper.product-slider", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            loop: enableLoop,
+        });
 
-//         swiperInstance = new Swiper(".swiper.product-slider", {
-//             slidesPerView: 1,
-//             spaceBetween: 10,
-//             navigation: {
-//                 nextEl: ".swiper-button-next",
-//                 prevEl: ".swiper-button-prev",
-//             },
-//             loop: enableLoop,
-//         });
-
-//         console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
-//     }
-
-//     // Function to retry Swiper initialization when Shopify updates sections
-//     function reinitializeSwiper() {
-//         setTimeout(() => {
-//             console.log("♻️ Reinitializing Swiper after cart update...");
-//             initSwiper();
-//         }, 1000); // Delay to ensure section is fully loaded
-//     }
-
-//     // Listen for Shopify section updates and cart changes
-//     document.addEventListener("shopify:section:load", reinitializeSwiper);
-//     document.addEventListener("cart:updated", reinitializeSwiper);
-//     document.addEventListener("cart:open", reinitializeSwiper);
-
-//     // Observe changes in the cart recommendations section
-//     const cartRecommendations = document.querySelector("[data-cart-recommendations]");
-//     if (cartRecommendations) {
-//         const observer = new MutationObserver(reinitializeSwiper);
-//         observer.observe(cartRecommendations, { childList: true, subtree: true });
-//     }
-
-//     // Initialize Swiper on page load
-//     initSwiper();
-// });
-let swiperInstance; // Store Swiper instance globally
-
-function initializeSwiper() {
-    if (swiperInstance) {
-        swiperInstance.destroy(true, true); // Destroy previous instance
-        console.log("🛑 Destroying previous Swiper instance...");
+        console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    swiperInstance = new Swiper(".swiper-container", {
-        loop: true,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-    });
+    // Function to retry Swiper initialization when Shopify updates sections
+    function reinitializeSwiper() {
+        setTimeout(() => {
+            console.log("♻️ Reinitializing Swiper after cart update...");
+            initSwiper();
+        }, 1000); // Delay to ensure section is fully loaded
+    }
 
-    console.log("♻️ Swiper Initialized/Reinitialized!");
-}
+    // Listen for Shopify section updates and cart changes
+    document.addEventListener("shopify:section:load", reinitializeSwiper);
+    document.addEventListener("cart:updated", reinitializeSwiper);
+    document.addEventListener("cart:open", reinitializeSwiper);
 
-// Function to handle cart update and reinitialize Swiper
-function onCartUpdate() {
-    console.log("♻️ Reinitializing Swiper after cart update...");
-    initializeSwiper();
-}
+    // Observe changes in the cart recommendations section
+    const cartRecommendations = document.querySelector("[data-cart-recommendations]");
+    if (cartRecommendations) {
+        const observer = new MutationObserver(reinitializeSwiper);
+        observer.observe(cartRecommendations, { childList: true, subtree: true });
+    }
 
-// Attach event listener only once
-document.addEventListener("DOMContentLoaded", () => {
-    initializeSwiper(); // Initial load
-
-    // Use event delegation to prevent multiple bindings
-    document.body.addEventListener("cartUpdated", onCartUpdate);
+    // Initialize Swiper on page load
+    initSwiper();
 });
-
-
 
 // Js for recommaned product cart drawer end 
 
