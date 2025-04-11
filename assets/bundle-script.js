@@ -1,6 +1,5 @@
 
-{% if template.suffix == 'bundle' %}
-<script>
+
   
 document.addEventListener("DOMContentLoaded", function () {
   // console.log("Document loaded.");
@@ -386,5 +385,3 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
-</script>
-{% endif %}
