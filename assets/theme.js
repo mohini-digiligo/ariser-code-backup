@@ -176,19 +176,19 @@ document.addEventListener("DOMContentLoaded", function () {
         let sliderContainer = document.querySelector(".swiper.product-slider");
 
         if (!sliderContainer) {
-            console.warn("Swiper slider not found, delaying initialization...");
+            console.warn("Swiper slider not found. Waiting for DOM update...");
+            setTimeout(initSwiper, 500); // Wait and retry
             return;
         }
 
-        let slides = document.querySelectorAll(".swiper.product-slider .swiper-slide");
+        let slides = sliderContainer.querySelectorAll(".swiper-slide");
         let slideCount = slides.length;
 
-        // Destroy existing instance
         if (swiperInstance) {
-            swiperInstance.destroy(true, true);
+            swiperInstance.destroy(true, true); // Destroy existing instance
         }
 
-        let enableLoop = slideCount > 2; // Ensure loop mode only when 3+ slides exist
+        let enableLoop = slideCount > 2; // Enable loop mode only if there are enough slides
 
         swiperInstance = new Swiper(".swiper.product-slider", {
             slidesPerView: 1,
@@ -200,20 +200,18 @@ document.addEventListener("DOMContentLoaded", function () {
             loop: enableLoop,
         });
 
-        console.log("Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
+        console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    // Initialize Swiper on page load
-    initSwiper();
-
+    // Function to retry Swiper initialization when Shopify updates sections
     function reinitializeSwiper() {
         setTimeout(() => {
-            console.log("Reinitializing Swiper after cart update...");
+            console.log("♻️ Reinitializing Swiper after cart update...");
             initSwiper();
-        }, 500);
+        }, 1000); // Delay to ensure section is fully loaded
     }
 
-    // Listen for Shopify section updates
+    // Listen for Shopify section updates and cart changes
     document.addEventListener("shopify:section:load", reinitializeSwiper);
     document.addEventListener("cart:updated", reinitializeSwiper);
     document.addEventListener("cart:open", reinitializeSwiper);
@@ -225,12 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.observe(cartRecommendations, { childList: true, subtree: true });
     }
 
-    // Debugging: Check if Swiper disappears
-    setInterval(() => {
-        if (!document.querySelector(".swiper.product-slider")) {
-            console.warn("Swiper slider missing. Rechecking...");
-        }
-    }, 2000);
+    // Initialize Swiper on page load
+    initSwiper();
 });
 
 
