@@ -382,7 +382,12 @@ button#cart-new-btn:hover {
     padding: 10px 27px 6px 25px;
     position: relative;
 }
-
+a.btn.complementary-product-link {
+    background: #d8373d;
+    margin-top: 10px;
+    color: white;
+    padding: 6px 12px;
+}
 .product-single__related {
   position: relative;
   overflow: hidden;
