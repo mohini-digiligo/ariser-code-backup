@@ -379,3 +379,9 @@ mini cart drower for recommanded product  */
     max-height: fit-content !important;
 }
 
+    .product-recommendations__slide {
+        display: flex
+;
+        flex-wrap: wrap;
+    }
+
