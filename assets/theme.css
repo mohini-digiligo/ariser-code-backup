@@ -378,8 +378,8 @@ button#cart-new-btn:hover {
     max-height: fit-content !important;
 }
 .grid-product__meta {
-    line-height: var(--typeBaselineHeightMinus01);
-    10px 27px 6px 25px;
+     line-height: 15;
+    padding: 10px 27px 6px 25px;
     position: relative;
 }
 
