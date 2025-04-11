@@ -46,6 +46,8 @@
              {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
                {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
                {% if line_items == 0 %}
+                <div class="swiper product-slider">
+                 <div class="swiper-wrapper">
                 <div class="product-recommendations__slide">
                   {%- render 'product-grid-item',
                     image_style: 'default',
@@ -56,6 +58,11 @@
                     complementaryProduct: true
                   -%}
                 </div>
+                   </div>
+    <!-- Navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
                  {% assign totalItems = totalItems | plus: 1 %}
                {% endif %}
             {%- endfor -%}
