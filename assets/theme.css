@@ -377,7 +377,7 @@ button#cart-new-btn:hover {
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
     max-height: fit-content !important;
 }
-.grid-product__meta {
+/* .grid-product__meta {
      line-height: 1.4;
     padding: 0px 27px 0px 25px;
     position: relative;
@@ -390,7 +390,7 @@ a.btn.complementary-product-link {
 }
 a.btn.complementary-product-link:hover {
     box-shadow: 0 0 0 .0 .5rem var(--color-btn-bg-hover);
-}
+} */
 /* .swiper-button-next:after, .swiper-button-prev:after {
     background: #e31e25;
     color: white;
