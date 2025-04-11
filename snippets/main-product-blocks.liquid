@@ -259,7 +259,7 @@
                 {% render 'product-option', product: product, section: section, size_title: size_title, product_form_id: product_form_id, update_browser_history: update_browser_history %}
               </div> 
                       
-                    <div class="product-block" {% if block.settings.product_dynamic_variants_enable %}data-dynamic-variants-enabled{% endif %} {{ block.shopify_attributes }}>
+                    <div class="product-block a" {% if block.settings.product_dynamic_variants_enable %}data-dynamic-variants-enabled{% endif %} {{ block.shopify_attributes }}>
                       {%- unless product.has_only_default_variant -%}
                         {%- for option in product.options_with_values -%}
                           {%- liquid
