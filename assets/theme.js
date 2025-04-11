@@ -182,20 +182,42 @@ customElements.define('cart-item-options', CartItemOptions);
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
-    new Swiper(".product-slider", {
-        slidesPerView: 1, // Show one slide at a time
-        spaceBetween: 10, // Adjust spacing between slides
-        loop: true, // Infinite loop
-        navigation: {
-            nextEl: ".swiper-button-prev",
-            prevEl: ".swiper-button-next",
-        },
-        autoplay: {
-            delay: 3000, // Auto-slide every 3 seconds
-            disableOnInteraction: false, // Keep autoplay even after user interaction
-        },
+  let swiperInstance;
+
+  function initializeSwiper() {
+    if (swiperInstance) {
+      swiperInstance.destroy(true, true); // Destroy previous instance
+    }
+
+    swiperInstance = new Swiper(".swiper", {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
     });
+
+    console.log("✅ Swiper Initialized.");
+  }
+
+  function monitorCartDrawer() {
+    const cartDrawer = document.querySelector("m-cart-drawer-items");
+    
+    if (cartDrawer) {
+      const observer = new MutationObserver(() => {
+        console.log("🛒 Cart updated, reinitializing Swiper...");
+        initializeSwiper();
+      });
+
+      observer.observe(cartDrawer, { childList: true, subtree: true });
+    }
+  }
+
+  initializeSwiper();
+  monitorCartDrawer();
 });
+
 
 
 
