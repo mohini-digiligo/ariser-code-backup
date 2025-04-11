@@ -166,9 +166,9 @@ customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
 
-
 document.addEventListener("DOMContentLoaded", function () {
     let swiperInstance;
+    let debounceTimer;
 
     function initSwiper() {
         let sliderContainer = document.querySelector(".swiper.product-slider");
@@ -201,12 +201,13 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("✅ Swiper initialized. Slides:", slideCount, "Loop enabled:", enableLoop);
     }
 
-    // Function to retry Swiper initialization when Shopify updates sections
+    // **Debounced function to prevent multiple reinitializations**
     function reinitializeSwiper() {
-        setTimeout(() => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
             console.log("♻️ Reinitializing Swiper after cart update...");
             initSwiper();
-        }, 1000); // Delay to ensure section is fully loaded
+        }, 300); // Adjust debounce delay as needed
     }
 
     // Listen for Shopify section updates and cart changes
@@ -224,6 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize Swiper on page load
     initSwiper();
 });
+
 
 // Js for recommaned product cart drawer end 
 
