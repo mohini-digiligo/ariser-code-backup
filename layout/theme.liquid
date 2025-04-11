@@ -70,6 +70,7 @@ template-{{ template.name | handle }} {{ template.name }}-{{ template.suffix }} 
     {%- endif -%}
 
     <script src="{{ 'cart.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'bundle-script.js' | asset_url }}" defer="defer"></script>
 
     {{ content_for_header }}
     
