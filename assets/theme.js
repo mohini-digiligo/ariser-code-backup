@@ -166,27 +166,19 @@ customElements.define('cart-item-options', CartItemOptions);
 
 //code for popup mini cart change options end
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize Swiper
-  var swiper = new Swiper(".product-slider", {
-    slidesPerView: 1, // Show 1 product at a time
-    spaceBetween: 10, // Adjust spacing between slides
-    loop: true, // Enable infinite loop
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    autoplay: {
-      delay: 3000, // Auto-slide every 3 seconds
-      disableOnInteraction: false, // Keep autoplay even after user interaction
-    },
-  });
+  let swiperInstance = null;
 
-  // Function to reinitialize Swiper
-  function reinitializeSwiper() {
-    if (swiper) {
-      swiper.update();  // Update the existing Swiper instance
-    } else {
-      swiper = new Swiper(".product-slider", {
+  function initSwiper() {
+    // Destroy existing instance if it exists
+    if (swiperInstance) {
+      swiperInstance.destroy(true, true);
+      swiperInstance = null;
+    }
+
+    // Initialize new Swiper instance if slider exists
+    const sliderEl = document.querySelector('.product-slider');
+    if (sliderEl) {
+      swiperInstance = new Swiper(".product-slider", {
         slidesPerView: 1,
         spaceBetween: 10,
         loop: true,
@@ -198,30 +190,49 @@ document.addEventListener("DOMContentLoaded", function () {
           delay: 3000,
           disableOnInteraction: false,
         },
+        observer: true, // Watch for DOM changes
+        observeParents: true, // Watch parent elements for changes
       });
     }
   }
 
+  // Initial initialization
+  initSwiper();
+
+  // Reinitialize when cart drawer opens
   document.addEventListener('cartDrawer:opened', function () {
-    reinitializeSwiper(); // Reinitialize Swiper when cart drawer opens
+    initSwiper();
   });
 
-  document.addEventListener('cartDrawer:closed', function () {
-    reinitializeSwiper(); // Reinitialize Swiper when cart drawer closes (optional)
-  });
-
-  // Listen for cart updates (Shopify's cart event or Ajax update)
+  // Handle cart updates (use your theme's specific cart update event)
   document.addEventListener('cart:updated', function () {
-    reinitializeSwiper(); // Reinitialize or update Swiper when the cart changes
+    // Add slight delay to allow DOM updates
+    setTimeout(initSwiper, 300);
   });
 
-  // Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
-  document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
-    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  // General mutation observer for dynamic content changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach(() => {
+      initSwiper();
+    });
   });
 
-  document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
-    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  // Observe changes in the cart drawer container
+  const cartDrawer = document.querySelector('m-cart-drawer-items');
+  if (cartDrawer) {
+    observer.observe(cartDrawer, {
+      childList: true,
+      subtree: true,
+      attributes: false,
+    });
+  }
+
+  // Cleanup when cart drawer closes
+  document.addEventListener('cartDrawer:closed', function () {
+    if (swiperInstance) {
+      swiperInstance.destroy(true, true);
+      swiperInstance = null;
+    }
   });
 });
 
