@@ -442,6 +442,10 @@ a.btn.complementary-product-link:hover {
     width: 14px !important;
 }
 
+.sf-lookbook-slider__products ~ .swiper-button-next {
+  display:none;
+}
+
 
 
 
