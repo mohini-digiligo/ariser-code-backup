@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initializeSwiper(); // Will now auto-skip if container isn't found
      console.log('reinstall');
-     initializeSwiper();
+     
   }
 
  // const scd_item__remove = document.querySelector('m-cart-remove-button');
