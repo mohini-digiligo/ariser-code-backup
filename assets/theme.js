@@ -201,9 +201,10 @@ document.addEventListener("DOMContentLoaded", function () {
      // initializeSwiper();
       swiper.destroy(true, true);
     } else {
-      console.log('reinstall');
+      
       initializeSwiper(); // Reinitialize Swiper if it's not initialized
     }
+    console.log('reinstall');
      initializeSwiper();
   }
 
