@@ -55,14 +55,14 @@
         {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
-  <div class="swiper product-slider">
-    <div class="swiper-wrapper">
+  <div class="product-slider">
+    <div class="slider">
       {% for cartItem in cart.items %}
         {% if cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
           {% for refProduct in cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
             {% assign line_items = cart | line_items_for: refProduct | sum: 'quantity' %}
             {% if line_items == 0 %}
-              <div class="swiper-slide product-recommendations__slide">
+              <div class="slide product-recommendations__slide">
                 {%- render 'product-grid-item',
                   image_style: 'default',
                   product: refProduct,
@@ -80,11 +80,6 @@
       {% endfor %}
     </div>
 
-    {% if hasRecommendations %}
-      <!-- Navigation buttons -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    {% endif %}
   </div>
 {%- endcapture -%}
 
