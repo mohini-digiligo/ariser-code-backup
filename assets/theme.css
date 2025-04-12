@@ -415,8 +415,8 @@ a.btn.complementary-product-link:hover {
   background-color: #f9f9f9;
   padding: 20px;
 }
-.swiper-button-prevs,
-.swiper-button-nexts {
+.swiper-button-prev,
+.swiper-button-next {
   color: #000;
 }
 
