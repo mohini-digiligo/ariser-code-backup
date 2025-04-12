@@ -30,7 +30,7 @@
           {% endif %}
           <div class="foxkit-cart-goal-hook"></div>
         </div>
-        <div class='main-item-div'>
+        
         <m-cart-drawer-items data-minimog-cart-items  class="m-cart-drawer--body scd__body sf__custom_scroll overscroll-contain px-6 pb-4 flex flex-col flex-1">
           <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-form" class="checkout-form w-full" novalidate>
           {%- if cart.items.size > 0 -%}
@@ -51,11 +51,7 @@
              
             
           </form>
-           
-          
-          
-        </m-cart-drawer-items>
-          <!---------------- code add by devp start  ------------------>
+             <!---------------- code add by devp start  ------------------>
         {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
@@ -108,9 +104,14 @@
     </cart-recommendations>
   {% endif %}
 </div>
-           </div>
+          
 
             <!---------------- code add by devp end  ------------------>
+           
+          
+          
+        </m-cart-drawer-items>
+       
         
         <div class="m-cart-drawer--footer scd__footer py-4 px-6" id="MinimogCartDrawerFooter">
           {% render 'cart-addons', form_id: 'cart-drawer-form' %}
