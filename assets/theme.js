@@ -165,11 +165,6 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 //code for popup mini cart change options end
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
   console.log('DOM fully loaded');
 
@@ -198,18 +193,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.swiper) {
     window.swiper.destroy(true, true);
   }
-
      setTimeout(() => {
         initializeSwiper();
       }, 1000);
-  // Will now auto-skip if container isn't found
+ 
      console.log('reinstall');
      
   }
-
- // const scd_item__remove = document.querySelector('m-cart-remove-button');
-// 1. Click listener for .scd-item__remove spans
-// 1. Delegate click on `.scd-item__remove` using the cart drawer as root
 
 const cartDrawer = document.querySelector('.m-cart-drawer');
 if (cartDrawer) {
