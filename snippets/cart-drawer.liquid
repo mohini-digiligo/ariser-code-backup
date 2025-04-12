@@ -67,7 +67,7 @@
           {% endfor %}
         {% endif %}
       {% endfor %}
-      <script>document.addEventListener("DOMContentLoaded", function () {
+      <script>
   // Initialize Swiper
   var swiper = new Swiper(".product-slider", {
     slidesPerView: 1, // Show 1 product at a time
@@ -81,7 +81,7 @@
       delay: 3000, // Auto-slide every 3 seconds
       disableOnInteraction: false, // Keep autoplay even after user interaction
     },
-  });</script>
+ </script>
     </div>
 
     {% if hasRecommendations %}
