@@ -208,14 +208,28 @@ document.addEventListener("DOMContentLoaded", function () {
      initializeSwiper();
   }
 
- const scd_item__remove = document.querySelector('m-cart-remove-button');
- document.querySelectorAll('m-cart-remove-button .scd-item__remove').forEach(span => {
-  span.addEventListener('click', () => {
-    console.log('Remove span clicked');
-    reinitializeSwiper();
-    reloadRelatedProducts();
+//  const scd_item__remove = document.querySelector('m-cart-remove-button');
+//  document.querySelectorAll('m-cart-remove-button .scd-item__remove').forEach(span => {
+//   span.addEventListener('click', () => {
+//     console.log('Remove span clicked');
+//     reinitializeSwiper();
+//     reloadRelatedProducts();
+//   });
+// });
+
+  const cartItemsContainer = document.querySelector('.scd__items');
+
+if (cartItemsContainer) {
+  const observer = new MutationObserver(() => {
+    console.log('Cart DOM updated');
+    reloadRelatedProducts(); // <- also calls reinitializeSwiper inside
   });
-});
+
+  observer.observe(cartItemsContainer, {
+    childList: true,
+    subtree: true,
+  });
+}
 
 
 function reloadRelatedProducts() {
