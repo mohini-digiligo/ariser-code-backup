@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
       swiper.update(); // Update the existing Swiper instance
       console.log('alreadyhere');
      // initializeSwiper();
-     // swiper.destroy(true, true);
+      swiper.destroy(true, true);
     } else {
       
       initializeSwiper(); // Reinitialize Swiper if it's not initialized
