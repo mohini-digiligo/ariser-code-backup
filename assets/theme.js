@@ -165,23 +165,44 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 //code for popup mini cart change options end
-// Function to reinitialize Swiper
-function reinitializeSwiper() {
-    if (window.mySwiper) {
-        window.mySwiper.destroy(true, true);
-    }
 
-    window.mySwiper = new Swiper('.product-slider', {
-        // Your Swiper config
-        loop: true,
-        slidesPerView: 1,
-        pagination: {
-            el: '.swiper-pagination',
-        },
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  console.log('DOM fully loaded');
+
+  // Initialize Swiper
+  let swiper;
+  function initializeSwiper() {
+    swiper = new Swiper(".product-slider", {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      loop: true,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
     });
-}
+  }
 
-const cartDrawer = document.querySelector('.m-cart-drawer');
+  initializeSwiper(); // Initial call
+
+  // Reinitialize Swiper after cart changes
+  function reinitializeSwiper() {
+    if (swiper) {
+      swiper.update(); // Update the existing Swiper instance
+    } else {
+      initializeSwiper(); // Reinitialize Swiper if it's not initialized
+    }
+  }
+
+  const cartDrawer = document.querySelector('.m-cart-drawer');
 
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
@@ -197,83 +218,7 @@ if (cartDrawer) {
 
     observer.observe(cartDrawer, { attributes: true });
 }
-
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   console.log('DOM fully loaded');
-
-//   // Initialize Swiper
-//   let swiper;
-//   function initializeSwiper() {
-//     swiper = new Swiper(".product-slider", {
-//       slidesPerView: 1,
-//       spaceBetween: 10,
-//       loop: true,
-//       navigation: {
-//         nextEl: ".swiper-button-next",
-//         prevEl: ".swiper-button-prev",
-//       },
-//       autoplay: {
-//         delay: 3000,
-//         disableOnInteraction: false,
-//       },
-//     });
-//   }
-
-//   initializeSwiper(); // Initial call
-
-//   // Reinitialize Swiper after cart changes
-//   function reinitializeSwiper() {
-//     if (swiper) {
-//       swiper.update(); // Update the existing Swiper instance
-//     } else {
-//       initializeSwiper(); // Reinitialize Swiper if it's not initialized
-//     }
-//   }
-
-//   // Event listeners for custom events
-//   document.addEventListener('cartDrawer:opened', function () {
-//     console.log('cartDrawer:opened event fired');
-//     reinitializeSwiper();
-//   });
-
-//   document.addEventListener('cartDrawer:closed', function () {
-//     console.log('cartDrawer:closed event fired');
-//     reinitializeSwiper();
-//   });
-
-//   document.addEventListener('cart:updated', function () {
-//     console.log('cart:updated event fired');
-//     reinitializeSwiper();
-//   });
-
-//   // Add-to-cart button event listener (with dynamic handling)
-//   const addToCartButton = document.querySelector('[data-add-to-cart]');
-
-//   // Check if the button exists and attach the event listener
-//   if (addToCartButton) {
-//     addToCartButton.addEventListener('click', function (e) {
-//       console.log('[data-add-to-cart] clicked');
-//       e.preventDefault();  // Prevent default form submit if needed
-
-//       // Optionally add loading spinner or other UI feedback here
-//       setTimeout(function () {
-//         reinitializeSwiper(); // Reinitialize Swiper after cart update (adjust delay as needed)
-//       }, 500); // Allow time for the cart to update
-//     });
-//   } else {
-//     console.log('[data-add-to-cart] button not found!');
-//   }
-
-//   // Add event listeners for other cart buttons (remove, etc.) similarly
-//   const removeButton = document.querySelector('[data-cart-action="remove"]');
-//   if (removeButton) {
-//     removeButton.addEventListener('click', function () {
-//       console.log('[data-cart-action="remove"] clicked');
-//       setTimeout(reinitializeSwiper, 500);
-//     });
-//   }
-// });
+});
 
 
 
