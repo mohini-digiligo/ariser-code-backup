@@ -207,8 +207,8 @@ document.addEventListener("DOMContentLoaded", function () {
  // const scd_item__remove = document.querySelector('m-cart-remove-button');
 // 1. Click listener for .scd-item__remove spans
 // 1. Delegate click on `.scd-item__remove` using the cart drawer as root
-const cartDrawer = document.querySelector('.m-cart-drawer');
 
+const cartDrawer = document.querySelector('.m-cart-drawer');
 if (cartDrawer) {
   cartDrawer.addEventListener('click', (e) => {
     if (e.target.classList.contains('scd-item__remove')) {
@@ -237,7 +237,7 @@ if (cartItemsContainer) {
   });
 }
 
-const cartDrawer = document.querySelector('.m-cart-drawer');
+
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
