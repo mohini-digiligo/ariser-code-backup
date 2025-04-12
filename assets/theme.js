@@ -212,7 +212,6 @@ document.addEventListener('cartDrawer:closed', function () {
       });
     }
   }
-
   document.addEventListener('cartDrawer:opened', function () {
     reinitializeSwiper(); // Reinitialize Swiper when cart drawer opens
     console.log('cartDrawer:opened');
@@ -230,15 +229,23 @@ document.addEventListener('cartDrawer:closed', function () {
   });
 
   //Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
-  document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
-    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-    console.log('[data-cart-action="add"]');
-  });
+ const addToCartButton = document.querySelector('[data-add-to-cart]');
 
-  document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
-    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-    console.log('[data-cart-action="remove"]');
-  });
+  // Check if the button exists and attach the event listener
+  if (addToCartButton) {
+    addToCartButton.addEventListener('click', function (e) {
+      console.log('[data-add-to-cart] clicked');
+      e.preventDefault();  // Prevent default form submit if needed
+
+      // Optionally add loading spinner or other UI feedback here
+      setTimeout(function () {
+        reinitializeSwiper(); // Reinitialize Swiper after cart update (adjust delay as needed)
+      }, 500); // Allow time for the cart to update
+    });
+  } else {
+    console.log('[data-add-to-cart] button not found!');
+  }
+
 });
 
 
