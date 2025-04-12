@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const scd_item__remove = document.querySelector('.scd-item__remove');
  
 if (scd_item__remove) {
+  console.log('present');
     scd_item__remove.addEventListener('click', function () {
         reinitializeSwiper();
        console.log('click-removed');
