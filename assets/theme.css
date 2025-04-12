@@ -393,7 +393,7 @@ a.btn.complementary-product-link {
 a.btn.complementary-product-link:hover {
     box-shadow: 0 0 0 .0 .5rem var(--color-btn-bg-hover);
 } 
- .swiper-button-next:after, .swiper-button-prev:after {
+ .swiper-button-nexts:after, .swiper-button-prevs:after {
     background: #e31e25;
     color: white;
     font-size:18px !important;
@@ -415,8 +415,8 @@ a.btn.complementary-product-link:hover {
   background-color: #f9f9f9;
   padding: 20px;
 }
-.swiper-button-prev,
-.swiper-button-next {
+.swiper-button-prevs,
+.swiper-button-nexts {
   color: #000;
 }
 
