@@ -215,13 +215,15 @@ const cartDrawer = document.querySelector('.m-cart-drawer');
 if (cartDrawer) {
   cartDrawer.addEventListener('click', (e) => {
     if (e.target.classList.contains('scd-item__remove')) {
-      console.log('Remove clicked (delegated)');
+      const isQtyBtn = e.target.classList.contains('scd-item__btn');
 
-      // Wait for cart item removal to reflect in DOM
+    if (isRemoveBtn || isQtyBtn) {
+      console.log(isRemoveBtn ? 'Remove clicked' : 'Quantity changed');
+
+      // Wait for cart item update to reflect
       setTimeout(() => {
         reinitializeSwiper();
-      }, 500);
-    }
+      }, 500); // Adjust delay if needed
   });
 }
 
