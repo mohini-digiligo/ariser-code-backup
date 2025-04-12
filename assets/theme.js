@@ -207,15 +207,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const cartDrawer = document.querySelector('.m-cart-drawer');
-  const scd_item__remove = document.querySelector('.scd-item__remove');
- 
-  document.querySelectorAll('.scd-item__remove').forEach(button => {
-     console.log('present');
-    button.addEventListener('click', function () {
-        reinitializeSwiper();
-      console.log('click-removed');
-    });
+  const scd_item__remove = document.querySelector('m-cart-remove-button');
+ document.querySelectorAll('m-cart-remove-button .scd-item__remove').forEach(span => {
+  span.addEventListener('click', () => {
+    console.log('Remove span clicked');
+    reinitializeSwiper();
+  });
 });
+
+
 
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
