@@ -373,7 +373,9 @@ button#cart-new-btn:hover {
 
 
 /* mini cart drower for recommanded product  */
-
+.main-item-div {
+    overflow-y: scroll;
+}
 .m-cart-drawer:not(.m-cart--empty) .m-cart-drawer--items {
     max-height: fit-content !important;
 }
