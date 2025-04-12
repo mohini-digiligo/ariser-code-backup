@@ -167,44 +167,37 @@ customElements.define('cart-item-options', CartItemOptions);
 //code for popup mini cart change options end
 // Function to reinitialize Swiper
 function reinitializeSwiper() {
-    // Assuming Swiper is initialized like this
-    if (swiper) {
-        swiper.destroy(); // Destroy the previous swiper instance
-        swiper = new Swiper('.product-slider', {
-             slidesPerView: 1,
-      spaceBetween: 10,
-      loop: true,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-        });
+    if (window.mySwiper) {
+        window.mySwiper.destroy(true, true);
     }
+
+    window.mySwiper = new Swiper('.product-slider', {
+        // Your Swiper config
+        loop: true,
+        slidesPerView: 1,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    });
 }
 
-// Observer to watch for class changes on m-cart-drawer
-const cartDrawerObserver = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.target.classList.contains('m-cart-drawer--active')) {
-            // If m-cart-drawer--active class is added
-            reinitializeSwiper();
-        }
-    });
-});
-
-// Target the cart drawer element
 const cartDrawer = document.querySelector('.m-cart-drawer');
 
-// Start observing the cart drawer for class changes
 if (cartDrawer) {
-    cartDrawerObserver.observe(cartDrawer, {
-        attributes: true, // Watch for attribute changes (like class changes)
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (
+                mutation.type === 'attributes' &&
+                cartDrawer.classList.contains('m-cart-drawer--active')
+            ) {
+                reinitializeSwiper();
+            }
+        });
     });
+
+    observer.observe(cartDrawer, { attributes: true });
 }
+
 
 // document.addEventListener("DOMContentLoaded", function () {
 //   console.log('DOM fully loaded');
