@@ -420,8 +420,8 @@ a.btn.complementary-product-link:hover {
   color: #000;
 }
 
-.sf-slider__controls .swiper-button-prev,
-.sf-slider__controls .swiper-button-next{
+.sf-pis__wrapper .swiper-button-control .swiper-button-prev,
+.sf-pis__wrapper .swiper-button-control .swiper-button-next{
   align-items: center;
     border-color: var(--color-border);
     box-shadow: none;
