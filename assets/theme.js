@@ -165,6 +165,10 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 //code for popup mini cart change options end
+
+
+// code start for mini cart recommeded product
+
 document.addEventListener("DOMContentLoaded", function () {
   console.log('DOM fully loaded');
 
