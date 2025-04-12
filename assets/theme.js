@@ -195,34 +195,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Reinitialize Swiper after cart changes
   function reinitializeSwiper() {
-    // if (swiper) {
-    //   swiper.update(); // Update the existing Swiper instance
-    //   console.log('alreadyhere');
-    //   initializeSwiper();
-    // } else {
-    //   console.log('reinstall');
-    //   initializeSwiper(); // Reinitialize Swiper if it's not initialized
-    // }
-  //   if (window.swiper) {
-  //   console.log('alreadyhere - destroying and reinitializing');
-  //   window.swiper.destroy(true, true); // Fully destroy the instance
-  // } else {
-  //   console.log('reinstall');
-  // }
+    if (swiper) {
+      swiper.update(); // Update the existing Swiper instance
+      console.log('alreadyhere');
+      initializeSwiper();
+    } else {
+      console.log('reinstall');
+      initializeSwiper(); // Reinitialize Swiper if it's not initialized
+    }
+ 
 
   initializeSwiper(); 
   }
 
   const cartDrawer = document.querySelector('.m-cart-drawer');
-  const scd_item__remove = document.querySelector('.scd-item__remove');
- 
-  document.querySelectorAll('.scd-item__remove').forEach(button => {
-     console.log('present');
-    button.addEventListener('click', function () {
-        reinitializeSwiper();
-      console.log('click-removed');
-    });
-});
+const cartItemsContainer = document.querySelector('.scd__items');
+
+if (cartItemsContainer) {
+  const observer = new MutationObserver((mutationsList) => {
+    console.log('Cart updated');
+    reinitializeSwiper();
+  });
+
+  observer.observe(cartItemsContainer, {
+    childList: true, // watch for added/removed elements
+    subtree: true,   // watch deeply inside children too
+  });
+}
 
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
