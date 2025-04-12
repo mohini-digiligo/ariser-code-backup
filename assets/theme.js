@@ -259,3 +259,54 @@ if (cartDrawer) {
 
 
 
+// css start for bundle code
+
+
+  let selectedProducts = [];
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const products = document.querySelectorAll('.bundle-product');
+
+    products.forEach(function (item) {
+      item.addEventListener('click', function () {
+        const productId = this.dataset.productId;
+
+        if (this.classList.contains('selected')) {
+          this.classList.remove('selected');
+          selectedProducts = selectedProducts.filter(id => id !== productId);
+        } else if (selectedProducts.length < 3) {
+          this.classList.add('selected');
+          selectedProducts.push(productId);
+        } else {
+          alert('You can only select 3 products');
+        }
+      });
+    });
+
+    document.querySelector('form[action="/cart/add"]').addEventListener('submit', function (e) {
+      if (selectedProducts.length !== 3) {
+        e.preventDefault();
+        alert('Please select exactly 3 products for this combo');
+      } else {
+        selectedProducts.forEach((id, index) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = `properties[Combo Product ${index + 1}]`;
+          input.value = id;
+          this.appendChild(input);
+        });
+
+        // Add a custom combo flag
+        const flag = document.createElement('input');
+        flag.type = 'hidden';
+        flag.name = `properties[Combo Price Applied]`;
+        flag.value = 'true';
+        this.appendChild(flag);
+      }
+    });
+  });
+
+
+
+
+
