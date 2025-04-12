@@ -195,15 +195,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Reinitialize Swiper after cart changes
   function reinitializeSwiper() {
-    if (swiper) {
-      swiper.update(); // Update the existing Swiper instance
-      console.log('alreadyhere');
-     // initializeSwiper();
-      swiper.destroy(true, true);
-    } else {
-      
-      initializeSwiper(); // Reinitialize Swiper if it's not initialized
-    }
+    if (window.swiper) {
+    window.swiper.destroy(true, true);
+  }
+
+  initializeSwiper(); // Will now auto-skip if container isn't found
      console.log('reinstall');
      initializeSwiper();
   }
