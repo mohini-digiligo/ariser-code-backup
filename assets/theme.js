@@ -211,7 +211,10 @@ if (cartDrawer) {
                 mutation.type === 'attributes' &&
                 cartDrawer.classList.contains('m-cart-drawer--active')
             ) {
+              console.log('yes');
                 reinitializeSwiper();
+            }else{
+             console.log('no');
             }
         });
     });
