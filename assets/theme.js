@@ -199,7 +199,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.swiper.destroy(true, true);
   }
 
-  initializeSwiper(); // Will now auto-skip if container isn't found
+     setTimeout(() => {
+        initializeSwiper();
+      }, 1000);
+  // Will now auto-skip if container isn't found
      console.log('reinstall');
      
   }
