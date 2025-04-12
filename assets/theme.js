@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
       initializeSwiper(); // Reinitialize Swiper if it's not initialized
     }
-    console.log('reinstall');
+     console.log('reinstall');
      initializeSwiper();
   }
 
@@ -213,8 +213,32 @@ document.addEventListener("DOMContentLoaded", function () {
   span.addEventListener('click', () => {
     console.log('Remove span clicked');
     reinitializeSwiper();
+    reloadRelatedProducts();
   });
 });
+
+
+function reloadRelatedProducts() {
+  const relatedWrapper = document.querySelector('.product-single__related');
+
+  if (!relatedWrapper) return;
+
+  // Fetch the same section via AJAX
+  fetch(window.location.href)
+    .then(res => res.text())
+    .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const newRelated = doc.querySelector('.product-single__related');
+
+      if (newRelated) {
+        relatedWrapper.innerHTML = newRelated.innerHTML;
+        console.log('Related products reloaded');
+        reinitializeSwiper();
+      }
+    })
+    .catch(err => console.error('Failed to reload related products:', err));
+}
 
 
 const cartDrawer = document.querySelector('.m-cart-drawer');
