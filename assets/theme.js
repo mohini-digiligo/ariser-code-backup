@@ -203,12 +203,12 @@ document.addEventListener("DOMContentLoaded", function () {
     //   console.log('reinstall');
     //   initializeSwiper(); // Reinitialize Swiper if it's not initialized
     // }
-    if (window.swiper) {
-    console.log('alreadyhere - destroying and reinitializing');
-    window.swiper.destroy(true, true); // Fully destroy the instance
-  } else {
-    console.log('reinstall');
-  }
+  //   if (window.swiper) {
+  //   console.log('alreadyhere - destroying and reinitializing');
+  //   window.swiper.destroy(true, true); // Fully destroy the instance
+  // } else {
+  //   console.log('reinstall');
+  // }
 
   initializeSwiper(); 
   }
