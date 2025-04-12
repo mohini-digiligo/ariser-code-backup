@@ -217,7 +217,7 @@ if (cartDrawer) {
       // Wait for cart item removal to reflect in DOM
       setTimeout(() => {
         reinitializeSwiper();
-      }, 300);
+      }, 500);
     }
   });
 }
