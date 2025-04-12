@@ -208,51 +208,13 @@ document.addEventListener("DOMContentLoaded", function () {
      initializeSwiper();
   }
 
- const scd_item__remove = document.querySelector('m-cart-remove-button');
+ // const scd_item__remove = document.querySelector('m-cart-remove-button');
  document.querySelectorAll('.scd-item__remove').forEach(span => {
   span.addEventListener('click', () => {
     console.log('Remove span clicked');
     reinitializeSwiper();
-    reloadRelatedProducts();
   });
 });
-
-  const cartItemsContainer = document.querySelector('.scd__items');
-
-if (cartItemsContainer) {
-  const observer = new MutationObserver(() => {
-    console.log('Cart DOM updated');
-    reloadRelatedProducts(); // <- also calls reinitializeSwiper inside
-  });
-
-  observer.observe(cartItemsContainer, {
-    childList: true,
-    subtree: true,
-  });
-}
-
-
-function reloadRelatedProducts() {
-  const relatedWrapper = document.querySelector('.product-single__related');
-
-  if (!relatedWrapper) return;
-
-  // Fetch the same section via AJAX
-  fetch(window.location.href)
-    .then(res => res.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const newRelated = doc.querySelector('.product-single__related');
-
-      if (newRelated) {
-        relatedWrapper.innerHTML = newRelated.innerHTML;
-        console.log('Related products reloaded');
-        reinitializeSwiper();
-      }
-    })
-    .catch(err => console.error('Failed to reload related products:', err));
-}
 
 
 const cartDrawer = document.querySelector('.m-cart-drawer');
