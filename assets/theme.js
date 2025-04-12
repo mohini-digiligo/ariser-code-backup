@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function reinitializeSwiper() {
     if (swiper) {
       swiper.update(); // Update the existing Swiper instance
-      console.log('already here');
+      console.log('alreadyhere');
       initializeSwiper();
     } else {
       console.log('reinstall');
@@ -208,13 +208,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const cartDrawer = document.querySelector('.m-cart-drawer');
   const scd_item__remove = document.querySelector('.scd-item__remove');
  
-if (scd_item__remove) {
-  console.log('present');
-    scd_item__remove.addEventListener('click', function () {
+  document.querySelectorAll('.scd-item__remove').forEach(button => {
+     console.log('present');
+    button.addEventListener('click', function () {
         reinitializeSwiper();
-       console.log('click-removed');
+      console.log('click-removed');
     });
-}
+});
 
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
