@@ -206,6 +206,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const cartDrawer = document.querySelector('.m-cart-drawer');
+  const scd_item__remove = document.querySelector('.scd-item__remove);
+ 
+if (scd_item__remove) {
+    scd_item__remove.addEventListener('click', function () {
+        reinitializeSwiper();
+    });
+}
 
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
