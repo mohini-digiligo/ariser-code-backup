@@ -55,7 +55,7 @@
         {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
-  <div class="product-slider">
+ 
     <div class="slider">
       {% for cartItem in cart.items %}
         {% if cartItem.product.metafields.shopify--discovery--product_recommendation.complementary_products.value %}
@@ -83,7 +83,7 @@
     <a href="#" id="click-left">&#8592;</a>
     <a href="#" id="click-right">&#8594;</a>
   </div>
-  </div>
+ 
 {%- endcapture -%}
 
 <div class="cart-recommendations-wrapper" data-cart-recommendations>
