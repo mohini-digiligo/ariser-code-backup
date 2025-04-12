@@ -180,8 +180,8 @@ document.addEventListener("DOMContentLoaded", function () {
       spaceBetween: 10,
       loop: false,
       navigation: {
-        nextEl: ".swiper-button-nexts",
-        prevEl: ".swiper-button-prevs",
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
       },
       autoplay: {
         delay: 3000,
