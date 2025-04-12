@@ -166,6 +166,9 @@ customElements.define('cart-item-options', CartItemOptions);
 
 //code for popup mini cart change options end
 document.addEventListener("DOMContentLoaded", function () {
+
+  console.log(document.querySelector('[data-cart-action="add"]'));  // Should not be null if element exists
+console.log(document.querySelector('[data-cart-action="remove"]'));  // Same as above
   // Initialize Swiper
   var swiper = new Swiper(".product-slider", {
     slidesPerView: 1, // Show 1 product at a time
