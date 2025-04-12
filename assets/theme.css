@@ -449,6 +449,10 @@ a.btn.complementary-product-link:hover {
   display:none;
 }
 
+.sf__btn-icon:after {
+    display: none;
+}
+
 
 
 
