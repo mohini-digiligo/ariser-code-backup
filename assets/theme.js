@@ -198,16 +198,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (swiper) {
       swiper.update(); // Update the existing Swiper instance
       console.log('alreadyhere');
-      initializeSwiper();
+     // initializeSwiper();
+      swiper.destroy(true, true);
     } else {
       console.log('reinstall');
       initializeSwiper(); // Reinitialize Swiper if it's not initialized
     }
-    
+     initializeSwiper();
   }
 
-  const cartDrawer = document.querySelector('.m-cart-drawer');
-  const scd_item__remove = document.querySelector('m-cart-remove-button');
+ const scd_item__remove = document.querySelector('m-cart-remove-button');
  document.querySelectorAll('m-cart-remove-button .scd-item__remove').forEach(span => {
   span.addEventListener('click', () => {
     console.log('Remove span clicked');
@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
+const cartDrawer = document.querySelector('.m-cart-drawer');
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
