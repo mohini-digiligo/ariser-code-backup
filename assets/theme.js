@@ -165,15 +165,13 @@ updateMiniCart() {
 customElements.define('cart-item-options', CartItemOptions);
 
 //code for popup mini cart change options end
-
-document.addEventListener("DOMContentLoaded", function () {
-  console.log('DOM fully loaded');
-
-  // Initialize Swiper
-  let swiper;
-  function initializeSwiper() {
-    swiper = new Swiper(".product-slider", {
-      slidesPerView: 1,
+// Function to reinitialize Swiper
+function reinitializeSwiper() {
+    // Assuming Swiper is initialized like this
+    if (swiper) {
+        swiper.destroy(); // Destroy the previous swiper instance
+        swiper = new Swiper('.product-slider', {
+             slidesPerView: 1,
       spaceBetween: 10,
       loop: true,
       navigation: {
@@ -184,63 +182,105 @@ document.addEventListener("DOMContentLoaded", function () {
         delay: 3000,
         disableOnInteraction: false,
       },
-    });
-  }
-
-  initializeSwiper(); // Initial call
-
-  // Reinitialize Swiper after cart changes
-  function reinitializeSwiper() {
-    if (swiper) {
-      swiper.update(); // Update the existing Swiper instance
-    } else {
-      initializeSwiper(); // Reinitialize Swiper if it's not initialized
+        });
     }
-  }
+}
 
-  // Event listeners for custom events
-  document.addEventListener('cartDrawer:opened', function () {
-    console.log('cartDrawer:opened event fired');
-    reinitializeSwiper();
-  });
-
-  document.addEventListener('cartDrawer:closed', function () {
-    console.log('cartDrawer:closed event fired');
-    reinitializeSwiper();
-  });
-
-  document.addEventListener('cart:updated', function () {
-    console.log('cart:updated event fired');
-    reinitializeSwiper();
-  });
-
-  // Add-to-cart button event listener (with dynamic handling)
-  const addToCartButton = document.querySelector('[data-add-to-cart]');
-
-  // Check if the button exists and attach the event listener
-  if (addToCartButton) {
-    addToCartButton.addEventListener('click', function (e) {
-      console.log('[data-add-to-cart] clicked');
-      e.preventDefault();  // Prevent default form submit if needed
-
-      // Optionally add loading spinner or other UI feedback here
-      setTimeout(function () {
-        reinitializeSwiper(); // Reinitialize Swiper after cart update (adjust delay as needed)
-      }, 500); // Allow time for the cart to update
+// Observer to watch for class changes on m-cart-drawer
+const cartDrawerObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.target.classList.contains('m-cart-drawer--active')) {
+            // If m-cart-drawer--active class is added
+            reinitializeSwiper();
+        }
     });
-  } else {
-    console.log('[data-add-to-cart] button not found!');
-  }
-
-  // Add event listeners for other cart buttons (remove, etc.) similarly
-  const removeButton = document.querySelector('[data-cart-action="remove"]');
-  if (removeButton) {
-    removeButton.addEventListener('click', function () {
-      console.log('[data-cart-action="remove"] clicked');
-      setTimeout(reinitializeSwiper, 500);
-    });
-  }
 });
+
+// Target the cart drawer element
+const cartDrawer = document.querySelector('.m-cart-drawer');
+
+// Start observing the cart drawer for class changes
+if (cartDrawer) {
+    cartDrawerObserver.observe(cartDrawer, {
+        attributes: true, // Watch for attribute changes (like class changes)
+    });
+}
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   console.log('DOM fully loaded');
+
+//   // Initialize Swiper
+//   let swiper;
+//   function initializeSwiper() {
+//     swiper = new Swiper(".product-slider", {
+//       slidesPerView: 1,
+//       spaceBetween: 10,
+//       loop: true,
+//       navigation: {
+//         nextEl: ".swiper-button-next",
+//         prevEl: ".swiper-button-prev",
+//       },
+//       autoplay: {
+//         delay: 3000,
+//         disableOnInteraction: false,
+//       },
+//     });
+//   }
+
+//   initializeSwiper(); // Initial call
+
+//   // Reinitialize Swiper after cart changes
+//   function reinitializeSwiper() {
+//     if (swiper) {
+//       swiper.update(); // Update the existing Swiper instance
+//     } else {
+//       initializeSwiper(); // Reinitialize Swiper if it's not initialized
+//     }
+//   }
+
+//   // Event listeners for custom events
+//   document.addEventListener('cartDrawer:opened', function () {
+//     console.log('cartDrawer:opened event fired');
+//     reinitializeSwiper();
+//   });
+
+//   document.addEventListener('cartDrawer:closed', function () {
+//     console.log('cartDrawer:closed event fired');
+//     reinitializeSwiper();
+//   });
+
+//   document.addEventListener('cart:updated', function () {
+//     console.log('cart:updated event fired');
+//     reinitializeSwiper();
+//   });
+
+//   // Add-to-cart button event listener (with dynamic handling)
+//   const addToCartButton = document.querySelector('[data-add-to-cart]');
+
+//   // Check if the button exists and attach the event listener
+//   if (addToCartButton) {
+//     addToCartButton.addEventListener('click', function (e) {
+//       console.log('[data-add-to-cart] clicked');
+//       e.preventDefault();  // Prevent default form submit if needed
+
+//       // Optionally add loading spinner or other UI feedback here
+//       setTimeout(function () {
+//         reinitializeSwiper(); // Reinitialize Swiper after cart update (adjust delay as needed)
+//       }, 500); // Allow time for the cart to update
+//     });
+//   } else {
+//     console.log('[data-add-to-cart] button not found!');
+//   }
+
+//   // Add event listeners for other cart buttons (remove, etc.) similarly
+//   const removeButton = document.querySelector('[data-cart-action="remove"]');
+//   if (removeButton) {
+//     removeButton.addEventListener('click', function () {
+//       console.log('[data-cart-action="remove"] clicked');
+//       setTimeout(reinitializeSwiper, 500);
+//     });
+//   }
+// });
 
 
 
