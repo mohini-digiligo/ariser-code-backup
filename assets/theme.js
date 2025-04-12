@@ -211,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
 if (scd_item__remove) {
     scd_item__remove.addEventListener('click', function () {
         reinitializeSwiper();
+       console.log('click-removed');
     });
 }
 
@@ -221,10 +222,10 @@ if (cartDrawer) {
                 mutation.type === 'attributes' &&
                 cartDrawer.classList.contains('m-cart-drawer--active')
             ) {
-              console.log('yes');
+             
                 reinitializeSwiper();
             }else{
-             console.log('no');
+            
             }
         });
     });
