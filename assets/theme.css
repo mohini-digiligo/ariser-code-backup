@@ -445,6 +445,9 @@ a.btn.complementary-product-link:hover {
 .sf-lookbook-slider__products div div .swiper-button-next {
   display:none;
 }
+.sf-lookbook-slider__products div div .swiper-button-prev {
+  display:none;
+}
 
 
 
