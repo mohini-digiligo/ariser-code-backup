@@ -393,7 +393,7 @@ a.btn.complementary-product-link {
 a.btn.complementary-product-link:hover {
     box-shadow: 0 0 0 .0 .5rem var(--color-btn-bg-hover);
 } 
- /* .swiper-button-next:after, .swiper-button-prev:after {
+ .swiper-button-next:after, .swiper-button-prev:after {
     background: #e31e25;
     color: white;
     font-size:18px !important;
@@ -418,58 +418,6 @@ a.btn.complementary-product-link:hover {
 .swiper-button-prev,
 .swiper-button-next {
   color: #000;
-} */
-.product-single__related {
-  position: relative;
-  overflow: hidden;
-}
-
-.slider {
-  position: relative;
-  width: 900px;
-  margin: auto;
-  height: 600px;
-  overflow: hidden;
-}
-
-.slide {
-  position: absolute;
-  z-index: 0;
-  left: 0;
-  top: 0;
-}
-
-.active {
-  transform: translateX(0%) translateZ(0);
-  transition: 0.5s all cubic-bezier(0.4, 0.0, 0.2, 1);
-  z-index: 100;
-}
-
-.prev {
-  transform: translateX(-100%) translateZ(0);
-  transition: 0.5s all cubic-bezier(0.4, 0.0, 0.2, 1);
-  z-index: 90;
-}
-
-.next {
-  transform: translateX(100%) translateZ(0);
-  transition: 0.5s all cubic-bezier(0.4, 0.0, 0.2, 1);
-  z-index: 90;
-}
-
-.controls {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 110;
-  left: 0;
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  font-size: 32px;
-  color: rgb(255,255,255);
 }
 
 
