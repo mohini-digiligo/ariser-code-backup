@@ -203,22 +203,19 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log('reinstall');
       initializeSwiper(); // Reinitialize Swiper if it's not initialized
     }
+    
   }
 
   const cartDrawer = document.querySelector('.m-cart-drawer');
-const cartItemsContainer = document.querySelector('.scd__items');
-
-if (cartItemsContainer) {
-  const observer = new MutationObserver((mutationsList) => {
-    console.log('Cart updated');
-    reinitializeSwiper();
-  });
-
-  observer.observe(cartItemsContainer, {
-    childList: true, // watch for added/removed elements
-    subtree: true,   // watch deeply inside children too
-  });
-}
+  const scd_item__remove = document.querySelector('.scd-item__remove');
+ 
+  document.querySelectorAll('.scd-item__remove').forEach(button => {
+     console.log('present');
+    button.addEventListener('click', function () {
+        reinitializeSwiper();
+      console.log('click-removed');
+    });
+});
 
 if (cartDrawer) {
     const observer = new MutationObserver((mutations) => {
