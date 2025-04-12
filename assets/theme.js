@@ -197,7 +197,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function reinitializeSwiper() {
     if (swiper) {
       swiper.update(); // Update the existing Swiper instance
+      console.log('already here');
     } else {
+      console.log('reinstall');
       initializeSwiper(); // Reinitialize Swiper if it's not initialized
     }
   }
