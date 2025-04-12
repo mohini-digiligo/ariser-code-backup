@@ -51,7 +51,10 @@
             
           </form>
              <!---------------- code add by devp start  ------------------>
-          {% assign totalItems = 0 %}
+          
+          
+        </m-cart-drawer-items>
+        {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
   <div class="swiper product-slider">
@@ -105,8 +108,6 @@
 </div>
 
             <!---------------- code add by devp end  ------------------>
-          
-        </m-cart-drawer-items>
         
         <div class="m-cart-drawer--footer scd__footer py-4 px-6" id="MinimogCartDrawerFooter">
           {% render 'cart-addons', form_id: 'cart-drawer-form' %}
