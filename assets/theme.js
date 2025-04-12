@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
   span.addEventListener('click', () => {
     console.log('Remove span clicked');
     reinitializeSwiper();
+    initializeSwiper();
   });
 });
 
