@@ -166,6 +166,7 @@ customElements.define('cart-item-options', CartItemOptions);
 
 // code for popup mini cart change options end
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize Swiper
   var swiper = new Swiper(".product-slider", {
     slidesPerView: 1, // Show 1 product at a time
     spaceBetween: 10, // Adjust spacing between slides
@@ -179,7 +180,43 @@ document.addEventListener("DOMContentLoaded", function () {
       disableOnInteraction: false, // Keep autoplay even after user interaction
     },
   });
+
+  // Function to reinitialize Swiper
+  function reinitializeSwiper() {
+    if (swiper) {
+      swiper.update();  // Update the existing Swiper instance
+    } else {
+      swiper = new Swiper(".product-slider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      });
+    }
+  }
+
+  // Listen for cart updates (Shopify's cart event or Ajax update)
+  document.addEventListener('cart:updated', function () {
+    reinitializeSwiper(); // Reinitialize or update Swiper when the cart changes
+  });
+
+  // Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
+  document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
+    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  });
+
+  document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
+    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  });
 });
+
 
 
 
