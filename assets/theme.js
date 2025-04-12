@@ -224,7 +224,7 @@ if (cartDrawer) {
                 cartDrawer.classList.contains('m-cart-drawer--active')
             ) {
              
-               // reinitializeSwiper();
+               reinitializeSwiper();
             }else{
             
             }
