@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
     swiper = new Swiper(".product-slider", {
       slidesPerView: 1,
       spaceBetween: 10,
-      loop: true,
+      loop: false,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
