@@ -422,7 +422,21 @@ a.btn.complementary-product-link:hover {
 
 .sf-slider__controls .swiper-button-prev,
 .sf-slider__controls .swiper-button-next{
-  display:none;
+  align-items: center;
+    border-color: var(--color-border);
+    box-shadow: none;
+    color: currentColor;
+    display: inline-flex
+;
+    flex: 0 0 auto;
+    height: 50px;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+    pointer-events: auto;
+    transition: all .3s ease;
+    width: 50px;
+    z-index: 1;
 }
 
 
