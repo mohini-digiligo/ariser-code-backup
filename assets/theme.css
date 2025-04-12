@@ -420,6 +420,11 @@ a.btn.complementary-product-link:hover {
   color: #000;
 }
 
+.sf-slider__controls .swiper-button-prev,
+.sf-slider__controls .swiper-button-next{
+  display:none;
+}
+
 
 
 
