@@ -168,6 +168,15 @@ customElements.define('cart-item-options', CartItemOptions);
 document.addEventListener("DOMContentLoaded", function () {
 
   console.log('DOM fully loaded');
+  document.addEventListener('cartDrawer:opened', function () {
+  console.log('cartDrawer:opened event fired');
+  reinitializeSwiper(); // Reinitialize Swiper when cart drawer opens
+});
+
+document.addEventListener('cartDrawer:closed', function () {
+  console.log('cartDrawer:closed event fired');
+  reinitializeSwiper(); // Reinitialize Swiper when cart drawer closes
+});
   // Initialize Swiper
   var swiper = new Swiper(".product-slider", {
     slidesPerView: 1, // Show 1 product at a time
