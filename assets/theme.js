@@ -194,19 +194,29 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeSwiper(); // Initial call
 
   // Reinitialize Swiper after cart changes
-  function reinitializeSwiper() {
-    if (swiper) {
-      swiper.update(); // Update the existing Swiper instance
-      console.log('alreadyhere');
-      initializeSwiper();
-    } else {
-      console.log('reinstall');
-      initializeSwiper(); // Reinitialize Swiper if it's not initialized
-    }
+  // function reinitializeSwiper() {
+  //   if (swiper) {
+  //     swiper.update(); // Update the existing Swiper instance
+  //     console.log('alreadyhere');
+  //     initializeSwiper();
+  //   } else {
+  //     console.log('reinstall');
+  //     initializeSwiper(); // Reinitialize Swiper if it's not initialized
+  //   }
  
 
-  initializeSwiper(); 
+  // initializeSwiper(); 
+  // }
+  function reinitializeSwiper() {
+  if (window.swiper) {
+    console.log('alreadyhere - destroying and reinitializing');
+    window.swiper.destroy(true, true);
+  } else {
+    console.log('reinstall');
   }
+
+  initializeSwiper();
+}
 
   const cartDrawer = document.querySelector('.m-cart-drawer');
 const cartItemsContainer = document.querySelector('.scd__items');
