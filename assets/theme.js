@@ -224,10 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
   //   console.log('[data-cart-action="add"]');
   // });
 
-  document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
-    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-    console.log('[data-cart-action="remove"]');
-  });
+  // document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
+  //   setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  //   console.log('[data-cart-action="remove"]');
+  // });
 });
 
 
