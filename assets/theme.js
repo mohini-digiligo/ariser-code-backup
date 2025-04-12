@@ -202,6 +202,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  document.addEventListener('cartDrawer:opened', function () {
+    reinitializeSwiper(); // Reinitialize Swiper when cart drawer opens
+  });
+
+  document.addEventListener('cartDrawer:closed', function () {
+    reinitializeSwiper(); // Reinitialize Swiper when cart drawer closes (optional)
+  });
+
   // Listen for cart updates (Shopify's cart event or Ajax update)
   document.addEventListener('cart:updated', function () {
     reinitializeSwiper(); // Reinitialize or update Swiper when the cart changes
