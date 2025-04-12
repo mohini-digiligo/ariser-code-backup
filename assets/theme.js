@@ -213,7 +213,7 @@ document.querySelectorAll('.scd-item__remove').forEach(removeBtn => {
     // Wait a moment for the DOM/cart to update (AJAX remove happens async)
     setTimeout(() => {
       reinitializeSwiper();
-    }, 300); // adjust timing if needed
+    }, 500); // adjust timing if needed
   });
 });
 
