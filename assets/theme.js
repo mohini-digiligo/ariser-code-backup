@@ -206,17 +206,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
  // const scd_item__remove = document.querySelector('m-cart-remove-button');
 // 1. Click listener for .scd-item__remove spans
-document.querySelectorAll('.scd-item__remove').forEach(removeBtn => {
-  removeBtn.addEventListener('click', () => {
-    console.log('Remove clicked');
-    
-    // Wait a moment for the DOM/cart to update (AJAX remove happens async)
-    setTimeout(() => {
-      reinitializeSwiper();
-    }, 500); // adjust timing if needed
-  });
-});
+// 1. Delegate click on `.scd-item__remove` using the cart drawer as root
+const cartDrawer = document.querySelector('.m-cart-drawer');
 
+if (cartDrawer) {
+  cartDrawer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('scd-item__remove')) {
+      console.log('Remove clicked (delegated)');
+
+      // Wait for cart item removal to reflect in DOM
+      setTimeout(() => {
+        reinitializeSwiper();
+      }, 300);
+    }
+  });
+}
+
+// 2. MutationObserver to detect cart item changes (optional, good for double safety)
+const cartItemsContainer = document.querySelector('.scd__items');
+
+if (cartItemsContainer) {
+  const observer = new MutationObserver(() => {
+    console.log('Cart updated — running swiper reinit as backup');
+    reinitializeSwiper();
+  });
+
+  observer.observe(cartItemsContainer, {
+    childList: true,
+    subtree: true,
+  });
+}
 
 const cartDrawer = document.querySelector('.m-cart-drawer');
 if (cartDrawer) {
