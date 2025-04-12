@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
  // const scd_item__remove = document.querySelector('m-cart-remove-button');
- document.querySelectorAll('.scd-item__remove').forEach(span => {
+ document.querySelectorAll('m-cart-remove-button .scd-item__remove').forEach(span => {
   span.addEventListener('click', () => {
     console.log('Remove span clicked');
     reinitializeSwiper();
