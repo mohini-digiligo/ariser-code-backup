@@ -164,189 +164,65 @@ updateMiniCart() {
 }
 customElements.define('cart-item-options', CartItemOptions);
 
-// code for popup mini cart change options end
-// document.addEventListener("DOMContentLoaded", function () {
-//   // Initialize Swiper
-//   var swiper = new Swiper(".product-slider", {
-//     slidesPerView: 1, // Show 1 product at a time
-//     spaceBetween: 10, // Adjust spacing between slides
-//     loop: true, // Enable infinite loop
-//     navigation: {
-//       nextEl: ".swiper-button-next",
-//       prevEl: ".swiper-button-prev",
-//     },
-//     autoplay: {
-//       delay: 3000, // Auto-slide every 3 seconds
-//       disableOnInteraction: false, // Keep autoplay even after user interaction
-//     },
-//   });
+//code for popup mini cart change options end
+document.addEventListener("DOMContentLoaded", function () {
+  // Initialize Swiper
+  var swiper = new Swiper(".product-slider", {
+    slidesPerView: 1, // Show 1 product at a time
+    spaceBetween: 10, // Adjust spacing between slides
+    loop: true, // Enable infinite loop
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    autoplay: {
+      delay: 3000, // Auto-slide every 3 seconds
+      disableOnInteraction: false, // Keep autoplay even after user interaction
+    },
+  });
+
+  // Function to reinitialize Swiper
+  function reinitializeSwiper() {
+    if (swiper) {
+      swiper.update();  // Update the existing Swiper instance
+    } else {
+      swiper = new Swiper(".product-slider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      });
+    }
+  }
+
+  document.addEventListener('cartDrawer:opened', function () {
+    reinitializeSwiper(); // Reinitialize Swiper when cart drawer opens
+  });
+
+  document.addEventListener('cartDrawer:closed', function () {
+    reinitializeSwiper(); // Reinitialize Swiper when cart drawer closes (optional)
+  });
+
+  // Listen for cart updates (Shopify's cart event or Ajax update)
+  document.addEventListener('cart:updated', function () {
+    reinitializeSwiper(); // Reinitialize or update Swiper when the cart changes
+  });
+
+  // Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
+  document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
+    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  });
+
+  document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
+    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  });
+});
 
-//   // Function to reinitialize Swiper
-//   function reinitializeSwiper() {
-//     if (swiper) {
-//       swiper.update();  // Update the existing Swiper instance
-//     } else {
-//       swiper = new Swiper(".product-slider", {
-//         slidesPerView: 1,
-//         spaceBetween: 10,
-//         loop: true,
-//         navigation: {
-//           nextEl: ".swiper-button-next",
-//           prevEl: ".swiper-button-prev",
-//         },
-//         autoplay: {
-//           delay: 3000,
-//           disableOnInteraction: false,
-//         },
-//       });
-//     }
-//   }
 
-//   document.addEventListener('cartDrawer:opened', function () {
-//     reinitializeSwiper(); // Reinitialize Swiper when cart drawer opens
-//   });
-
-//   document.addEventListener('cartDrawer:closed', function () {
-//     reinitializeSwiper(); // Reinitialize Swiper when cart drawer closes (optional)
-//   });
-
-//   // Listen for cart updates (Shopify's cart event or Ajax update)
-//   document.addEventListener('cart:updated', function () {
-//     reinitializeSwiper(); // Reinitialize or update Swiper when the cart changes
-//   });
-
-//   // Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
-//   document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
-//     setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-//   });
-
-//   document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
-//     setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-//   });
-// });
-
-function initSlider() {
-
-let activeSlide = 0;
-
-const slider = document.querySelector('.cart-recommendations-wrapper .slider');
-
-if (!slider) return;
-
-const slides = slider.querySelectorAll('.slide');
-
-const left = slider.querySelector('#click-left');
-
-const right = slider.querySelector('#click-right');
-
-if (!left || !right) return;
-
-// Remove existing event listeners to prevent duplicates
-
-left.replaceWith(left.cloneNode(true));
-
-right.replaceWith(right.cloneNode(true));
-
-const newLeft = slider.querySelector('#click-left');
-
-const newRight = slider.querySelector('#click-right');
-
-newLeft.onclick = function(e) {
-
-e.preventDefault();
-
-updatePrevSlide();
-
-};
-
-newRight.onclick = function(e) {
-
-e.preventDefault();
-
-updateNextSlide();
-
-};
-
-function updateNextSlide() {
-
-slides[activeSlide].classList.add("prev");
-
-let nextSlide = ( activeSlide < slides.length -1) ? activeSlide + 1 : 0;
-
-slides[nextSlide].classList.remove("prev");
-
-slides[nextSlide].classList.remove("next");
-
-slides[nextSlide].classList.add("active");
-
-if(nextSlide < slides.length -1){
-
-slides[nextSlide + 1].classList.add("next");
-
-slides[nextSlide + 1].classList.remove("prev");
-
-} else {
-
-slides[0].classList.remove("prev");
-
-slides[0].classList.add("next");
-
-}
-
-activeSlide = nextSlide;
-
-}
-
-function updatePrevSlide() {
-
-slides[activeSlide].classList.add("next");
-
-let prevSlide = ( activeSlide > 0) ? activeSlide - 1 : slides.length - 1;
-
-slides[prevSlide].classList.remove("next");
-
-slides[prevSlide].classList.remove("prev");
-
-slides[prevSlide].classList.add("active");
-
-if(prevSlide > 0){
-
-slides[prevSlide - 1].classList.add("prev");
-
-slides[prevSlide - 1].classList.remove("next");
-
-} else {
-
-slides[slides.length - 1].classList.remove("next");
-
-slides[slides.length - 1].classList.add("prev");
-
-}
-
-activeSlide = prevSlide;
-
-}
-
-// Initialize the first slide
-
-if (slides.length > 0) {
-
-slides[0].classList.add('active');
-
-if (slides.length > 1) {
-
-slides[1].classList.add('next');
-
-}
-
-}
-
-}
-
-// Initial call
-
-document.addEventListener('DOMContentLoaded', initSlider);
-
-// Re-initialize when the cart updates
-
-document.addEventListener('ajaxCart.afterUpdate', initSlider);
