@@ -438,6 +438,9 @@ a.btn.complementary-product-link:hover {
     width: 50px;
     z-index: 1;
 }
+.swiper-button-next svg, .swiper-button-prev svg {
+    width: 14px;
+}
 
 
 
