@@ -213,23 +213,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Listen for cart updates (Shopify's cart event or Ajax update)
- 
-
-  // Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
-  // document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
-  //   setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-  //   console.log('[data-cart-action="add"]');
-  // });
-
-  // document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
-  //   setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-  //   console.log('[data-cart-action="remove"]');
-  // });
-});
-
- document.addEventListener('cart:updated', function () {
+  document.addEventListener('cart:updated', function () {
     reinitializeSwiper(); // Reinitialize or update Swiper when the cart changes
     console.log('cart:updated');
   });
+
+  Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
+  document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
+    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+    console.log('[data-cart-action="add"]');
+  });
+
+  document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
+    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+    console.log('[data-cart-action="remove"]');
+  });
+});
 
 
