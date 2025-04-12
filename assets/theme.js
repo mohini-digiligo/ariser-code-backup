@@ -221,7 +221,7 @@ console.log(document.querySelector('[data-cart-action="remove"]'));  // Same as 
     console.log('cart:updated');
   });
 
-  Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
+  //Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
   document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
     setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
     console.log('[data-cart-action="add"]');
