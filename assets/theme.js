@@ -214,8 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
 const cartDrawer = document.querySelector('.m-cart-drawer');
 if (cartDrawer) {
   cartDrawer.addEventListener('click', (e) => {
-    if (e.target.classList.contains('scd-item__remove')) {
-      const isQtyBtn = e.target.classList.contains('scd-item__btn');
+    const isRemoveBtn = e.target.classList.contains('scd-item__remove');
+    const isQtyBtn = e.target.classList.contains('scd-item__btn');
 
     if (isRemoveBtn || isQtyBtn) {
       console.log(isRemoveBtn ? 'Remove clicked' : 'Quantity changed');
@@ -224,6 +224,7 @@ if (cartDrawer) {
       setTimeout(() => {
         reinitializeSwiper();
       }, 500); // Adjust delay if needed
+    }
   });
 }
 
