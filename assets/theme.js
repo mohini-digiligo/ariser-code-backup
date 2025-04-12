@@ -219,10 +219,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Optionally, if your theme provides specific event listeners for adding/removing items from the cart:
-  document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
-    setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
-    console.log('[data-cart-action="add"]');
-  });
+  // document.querySelector('[data-cart-action="add"]').addEventListener('click', function () {
+  //   setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
+  //   console.log('[data-cart-action="add"]');
+  // });
 
   document.querySelector('[data-cart-action="remove"]').addEventListener('click', function () {
     setTimeout(reinitializeSwiper, 500); // Delay a bit to allow cart update to finish
