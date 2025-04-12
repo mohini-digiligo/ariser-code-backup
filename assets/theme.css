@@ -419,7 +419,10 @@ a.btn.complementary-product-link:hover {
 .swiper-button-next {
   color: #000;
 } */
-
+.product-single__related {
+  position: relative;
+  overflow: hidden;
+}
 
 .slider {
   position: relative;
