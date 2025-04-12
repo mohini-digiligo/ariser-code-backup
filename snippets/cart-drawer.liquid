@@ -40,12 +40,17 @@
               {% endfor %}
               
             </div>
-           
+         
+          {%- else -%}
+            <div class="scd-empty-msg">
+              {{ 'cart.general.empty' | t }}
+            </div>
+          {%- endif -%}
         
              
             
           </form>
-           <!---------------- code add by devp start  ------------------>
+             <!---------------- code add by devp start  ------------------>
           {% assign totalItems = 0 %}
 {%- capture recommendationsContent -%}
   {% assign hasRecommendations = false %}
@@ -100,11 +105,7 @@
 </div>
 
             <!---------------- code add by devp end  ------------------>
-          {%- else -%}
-            <div class="scd-empty-msg">
-              {{ 'cart.general.empty' | t }}
-            </div>
-          {%- endif -%}
+          
         </m-cart-drawer-items>
         
         <div class="m-cart-drawer--footer scd__footer py-4 px-6" id="MinimogCartDrawerFooter">
