@@ -205,11 +205,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
  // const scd_item__remove = document.querySelector('m-cart-remove-button');
- document.querySelectorAll('m-cart-remove-button .scd-item__remove').forEach(span => {
-  span.addEventListener('click', () => {
-    console.log('Remove span clicked');
-    reinitializeSwiper();
-    initializeSwiper();
+// 1. Click listener for .scd-item__remove spans
+document.querySelectorAll('.scd-item__remove').forEach(removeBtn => {
+  removeBtn.addEventListener('click', () => {
+    console.log('Remove clicked');
+    
+    // Wait a moment for the DOM/cart to update (AJAX remove happens async)
+    setTimeout(() => {
+      reinitializeSwiper();
+    }, 300); // adjust timing if needed
   });
 });
 
