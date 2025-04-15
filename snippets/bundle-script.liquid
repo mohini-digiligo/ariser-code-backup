@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .forEach((list) => (list.style.display = "none"));
   }
 
-  const addToCartButton = document.getElementById("add-to-cart");
+  const addToCartButton = document.getElementByClass("add-to-cart");
   if (addToCartButton) {
     addToCartButton.addEventListener("click", async function (e) {
       e.preventDefault();
