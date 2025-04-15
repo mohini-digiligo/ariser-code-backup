@@ -194,20 +194,8 @@
                     </button>
                   {% endif %}
                 </div>
-                 <!-- <code add by devp start  -->
-                {% assign bundle_collection_handle = product.metafields.custom.design_collection_bundle_direct.value %}
-                {% assign bundle_collection = collections[bundle_collection_handle] %}
-                        {% if bundle_collection.products.size > 0 %}
-                                <div id="bundle-selection" class="bundle-grid">
-                                  <p>Select 3 products:</p>
-                                  {% for product in bundle_collection.products %}
-                                    <div class="bundle-product" data-product-id="{{ product.id }}" data-title="{{ product.title }}" data-image="{{ product.featured_image | img_url: 'small' }}">
-                                      <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
-                                      <p>{{ product.title }}</p>
-                                    </div>
-                                  {% endfor %}
-                                </div>
-                              {% endif %}
+              
+            
 
                 <!-- <code add by devp end  -->
                 <div class="prod__option prod__option--button">
