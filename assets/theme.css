@@ -454,6 +454,17 @@ a.btn.complementary-product-link:hover {
 }
 
 
+/* css start for combo product  */
+.custom-dropdown-list-item {
+    padding: 10px 12px;
+    display: flex
+;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+/* css start for combo product  */
+
+
 
 
 
