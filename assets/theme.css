@@ -466,6 +466,19 @@ a.btn.complementary-product-link:hover {
     max-height: 200px;
     overflow-y: auto;
 }
+.custom-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    width: 100%;
+    z-index: 10;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+}
 /* css start for combo product  */
 
 
