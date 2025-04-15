@@ -465,5 +465,14 @@
   },
   "date_formats": {
     "month_day_year": "%B %d, %Y"
+  },
+  "product_block": {
+  "variant_picker": {
+    "settings": {
+      "picker_type": {
+        "label": "Picker type"
+      }
+    }
   }
+}
 }
