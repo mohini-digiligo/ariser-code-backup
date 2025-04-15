@@ -444,7 +444,39 @@
         }
       ]
     },
-   
+    {
+      "type": "variant_picker",
+      "name": "Variants selector",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Size guide settings"
+        },
+        {
+          "type": "text",
+          "id": "size_title",
+          "default": "Size",
+          "label": "Size option title",
+          "info": "Enter the option titles which you want to show Size guide button, separate with a comma"
+        },{
+      "type": "select",
+      "id": "picker_type",
+      "label": "t:product_block.variant_picker.settings.picker_type.label",
+      "options": [
+        {
+          "value": "button",
+          "label": "t:product_block.variant_picker.settings.picker_type.options.button.label"
+        },
+        {
+          "value": "dropdown",
+          "label": "t:product_block.variant_picker.settings.picker_type.options.dropdown.label"
+        }
+      ],
+      "default": "button"
+    }
+      ]
+    },
     {
       "type": "buy_buttons",
       "name": "Buy buttons",
