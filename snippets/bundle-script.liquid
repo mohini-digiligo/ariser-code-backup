@@ -273,30 +273,30 @@ if (addToCartButton) {
 
     for (const selectElement of dropdowns) {
       const selectedOption = selectElement.options[selectElement.selectedIndex];
-      const handle = selectedOption.getAttribute("data-handle");
+const handle = selectedOption.getAttribute("data-handle");
 
-      // Get options specific to this product's select box
-      const selectedValue = selectedOption.value;
-    
-      const dropdownId = selectElement.closest('.color-select-dropdwon')?.id || '';
-      const options = [selectedValue]; // assume 1-option products for dropdowns
+const selectedValueRaw = selectedOption.value;
+const selectedValue = selectedValueRaw.split("-")[0].trim(); // 👈 Extract the clean name
 
-      console.log("Dropdown selected handle:", handle, "option:", selectedValue);
+const dropdownId = selectElement.closest('.color-select-dropdwon')?.id || '';
+const options = [selectedValue]; // Cleaned variant option
 
-      if (handle && selectedValue) {
-        try {
-          const variantId = await fetchProductVariantIdByHandle(handle, options);
-          if (variantId) {
-            productsToAdd.push({
-              id: variantId,
-              quantity: 1,
-              properties: { "Item Type": "Pack", "Bundle Dropdown": dropdownId }
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching variant ID for:", handle, error);
-        }
-      }
+console.log("Dropdown selected handle:", handle, "option:", selectedValue);
+
+if (handle && selectedValue) {
+  try {
+    const variantId = await fetchProductVariantIdByHandle(handle, options);
+    if (variantId) {
+      productsToAdd.push({
+        id: variantId,
+        quantity: 1,
+        properties: { "Item Type": "Pack", "Bundle Dropdown": dropdownId }
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching variant ID for:", handle, error);
+  }
+}
     }
 
     if (productsToAdd.length > 0) {
