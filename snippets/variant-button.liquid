@@ -121,10 +121,10 @@
 
    <div class="bundle-custom">
      <p>BLOCK TYPE: {{ block.type }}</p>
-   {%- for block in section.blocks -%}
-        {%- case block.type -%}
+  
+       
 
-                  {%- when 'table_input' -%}
+                  
                               
                              
                                 {% assign pack_num = packNum | times: 1 %}
@@ -179,6 +179,6 @@
                     
                                           {%- comment -%}Custom Input{%- endcomment -%}
 
-             {% endcase %}
-{% endfor %}
+             
+
 </div>
