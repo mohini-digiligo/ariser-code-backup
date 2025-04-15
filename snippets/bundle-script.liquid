@@ -379,3 +379,78 @@ if (addToCartButton) {
 });
 </script>
 {% endif %} 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const variantInputs = document.querySelectorAll("[data-variant-input]");
+
+  variantInputs.forEach((input) => {
+    input.addEventListener("change", function () {
+      // Update selected value for label display
+      const label = this.closest(".variant-wrapper").querySelector("[data-variant-color-label]");
+      if (label) {
+        label.innerText = this.value;
+      }
+
+      // Trigger form change so Shopify picks the correct variant
+      const form = this.form;
+      if (form) {
+        const changeEvent = new Event('change', { bubbles: true });
+        form.dispatchEvent(changeEvent);
+      }
+
+      // Show/hide bundle section based on "Pack" value
+      if (this.dataset.qty) {
+        const packNum = parseInt(this.dataset.qty);
+        document.querySelectorAll('[data-pack-tab]').forEach(el => {
+          el.style.display = 'none';
+        });
+        const bundleWrap = document.querySelector(`[data-pack-tab="${packNum}"]`);
+        if (bundleWrap) {
+          bundleWrap.style.display = 'flex';
+        }
+      }
+    });
+  });
+
+  // Dropdown selection logic (optional improvement)
+  document.querySelectorAll('.custom-dropdown-list-item').forEach(item => {
+    item.addEventListener('click', function () {
+      const container = this.closest('.form-group');
+      const select = container.querySelector('select');
+      const selectedDisplay = container.querySelector('.custom-dropdown-selected .text-container');
+      const selectedImg = container.querySelector('.custom-dropdown-selected img');
+
+      const value = this.getAttribute('data-value');
+      const img = this.getAttribute('data-prev');
+
+      // Set value in actual <select>
+      if (select && value) {
+        select.value = value;
+        select.dispatchEvent(new Event('change'));
+      }
+
+      // Update display
+      if (selectedDisplay) selectedDisplay.textContent = value.split('-')[0];
+      if (selectedImg) {
+        selectedImg.src = img;
+        selectedImg.classList.remove('hidden');
+      }
+
+      // Optional: collapse dropdown
+      const dropdownList = container.querySelector('.custom-dropdown-list');
+      if (dropdownList) dropdownList.style.display = 'none';
+    });
+  });
+
+  // Show/hide dropdown list on click
+  document.querySelectorAll('.custom-dropdown-selected').forEach(dropdown => {
+    dropdown.addEventListener('click', function () {
+      const list = this.nextElementSibling;
+      if (list) {
+        list.style.display = list.style.display === 'block' ? 'none' : 'block';
+      }
+    });
+  });
+});
+</script>
