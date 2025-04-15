@@ -479,6 +479,16 @@ a.btn.complementary-product-link:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     margin-top: 5px;
 }
+.custom-dropdown {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    position: relative;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
 /* css start for combo product  */
 
 
