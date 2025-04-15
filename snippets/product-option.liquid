@@ -307,7 +307,7 @@
                             endif
                           -%}
                           <p>Picker type: {{ block.settings.picker_type }}</p>
-                          {%- if block.settings.picker_type == 'button' -%}
+                          
                             {%- render 'variant-button',
                               block: block,
                               product: product,
@@ -322,7 +322,7 @@
                               sizechart_index: sizechart_index
                             -%}
                           
-                          {%- endif -%}
+                        
                         {%- endfor -%}
                       {%- endunless -%}
                     </div>
