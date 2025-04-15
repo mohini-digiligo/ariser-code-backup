@@ -263,58 +263,66 @@ document.addEventListener("DOMContentLoaded", function () {
       .forEach((list) => (list.style.display = "none"));
   }
 
-  const addToCartButton = document.querySelector('.add-to-cart');
-if (addToCartButton) {
-  addToCartButton.addEventListener("click", async function (e) {
-    e.preventDefault();
-    let productsToAdd = [];
-    addToCartButton.classList.add('btn--loading');
-    const dropdowns = document.querySelectorAll(".bundle-custom .show select");
+  const addToCartButton = document.getElementsByClassName("add-to-cart");
+  if (addToCartButton) {
+    addToCartButton.addEventListener("click", async function (e) {
+      e.preventDefault();
+      let productsToAdd = [];
+      addToCartButton.classList.add('btn--loading');
+      const section = addToCartButton.closest('.product-section');
+      const dropdowns = document.querySelectorAll(
+        ".bundle-custom .show select"
+      );
+      for (const selectElement of dropdowns) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const handle = selectedOption.getAttribute("data-handle");
+        // Assuming size needs to be fetched uniquely for each product
+        const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
+        const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
+           return opt.querySelector('input:checked').value;
+        })
+        console.log('handle',handle,options)
+        if (handle && options.length > 0) {
+          try {
+            const variantId = await fetchProductVariantIdByHandle(handle, options);
+            if (variantId) {
+              productsToAdd.push({
+                id: variantId,
+                quantity: 1,
+                properties: { "Item Type": "Pack" },
+              });
+            }
+          } catch (error) {
+            console.error(
+              "Error fetching variant ID for handle:",
+              handle,
+              "size:",
+              size,
+              error
+            );
+          }
+        }
+      }
 
-    for (const selectElement of dropdowns) {
-      const selectedOption = selectElement.options[selectElement.selectedIndex];
-const handle = selectedOption.getAttribute("data-handle");
-
-const selectedValueRaw = selectedOption.value;
-const selectedValue = selectedValueRaw.split("-")[0].trim(); // 👈 Extract the clean name
-
-const dropdownId = selectElement.closest('.color-select-dropdwon')?.id || '';
-const options = [selectedValue]; // Cleaned variant option
-
-console.log("Dropdown selected handle:", handle, "option:", selectedValue);
-
-if (handle && selectedValue) {
-  try {
-    const variantId = await fetchProductVariantIdByHandle(handle, options);
-    if (variantId) {
-      productsToAdd.push({
-        id: variantId,
-        quantity: 1,
-        properties: { "Item Type": "Pack", "Bundle Dropdown": dropdownId }
-      });
-    }
-  } catch (error) {
-    console.error("Error fetching variant ID for:", handle, error);
-  }
-}
-    }
-
-    if (productsToAdd.length > 0) {
-      try {
-        await addProductsToCart(productsToAdd);
-        console.log("All selected products added to cart.");
-        updateCartUI();
-        addToCartButton.classList.remove('btn--loading');
-      } catch (error) {
-        console.error("Error adding products to cart:", error);
+      if (productsToAdd.length > 0) {
+        try {
+          await addProductsToCart(productsToAdd);
+          console.log("All selected products added to cart.");
+          updateCartUI();
+          addToCartButton.classList.remove('btn--loading');
+        } catch (error) {
+          console.error("Error adding products to cart:", error);
+          addToCartButton.classList.remove('btn--loading');
+        }
+      } else {
+        console.error("No products selected or missing product details.");
         addToCartButton.classList.remove('btn--loading');
       }
-    } else {
-      console.error("No products selected or missing product details.");
-      addToCartButton.classList.remove('btn--loading');
-    }
-  });
-}
+    });
+  } else {
+    console.error("Add to Cart button not found.");
+  }
+
   async function addProductsToCart(products) {
     let formData = { items: products };
 
@@ -380,4 +388,3 @@ if (handle && selectedValue) {
 });
 </script>
 {% endif %} 
-
