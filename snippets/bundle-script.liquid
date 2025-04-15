@@ -344,16 +344,15 @@ if (addToCartButton) {
       })
       .then(function (data) {
         var variants = data.product.variants;
-        var matchingVariant = variants.find(function (variant) {
-          let matchedCount = 0;
-          options.forEach(function(opt, index){
-            const actualOption = opt.split('-')[0].trim();
-            if (variant['option' + (index + 1)] === actualOption) {
-              matchedCount += 1;
-            }
-          });
-          return matchedCount === options.length;
-          });
+         var matchingVariant = variants.find(function (variant) {
+           let matchedCount = 0;
+           options.forEach(function(opt,index){
+                  if(variant['option'+(index+1)] === opt){
+                      matchedCount = matchedCount +1;
+                  }
+              })
+              return matchedCount === options.length;
+            });
         console.log("matchingVariant:", matchingVariant);
         var variantId = matchingVariant ? matchingVariant.id : null;
 
