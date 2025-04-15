@@ -290,7 +290,7 @@
                     <div class="product-block" {% if block.settings.product_dynamic_variants_enable %}data-dynamic-variants-enabled{% endif %} {{ block.shopify_attributes }}>
                       {%- unless product.has_only_default_variant -%}
                         {%- for option in product.options_with_values -%}
-                          {{ product.options_with_values | json }}
+                        
 
                           {%- liquid
                             if block.settings.color_swatches
