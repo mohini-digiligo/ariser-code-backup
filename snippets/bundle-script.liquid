@@ -269,20 +269,23 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       let productsToAdd = [];
       addToCartButton.classList.add('btn--loading');
-      const section = addToCartButton.closest('.product-section');
-      const dropdowns = document.querySelectorAll(
-        ".bundle-custom .show select"
-      );
-      for (const selectElement of dropdowns) {
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
-        const handle = selectedOption.getAttribute("data-handle");
-        // Assuming size needs to be fetched uniquely for each product
-        //const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
-        const size = document.querySelector('.variant-input input[name="Size"]:checked')?.value;
-        console.log(size);
-        const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
-           return opt.querySelector('input:checked').value;
-        })
+     const section = addToCartButton.closest('.product-section');
+if (!section) {
+  console.error("Couldn't find the product section for variant selection.");
+  addToCartButton.classList.remove('btn--loading');
+  return;
+}
+
+const sizeInput = document.querySelector('.variant-input input[name="Size"]:checked');
+const size = sizeInput ? sizeInput.value : null;
+
+const options = Array.from(
+  section.querySelectorAll('.variant-wrapper:not(.Pack)')
+).map(function(opt) {
+  const checkedInput = opt.querySelector('input:checked');
+  return checkedInput ? checkedInput.value : null;
+}).filter(Boolean); // remove nulls
+
         console.log('handle',handle,options)
         if (handle && options.length > 0) {
           try {
