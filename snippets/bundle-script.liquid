@@ -275,6 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let productsToAdd = [];
       addToCartButton.classList.add('btn--loading');
       const section = addToCartButton.closest('.product-section');
+      console.log(section);
       const dropdowns = document.querySelectorAll(
         ".bundle-custom .show select"
       );
@@ -285,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
         const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
            return opt.querySelector('input:checked').value;
-        })
+        });
         console.log('handle',handle,options)
         if (handle && options.length > 0) {
           try {
