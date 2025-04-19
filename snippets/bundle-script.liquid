@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       let productsToAdd = [];
       addToCartButton.classList.add('btn--loading');
-      const section = addToCartButton.closest('.product-section');
+      const section = addToCartButton.closest('.product-template');
       console.log(section);
       const dropdowns = document.querySelectorAll(
         ".bundle-custom .show select"
