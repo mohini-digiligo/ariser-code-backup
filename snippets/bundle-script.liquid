@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .forEach((list) => (list.style.display = "none"));
   }
 
-  const addToCartButton = document.querySelector('button[data-add-to-cart]');
+  const addToCartButton = document.getElementById("add-to-cart");
   if (addToCartButton) {
     addToCartButton.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -365,9 +365,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("matchingVariant:", matchingVariant);
         var variantId = matchingVariant ? matchingVariant.id : null;
 
-        console.log("Product Handle:", handle);
-        console.log("Size:", size);
-        console.log("Variant ID:", variantId);
+        // console.log("Product Handle:", handle);
+        // console.log("Size:", size);
+        // console.log("Variant ID:", variantId);
 
         return variantId;
       });
