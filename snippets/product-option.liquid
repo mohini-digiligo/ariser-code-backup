@@ -270,7 +270,7 @@
     {%- endfor -%}
     {%- endunless -%}
   </variant-picker>
-{% if template.suffix == 'bundle' %}
+
              {% render 'cross-variant', current_product: product %}
                       
                     <div class="product-block" {% if block.settings.product_dynamic_variants_enable %}data-dynamic-variants-enabled{% endif %} {{ block.shopify_attributes }}>
@@ -312,7 +312,7 @@
                         {%- endfor -%}
                       {%- endunless -%}
                     </div>
-  {% endif %}                   
+                      
                       
   <script id="productVariants" type="application/json">
     {{ product.variants | json }}
