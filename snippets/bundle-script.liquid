@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Assuming size needs to be fetched uniquely for each product
         //const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
         const size = document.querySelector('.variant-input input[name="Size"]:checked')?.value;
+        console.log(size);
         const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
            return opt.querySelector('input:checked').value;
         })
