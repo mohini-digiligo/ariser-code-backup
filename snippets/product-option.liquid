@@ -1,4 +1,5 @@
-{% comment %} <style>
+{% if template.suffix !== 'bundle' %}
+<style>
   .variant-picker__input input[type=radio] {
     clip: rect(0,0,0,0);
     overflow: hidden;
@@ -269,7 +270,8 @@
       </div>
     {%- endfor -%}
     {%- endunless -%}
-  </variant-picker> {% endcomment %}
+  </variant-picker>
+          {% endif %}}            
 
              {% render 'cross-variant', current_product: product %}
                       
