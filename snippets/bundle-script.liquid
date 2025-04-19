@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .forEach((list) => (list.style.display = "none"));
   }
 
-  const addToCartButton = document.querySelector(".add-to-cart");
+  const addToCartButton = document.getElementById("add-to-cart");
   if (addToCartButton) {
     addToCartButton.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -387,4 +387,4 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
-{% endif %} 
+{% endif %}
