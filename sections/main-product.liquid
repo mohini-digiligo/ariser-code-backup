@@ -1034,6 +1034,7 @@
             }
           ]
         },
+        
         {
           "type": "checkbox",
           "id": "enable_variant_options",
@@ -1065,7 +1066,42 @@
           "default": false
         }
       ]
-    }
+    },
+    {
+      "type": "table_input",
+      "name": "ASV Bundles",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "placeholder",
+          "label": "Placeholder Only",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "table_title",
+          "label": "Heading",
+          "default": "Pack of "
+        },
+        {
+          "type": "collection",
+          "id": "meta_data",
+          "label": "Select Meta Object for product dropdown"
+        },
+        {
+          "type": "textarea",
+          "id": "multiple_options",
+          "label": "Options",
+          "default": "2\n3\n5",
+          "info": "One option on each line"
+        },
+        {
+          "type": "header",
+          "content": "Redirect Pack product"
+        }
+      ]
+    },
   ]
 }
 {% endschema %}
