@@ -282,7 +282,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(size);
         const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
            return opt.querySelector('input:checked').value;
-        })
+        });
+      
         console.log('handle',handle,options)
         if (handle && options.length > 0) {
           try {
