@@ -79,6 +79,15 @@
             "custom_liquid": "<div class=\"payment-buttons\"><button id=\"add-to-cart\" name=\"add\" class=\"btn btn--full add-to-cart btn--secondary\">\n  <span data-add-to-cart-text=\"\" data-default-text=\"Add to cart\">Add to cart</span>\n</button>\n</div>"
           }
         },
+        "table_input_Yaeri7": {
+          "type": "table_input",
+          "settings": {
+            "placeholder": false,
+            "table_title": "Pack of",
+            "meta_data": "",
+            "multiple_options": "2\n3\n5"
+          }
+        },
         "addons": {
           "type": "addons",
           "settings": {
@@ -111,6 +120,7 @@
         "foxkit_aio_upsell_size_chart_button_ijyDVM",
         "buy_buttons",
         "custom_liquid_iT44wL",
+        "table_input_Yaeri7",
         "addons",
         "6a0ce656-c929-4795-9e27-5b57b4e1cd0b",
         "18547abb-b305-490a-8717-4a413d4154da"
