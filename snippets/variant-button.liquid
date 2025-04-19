@@ -65,7 +65,7 @@
     {%- for value in option.values -%}
       {%- liquid
         assign product_available = true
-        if product.options.size == 2
+        if product.options.size == 1
           assign product_available = product.variants[forloop.index0].available
         endif
       -%}
@@ -118,9 +118,13 @@
     {%- endfor -%}
   </fieldset>
 </div>
+ <div class="bundle-custom">
+   {%- for block in section.blocks -%}
+        {%- case block.type -%}
 
-   <div class="bundle-custom">
-     
+                  {%- when 'table_input' -%}
+                              
+                             
                                 {% assign pack_num = packNum | times: 1 %}
                     
                               {% assign metaobject = product.metafields.custom.design_collection_bundle_direct.value %}
@@ -147,7 +151,7 @@
                                                               <!-- Custom Dropdown -->
                                                               <div class="custom-dropdown" >
                                                                   <span class="custom-dropdown-selected">
-                                                                      <img src="#" alt="Selected Color" class="selected-image hidden"  class="type_icon inline-block w-8 h-8" height="50px" /> <!-- Placeholder for the selected image -->
+                                                                      <img src="#" alt="Selected Color" class="selected-image hidden"  class="type_icon inline-block w-8 h-8" height="50px"> <!-- Placeholder for the selected image -->
                                                                       <span class="text-container">PICK ANY</span>
                                                                   </span>
                                                                   <div class="custom-dropdown-list"> 
@@ -173,6 +177,6 @@
                     
                                           {%- comment -%}Custom Input{%- endcomment -%}
 
-             
-
+             {% endcase %}
+{% endfor %}
 </div>
