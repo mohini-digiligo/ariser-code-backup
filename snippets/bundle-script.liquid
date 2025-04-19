@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .forEach((list) => (list.style.display = "none"));
   }
 
-  const addToCartButton = document.querySelector(".add-to-cart");
+  const addToCartButton = document.getElementById("add-to-cart");
   if (addToCartButton) {
     addToCartButton.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -277,31 +277,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedOption = selectElement.options[selectElement.selectedIndex];
         const handle = selectedOption.getAttribute("data-handle");
         // Assuming size needs to be fetched uniquely for each product
-        //const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
-        const size = document.querySelector('.variant-input input[name="Size"]:checked')?.value;
-        console.log(size);
-        // const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
-        //    return opt.querySelector('input:checked').value;
-        // });
-        const options = [];
-let allOptionsSelected = true;
-
-// loop through each variant wrapper (except Pack)
-section.querySelectorAll('.variant-wrapper:not(.Pack)').forEach(function (opt) {
-  const checkedInput = opt.querySelector('input:checked');
-  if (checkedInput) {
-    options.push(checkedInput.value);
-  } else {
-    allOptionsSelected = false;
-  }
-});
-        if (!allOptionsSelected) {
-  console.warn("Some options are not selected.");
-  alert("Please select all required options before adding to cart.");
-  //addToCartButton.classList.remove('btn--loading');
-  return;
-}
-      
+        const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
+        const options = Array.from(section.querySelectorAll('.variant-wrapper:not(.Pack)')).map(function(opt){
+           return opt.querySelector('input:checked').value;
+        })
         console.log('handle',handle,options)
         if (handle && options.length > 0) {
           try {
