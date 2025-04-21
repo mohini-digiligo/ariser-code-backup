@@ -115,6 +115,22 @@
           </span>
         {%- endif -%}
 
+        <div class="cart__item-price-col text-right">
+        {% if product.original_price != product.final_price %}
+          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+          <small class="cart__price cart__price--strikethrough">
+            {{ product.original_price | money }}
+          </small>
+          <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
+          <span class="cart__price cart__discount">
+            {{ product.final_price | money }}
+          </span>
+        {% else %}
+          <span class="cart__price">
+            {{ product.original_price | money }}
+          </span>
+        {% endif %}
+
          {%- if product.line_level_discount_allocations != blank -%}
           {%- for discount_allocation in product.line_level_discount_allocations -%}
             <small class="cart__discount">
