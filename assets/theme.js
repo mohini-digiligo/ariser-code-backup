@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // initializeSwiper(); // Initial call
+   initializeSwiper(); // Initial call
 
   // Reinitialize Swiper after cart changes
   function reinitializeSwiper() {
