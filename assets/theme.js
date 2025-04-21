@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
         initializeSwiper();
       }, 1000);
  
-     console.log('reinstall');
+    // console.log('reinstall');
      
   }
 
@@ -212,7 +212,7 @@ if (cartDrawer) {
     const isQtyBtn = e.target.classList.contains('scd-item__btn');
 
     if (isRemoveBtn || isQtyBtn) {
-      console.log(isRemoveBtn ? 'Remove clicked' : 'Quantity changed');
+      //console.log(isRemoveBtn ? 'Remove clicked' : 'Quantity changed');
 
       // Wait for cart item update to reflect
       setTimeout(() => {
@@ -227,7 +227,7 @@ const cartItemsContainer = document.querySelector('.scd__items');
 
 if (cartItemsContainer) {
   const observer = new MutationObserver(() => {
-    console.log('Cart updated — running swiper reinit as backup');
+   // console.log('Cart updated — running swiper reinit as backup');
     //reinitializeSwiper();
   });
 
