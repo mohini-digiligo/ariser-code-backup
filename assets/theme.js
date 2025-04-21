@@ -228,7 +228,7 @@ const cartItemsContainer = document.querySelector('.scd__items');
 if (cartItemsContainer) {
   const observer = new MutationObserver(() => {
     console.log('Cart updated — running swiper reinit as backup');
-    reinitializeSwiper();
+    //reinitializeSwiper();
   });
 
   observer.observe(cartItemsContainer, {
