@@ -281,6 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       for (const selectElement of dropdowns) {
         const selectedOption = selectElement.options[selectElement.selectedIndex];
+        
         const handle = selectedOption.getAttribute("data-handle");
         // Assuming size needs to be fetched uniquely for each product
         const size = document.querySelector(".optoin-Size .variant-input input:checked").value; // Adjust this if size is handled differently
