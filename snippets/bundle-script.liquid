@@ -360,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(function (data) {
         var variants = data.product.variants;
+        console.log('variants:', variants);
          var matchingVariant = variants.find(function (variant) {
            let matchedCount = 0;
            options.forEach(function(opt,index){
