@@ -369,11 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               return matchedCount === options.length;
             });
-          if (matchingVariant) {
-            const priceInDollars = (matchingVariant.price / 2).toFixed(2);
-            console.log("Variant Price ($):", priceInDollars);
-            // If you want to store this to show in the UI or use later, you can return it too
-          }
+         
         
         console.log("matchingVariant:", matchingVariant);
         var variantId = matchingVariant ? matchingVariant.id : null;
