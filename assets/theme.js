@@ -170,7 +170,7 @@ customElements.define('cart-item-options', CartItemOptions);
 // code start for mini cart recommeded product
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log('DOM fully loaded');
+ // console.log('DOM fully loaded');
 
   // Initialize Swiper
   let swiper;
