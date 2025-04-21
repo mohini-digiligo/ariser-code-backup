@@ -115,6 +115,8 @@
           </span>
         {%- endif -%}
 
+        <!-- start code add by devp -->
+
         <div class="cart__item-price-col text-right">
         {% if item.original_price != item.final_price %}
           <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
@@ -138,6 +140,8 @@
             >
           {%- endfor -%}
         {%- endif -%}
+
+            <!-- end code add by devp -->
 
         <div {% unless item.unit_price_measurement %}class="hidden"{% endunless %}>
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.unit_price_label' | t }}</span>
