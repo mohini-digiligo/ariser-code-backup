@@ -115,6 +115,14 @@
           </span>
         {%- endif -%}
 
+         {%- if product.line_level_discount_allocations != blank -%}
+          {%- for discount_allocation in product.line_level_discount_allocations -%}
+            <small class="cart__discount">
+              {{- discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money }})</small
+            >
+          {%- endfor -%}
+        {%- endif -%}
+
         <div {% unless item.unit_price_measurement %}class="hidden"{% endunless %}>
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.unit_price_label' | t }}</span>
           <span class="price-unit-price text-sm text-color-secondary">
