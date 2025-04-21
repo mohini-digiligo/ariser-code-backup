@@ -385,17 +385,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function updateCartUI() {
-    theme.cart
-      .getCart()
-      .then((cart) => {
-        console.log("Updated cart:", cart);
-        // window.location.href = '/cart';
-        document.dispatchEvent(new CustomEvent("ajaxProduct:added"));
-      })
-      .catch((error) => {
-        console.error("Failed to update cart UI:", error);
-      });
-  }
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+      console.log("Updated cart:", cart);
+      document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
+    })
+    .catch(error => {
+      console.error("Failed to update cart UI:", error);
+    });
+}
 });
 </script>
 {% endif %}
