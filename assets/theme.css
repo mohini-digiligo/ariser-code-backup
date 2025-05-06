@@ -496,6 +496,7 @@ cart-recommendations .product-slider .swiper-wrapper .swiper-slide {
 .payment-buttons .add-to-cart {
     background: #e31e25;
     color: white;
+      border: none;
 }
 /* css start for combo product  */
 
