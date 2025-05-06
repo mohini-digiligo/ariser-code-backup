@@ -408,28 +408,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function checkSelections() {
     const sizeSelected = !!document.querySelector('input[name="Size"]:checked');
     const sleevesSelected = !!document.querySelector('input[name="Sleeves"]:checked');
-    const packSelectedInput = document.querySelector('input[name="Select Pack"]:checked');
-    const packSelected = !!packSelectedInput;
-    let dropdownsValid = true;
+    const packSelected = !!document.querySelector('input[name="Select Pack"]:checked');
 
-    // Only check dropdowns if Pack of 3 is selected
-    if (packSelected && packSelectedInput.value === "Pack of 3") {
-      const comboDropdowns = document.querySelectorAll('.color-select-dropdwon select');
-      dropdownsValid = Array.from(comboDropdowns).every(select => select.value && select.value.trim() !== '');
-
-      // DEBUG: Log dropdowns
-      console.log("Dropdowns found:", comboDropdowns.length);
-      comboDropdowns.forEach((dropdown, i) => {
-        console.log(`Dropdown ${i + 1} value: "${dropdown.value}"`);
-      });
-    }
-
-    const allValid = sizeSelected && sleevesSelected && packSelected && dropdownsValid;
+    const allValid = sizeSelected && sleevesSelected && packSelected;
 
     console.log("Size selected:", sizeSelected);
     console.log("Sleeves selected:", sleevesSelected);
     console.log("Pack selected:", packSelected);
-    console.log("Dropdowns valid:", dropdownsValid);
     console.log("All valid:", allValid);
 
     const addToCartBtn = document.getElementById("add-to-cart");
@@ -450,12 +435,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputs = document.querySelectorAll(
       'input[name="Size"], input[name="Sleeves"], input[name="Select Pack"]'
     );
-    const selects = document.querySelectorAll('.color-select-dropdwon select');
-
     inputs.forEach(input => input.addEventListener("change", checkSelections));
-    selects.forEach(select => select.addEventListener("change", checkSelections));
   });
 </script>
+
 
 
 
