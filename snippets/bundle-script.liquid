@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(cart => {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
-      // updateMiniCart();
+      
     })
     .catch(error => {
       console.error("Failed to update cart UI:", error);
