@@ -398,14 +398,6 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 });
 
-  updateMiniCart() {
-    fetch(window.Shopify.routes.root + 'cart.js')
-    .then(response => response.json())
-    .then(cartData => {
-        console.log("🛒 Updated Cart:", cartData);
-        // Trigger an event or manually update the cart UI
-        document.dispatchEvent(new CustomEvent("cart:updated", { detail: cartData }));
-    });
-}
+ 
 </script>
 {% endif %}
