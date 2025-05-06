@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(cart => {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
-       document.dispatchEvent(new CustomEvent("cart:refresh", { detail: cart }));
+       $('m-cart-drawer').load(location.href + '#MinimogCartDrawer' );
       
     })
     .catch(error => {
