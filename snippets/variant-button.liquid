@@ -27,7 +27,7 @@
   
 </style>
   {% endif %}
-<div class="variant-wrapper js optoin-{{ option.name }}" data-type="button">
+<div class="variant-wrapper bundle-cl js optoin-{{ option.name }}" data-type="button">
   <label class="variant__label{% if option.name == 'Default' or option.name == 'Title' %} hidden-label{% endif %}{% unless variant_labels %} hidden-label{% endunless %} optoin-{{ option.name }}"
     for="ProductSelect-{{ section_id }}-{{ product.id }}-option-{{ forloop.index0 }}">
     {{ option.name }}
