@@ -391,13 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
        // $('m-cart-drawer').load(location.href + '#MinimogCartDrawer' );
-
-      const drawer = document.querySelector('#MinimogCartDrawer');
-
-      drawer.load(location.href + '#MinimogCartDrawer' );
-
-     
-      
+      reloadMinimogCartDrawer();      
     })
     .catch(error => {
       console.error("Failed to update cart UI:", error);
@@ -410,7 +404,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-
+function reloadMinimogCartDrawer() {
+  $('#MinimogCartDrawer').load(window.location.href + ' #MinimogCartDrawer > *');
+}
 
 
   
