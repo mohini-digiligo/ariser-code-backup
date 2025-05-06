@@ -403,13 +403,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
-
-
-
-
-  
- 
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addToCartButton = document.getElementById("add-to-cart");
+
+    function validateSelections() {
+      const sizeSelected = document.querySelector('fieldset[name="Size"] input[type="radio"]:checked');
+      const sleevesSelected = document.querySelector('fieldset[name="Sleeves"] input[type="radio"]:checked');
+      const packSelected = document.querySelector('fieldset[name="Select Pack"] input[type="radio"]:checked');
+
+      let dropdownsValid = true;
+
+      if (packSelected && packSelected.value === "Pack of 3") {
+        const visibleDropdowns = document.querySelectorAll('.color-select-dropdwon.show select');
+        dropdownsValid = Array.from(visibleDropdowns).every(select => select.value !== "");
+      }
+
+      const allValid = sizeSelected && sleevesSelected && packSelected && dropdownsValid;
+
+      if (addToCartButton) {
+        addToCartButton.disabled = !allValid;
+        addToCartButton.classList.toggle("disabled", !allValid);
+      }
+    }
+
+    // Revalidate when any radio input changes
+    document.querySelectorAll('input[type="radio"][data-variant-input]').forEach(input => {
+      input.addEventListener("change", () => {
+        validateSelections();
+      });
+    });
+
+    // Revalidate when any dropdown changes
+    document.addEventListener("change", function (e) {
+      if (e.target.closest(".color-select-dropdwon.show select")) {
+        validateSelections();
+      }
+    });
+
+    // Initial check on load
+    validateSelections();
+  });
+</script>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   function reloadMinimogCartDrawer() {
