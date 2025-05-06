@@ -405,20 +405,16 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <script>
-  function checkSelections() {
-    const sizeSelected = !!document.querySelector('input[name="Size"]:checked');
-    const sleevesSelected = !!document.querySelector('input[name="Sleeves"]:checked');
-    const packSelected = !!document.querySelector('input[name="Select Pack"]:checked');
-
-    const allValid = sizeSelected && sleevesSelected && packSelected;
-
-    console.log("Size selected:", sizeSelected);
-    console.log("Sleeves selected:", sleevesSelected);
-    console.log("Pack selected:", packSelected);
-    console.log("All valid:", allValid);
-
+  document.addEventListener("DOMContentLoaded", function () {
     const addToCartBtn = document.getElementById("add-to-cart");
-    if (addToCartBtn) {
+
+    function checkSelections() {
+      const sizeSelected = document.querySelector('input[name="Size"]:checked') !== null;
+      const sleevesSelected = document.querySelector('input[name="Sleeves"]:checked') !== null;
+      const packSelected = document.querySelector('input[name="Select Pack"]:checked') !== null;
+
+      const allValid = sizeSelected && sleevesSelected && packSelected;
+
       if (allValid) {
         addToCartBtn.classList.remove("disabled");
         addToCartBtn.removeAttribute("disabled");
@@ -427,15 +423,15 @@ document.addEventListener("DOMContentLoaded", function () {
         addToCartBtn.setAttribute("disabled", "disabled");
       }
     }
-  }
 
-  document.addEventListener("DOMContentLoaded", function () {
+    // Run on page load
     checkSelections();
 
-    const inputs = document.querySelectorAll(
-      'input[name="Size"], input[name="Sleeves"], input[name="Select Pack"]'
-    );
-    inputs.forEach(input => input.addEventListener("change", checkSelections));
+    // Listen for changes on all radio buttons
+    const radios = document.querySelectorAll('input[type="radio"][name="Size"], input[type="radio"][name="Sleeves"], input[type="radio"][name="Select Pack"]');
+    radios.forEach(function (radio) {
+      radio.addEventListener("change", checkSelections);
+    });
   });
 </script>
 
