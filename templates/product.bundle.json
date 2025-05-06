@@ -76,7 +76,7 @@
         "custom_liquid_iT44wL": {
           "type": "custom_liquid",
           "settings": {
-            "custom_liquid": "<div class=\"payment-buttons\"><button id=\"add-to-cart\" name=\"add\" class=\"btn btn--full add-to-cart btn--secondary disabled\" disabled>\n  <span data-add-to-cart-text=\"\" data-default-text=\"Add to cart\">Add to cart</span>\n</button>\n</div>"
+            "custom_liquid": "<div class=\"payment-buttons\"><button id=\"add-to-cart\" name=\"add\" class=\"btn btn--full add-to-cart btn--secondary disabled\" disabled>\n  <span data-add-to-cart-text=\"\" data-default-text=\"Add to cart\">Add to cart</span>\n</button> \n</div>"
           }
         },
         "table_input_Yaeri7": {
