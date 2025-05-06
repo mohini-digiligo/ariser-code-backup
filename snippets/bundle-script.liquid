@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(cart => {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
-      updateCartDrawer(); // Add this lin
+      updateMiniCart(); // Add this lin
     })
     .catch(error => {
       console.error("Failed to update cart UI:", error);
@@ -399,21 +399,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  function updateCartDrawer() {
-  fetch(window.Shopify.routes.root + '?sections=cart-drawer')
-    .then((res) => res.json())
-    .then((data) => {
-      const parser = new DOMParser();
-      const html = parser.parseFromString(data['cart-drawer'], 'text/html');
-      const updatedDrawer = html.querySelector('#CartDrawer'); // Adjust to your drawer container's ID/class
-      const existingDrawer = document.querySelector('#CartDrawer');
-
-      if (updatedDrawer && existingDrawer) {
-        existingDrawer.innerHTML = updatedDrawer.innerHTML;
-        document.documentElement.classList.add('cart-open'); // Optional: open drawer if needed
-      }
-    })
-    .catch((err) => console.error("Failed to reload cart drawer:", err));
+ updateMiniCart() {
+    fetch(window.Shopify.routes.root + 'cart.js')
+    .then(response => response.json())
+    .then(cartData => {
+        console.log("🛒 Updated Cart:", cartData);
+        // Trigger an event or manually update the cart UI
+        document.dispatchEvent(new CustomEvent("cart:updated", { detail: cartData }));
+    });
+}
 }
 });
 
