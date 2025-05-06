@@ -394,16 +394,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const drawer = document.querySelector('#MinimogCartDrawer');
 
-      fetch(`${window.Shopify.routes.root}?sections=cart-drawer`)
-        .then(res => res.json())
-        .then(data => {
-          const parser = new DOMParser();
-          const html = parser.parseFromString(data['cart-drawer'], 'text/html');
-          const updated = html.querySelector('#MinimogCartDrawer');
-          if (drawer && updated) {
-            drawer.innerHTML = updated.innerHTML;
-          }
-        });
+      drawer.load(location.href + '#MinimogCartDrawer' );
+
+     
       
     })
     .catch(error => {
