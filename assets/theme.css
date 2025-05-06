@@ -493,6 +493,10 @@ a.btn.complementary-product-link:hover {
     margin-right: 10px;
     border-radius: 50%;
 }
+.payment-buttons .add-to-cart {
+    background: #e31e25;
+    color: white;
+}
 /* css start for combo product  */
 
 
