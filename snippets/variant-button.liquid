@@ -117,7 +117,7 @@
         data-value="{{ value | escape }}">
         <input type="radio"
           form="{{ form_id }}"
-          <!-- {% if option.selected_value == value %} checked="checked"{% endif %} -->
+           {% if option.selected_value == value %} {% endif %} 
           value="{{ value | escape }}"
           data-index="option{{ option_index }}"
           name="{{ option.name }}"
