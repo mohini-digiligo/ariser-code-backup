@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-<!-- <script>
+<script>
   function checkSelections() {
     const sizeSelected = document.querySelector('input[name="Size"]:checked') !== null;
     const sleevesSelected = document.querySelector('input[name="Sleeves"]:checked') !== null;
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dropdownsValid = Array.from(visibleDropdowns).every(select => select.value.trim() !== "");
     }
 
-    const allValid = sizeSelected && sleevesSelected && packSelected;
+    const allValid = sizeSelected && sleevesSelected && packSelected && dropdownsValid;
 
     console.log("Size selected:", sizeSelected);
     console.log("Sleeves selected:", sleevesSelected);
@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
       el.addEventListener("change", checkSelections);
     });
   });
-</script> -->
+</script>
 
 
 
