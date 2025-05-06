@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(cart => {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
-       document.dispatchEvent(new CustomEvent("cart:updated", { detail: cart }));
+       document.dispatchEvent(new CustomEvent("cart:refresh", { detail: cart }));
       
     })
     .catch(error => {
