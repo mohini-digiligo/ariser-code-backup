@@ -392,21 +392,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
        document.dispatchEvent(new CustomEvent("cart:updated", { detail: cart }));
       
-      fetch(`${window.Shopify.routes.root}?sections=cart-drawer`)
-        .then(res => res.json())
-        .then(data => {
-          const parser = new DOMParser();
-          const html = parser.parseFromString(data['cart-drawer'], 'text/html');
-
-          const updatedDrawer = html.querySelector('#MinimogCartDrawer');
-          const existingDrawer = document.querySelector('#MinimogCartDrawer');
-
-          if (updatedDrawer && existingDrawer) {
-            existingDrawer.innerHTML = updatedDrawer.innerHTML;
-            document.documentElement.classList.add('cart-open');
-          }
-        })
-        .catch(err => console.error("Failed to reload #MinimogCartDrawer:", err));
     })
     .catch(error => {
       console.error("Failed to update cart UI:", error);
