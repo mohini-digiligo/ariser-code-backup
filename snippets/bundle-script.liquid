@@ -408,11 +408,14 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("DOMContentLoaded", function () {
     const addToCartBtn = document.getElementById("add-to-cart");
 
+    // Check selections to enable/disable the button
     function checkSelections() {
+      // Check if each radio button has been selected
       const sizeSelected = document.querySelector('input[name="Size"]:checked') !== null;
       const sleevesSelected = document.querySelector('input[name="Sleeves"]:checked') !== null;
       const packSelected = document.querySelector('input[name="Select Pack"]:checked') !== null;
 
+      // If all three are selected, enable the button, otherwise disable it
       const allValid = sizeSelected && sleevesSelected && packSelected;
 
       if (allValid) {
@@ -424,7 +427,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // Run on page load
+    // Run on page load to initialize the button state
     checkSelections();
 
     // Listen for changes on all radio buttons
@@ -434,7 +437,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 </script>
-
 
 
 
