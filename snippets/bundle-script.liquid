@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dropdownsValid = Array.from(visibleDropdowns).every(select => select.value.trim() !== "");
     }
 
-    const allValid = sizeSelected && sleevesSelected && packSelected && dropdownsValid;
+    const allValid = sizeSelected && sleevesSelected && packSelected;
 
     console.log("Size selected:", sizeSelected);
     console.log("Sleeves selected:", sleevesSelected);
