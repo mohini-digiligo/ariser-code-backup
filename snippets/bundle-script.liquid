@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(cart => {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
-      updateMiniCart(); // Add this lin
+      updateMiniCarts(); // Add this lin
     })
     .catch(error => {
       console.error("Failed to update cart UI:", error);
@@ -399,7 +399,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
- updateMiniCart() {
+ updateMiniCarts() {
     fetch(window.Shopify.routes.root + 'cart.js')
     .then(response => response.json())
     .then(cartData => {
