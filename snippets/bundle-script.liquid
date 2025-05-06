@@ -390,11 +390,22 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(cart => {
       console.log("Updated cart:", cart);
       document.dispatchEvent(new CustomEvent("ajaxProduct:added", { detail: cart }));
+       updateMiniCart();
     })
     .catch(error => {
       console.error("Failed to update cart UI:", error);
     });
 }
 });
+
+  updateMiniCart() {
+    fetch(window.Shopify.routes.root + 'cart.js')
+    .then(response => response.json())
+    .then(cartData => {
+        console.log("🛒 Updated Cart:", cartData);
+        // Trigger an event or manually update the cart UI
+        document.dispatchEvent(new CustomEvent("cart:updated", { detail: cartData }));
+    });
+}
 </script>
 {% endif %}
