@@ -405,53 +405,56 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const addToCartButton = document.getElementById("add-to-cart");
+  function checkSelections() {
+    const sizeSelected = document.querySelector('input[name="Size"]:checked') !== null;
+    const sleevesSelected = document.querySelector('input[name="Sleeves"]:checked') !== null;
+    const packSelected = document.querySelector('input[name="Select Pack"]:checked');
 
-    function validateSelections() {
-      const sizeSelected = document.querySelector('fieldset[name="Size"] input[type="radio"]:checked');
-      const sleevesSelected = document.querySelector('fieldset[name="Sleeves"] input[type="radio"]:checked');
-      const packSelected = document.querySelector('fieldset[name="Select Pack"] input[type="radio"]:checked');
+    let dropdownsValid = true;
 
-      let dropdownsValid = true;
+    // If "Pack of 3" is selected, validate dropdowns
+    if (packSelected && packSelected.value === "Pack of 3") {
+      const visibleDropdowns = document.querySelectorAll('.color-select-dropdwon.show select');
 
-      if (packSelected && packSelected.value === "Pack of 3") {
-        const visibleDropdowns = document.querySelectorAll('.color-select-dropdwon.show select');
-        dropdownsValid = Array.from(visibleDropdowns).every(select => select.value !== "");
-        console.log("Dropdowns valid:", dropdownsValid);
-      }
-
-      const allValid = sizeSelected && sleevesSelected && packSelected && dropdownsValid;
-
-      console.log("Size selected:", !!sizeSelected);
-      console.log("Sleeves selected:", !!sleevesSelected);
-      console.log("Pack selected:", !!packSelected);
-      console.log("All valid:", allValid);
-
-      if (addToCartButton) {
-        addToCartButton.disabled = !allValid;
-        addToCartButton.classList.toggle("disabled", !allValid);
+      if (visibleDropdowns.length > 0) {
+        dropdownsValid = Array.from(visibleDropdowns).every(select => select.value.trim() !== "");
       }
     }
 
-    // Listen to radio change
-    document.querySelectorAll('input[type="radio"][data-variant-input]').forEach(input => {
-      input.addEventListener("change", () => {
-        validateSelections();
-      });
+    const allValid = sizeSelected && sleevesSelected && packSelected && dropdownsValid;
+
+    // Debugging logs
+    console.log("Size selected:", sizeSelected);
+    console.log("Sleeves selected:", sleevesSelected);
+    console.log("Pack selected:", !!packSelected);
+    console.log("Dropdowns valid:", dropdownsValid);
+    console.log("All valid:", allValid);
+
+    // Enable or disable Add to Cart button
+    const addToCartBtn = document.getElementById("add-to-cart");
+    if (allValid) {
+      addToCartBtn.classList.remove("disabled");
+      addToCartBtn.disabled = false;
+    } else {
+      addToCartBtn.classList.add("disabled");
+      addToCartBtn.disabled = true;
+    }
+  }
+
+  // Run check on page load and when inputs change
+  document.addEventListener("DOMContentLoaded", function () {
+    checkSelections();
+
+    document.querySelectorAll('input[name="Size"], input[name="Sleeves"], input[name="Select Pack"]').forEach(el => {
+      el.addEventListener("change", checkSelections);
     });
 
-    // Listen to dropdown change (Pack of 3)
-    document.addEventListener("change", function (e) {
-      if (e.target.closest(".color-select-dropdwon.show select")) {
-        validateSelections();
-      }
+    document.querySelectorAll('.color-select-dropdwon select').forEach(el => {
+      el.addEventListener("change", checkSelections);
     });
-
-    // Initial check
-    validateSelections();
   });
 </script>
+
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
