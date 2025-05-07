@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let selectedImage = selectedSpan.querySelector(".selected-image");
       selectedImage.src = optionImage.src;
       selectedImage.classList.remove("hidden");
-      console.log("Updated image source to:", optionImage.src);
+      //console.log("Updated image source to:", optionImage.src);
     }
 
     // Select all matching elements
@@ -220,10 +220,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // Iterate over each element and update its srcset attribute
       prevElements.forEach((element) => {
         element.srcset = prev;
-        // console.log("Updated image source to:", prev);
+         console.log("Updated image source to:", prev);
       });
     } else {
-      // console.log("Updated image source Not Found");
+       console.log("Updated image source Not Found");
     }
 
     closeAllDropdowns(); // Close dropdown after selection
