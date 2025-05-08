@@ -117,29 +117,7 @@
 
         <!-- start code add by devp -->
 
-        <div class="cart__item-price-col text-right">
-        {% if item.original_price != item.final_price %}
-          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
-          <small class="cart__price cart__price--strikethrough">
-            {{ item.original_price | money }}
-          </small>
-          <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
-          <span class="cart__price cart__discount">
-            {{ item.final_price | money }}
-          </span>
-        {% else %}
-          <span class="cart__price">
-            {{item.original_price | money }}
-          </span>
-        {% endif %}
-
-         {%- if item.line_level_discount_allocations != blank -%}
-          {%- for discount_allocation in item.line_level_discount_allocations -%}
-            <small class="cart__discount">
-              {{- discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money }})</small
-            >
-          {%- endfor -%}
-        {%- endif -%}
+       
 
             <!-- end code add by devp -->
 
