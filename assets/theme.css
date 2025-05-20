@@ -192,6 +192,9 @@ cart-item-options span {
   .variant-input{
     margin-top: 7px;
   }
+  .custom-dropdown-selected{
+    justify-content: center !important;
+  }
 
 .modal.custom-popup-cart {
     align-items: end;
