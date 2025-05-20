@@ -189,6 +189,9 @@ cart-item-options span {
   .product-block.product-section {
     text-align: center;
 }
+  .variant-input{
+    margin-top: 7px;
+  }
 
 .modal.custom-popup-cart {
     align-items: end;
