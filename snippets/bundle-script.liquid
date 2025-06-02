@@ -466,7 +466,11 @@ document.addEventListener("DOMContentLoaded", function () {
 <script>
   function reloadMinimogCartDrawer() {
      jQuery('m-cart-drawer-items').load(window.location.href + ' #cart-drawer-form > *');
-     jQuery('#MinimogCartDrawerFooter').load(window.location.href + ' #MinimogCartDrawerFooter > *');
+     jQuery('#MinimogCartDrawerFooter').load(window.location.href + ' #MinimogCartDrawerFooter > *', function () {
+    jQuery('#MinimogCartDrawerFooter').css('display', 'block');
+    // or use class if it's hidden via Tailwind (like hidden, hidden sm:block, etc.)
+    jQuery('#MinimogCartDrawerFooter').removeClass('hidden').addClass('block');
+  });
     // Reload the cart drawer footer (totals, etc.)
   
 
