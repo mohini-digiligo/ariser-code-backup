@@ -465,8 +465,12 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
   function reloadMinimogCartDrawer() {
-    jQuery('m-cart-drawer-items').load(window.location.href + ' #cart-drawer-form > *');
-    jQuery('#MinimogCartDrawer').load(window.location.href + ' #MinimogCartDrawerFooter > *');
+    // jQuery('m-cart-drawer-items').load(window.location.href + ' #cart-drawer-form > *');
+    // jQuery('#MinimogCartDrawer').load(window.location.href + ' #MinimogCartDrawerFooter > *');
+jQuery('#cart-drawer-form').load(window.location.href + ' #cart-drawer-form > *');
+
+    // Reload the cart drawer footer (totals, etc.)
+    jQuery('#MinimogCartDrawerFooter').load(window.location.href + ' #MinimogCartDrawerFooter > *');
 
    
     // jQuery('.m-cart-drawer').addClass('m-cart-drawer--active');
