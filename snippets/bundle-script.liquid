@@ -394,6 +394,14 @@ document.addEventListener("DOMContentLoaded", function () {
               })
               return matchedCount === options.length;
             });
+
+        if (matchingVariant) {
+        updatePriceDisplay(matchingVariant.price); // price in cents
+        return matchingVariant.id;
+      } else {
+        updatePriceDisplay(null); // optional: clear or hide price
+        return null;
+      }
          
         
         console.log("matchingVariant:", matchingVariant);
@@ -426,6 +434,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
+
+  function updatePriceDisplay(priceInCents) {
+  const priceContainer = document.querySelector('.product__price'); // Change selector to match your theme
+  if (!priceContainer) return;
+
+  if (priceInCents !== null) {
+    const formattedPrice = (priceInCents / 100).toFixed(2); // Convert cents to dollars
+    priceContainer.textContent = `₹${formattedPrice}`;
+  } else {
+    priceContainer.textContent = "Unavailable";
+  }
+}
 </script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
