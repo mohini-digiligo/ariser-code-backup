@@ -436,17 +436,17 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-  function updatePriceDisplay(priceInCents) {
-  const priceContainer = document.querySelector('.f-price-item'); // Change selector to match your theme
-  if (!priceContainer) return;
+//   function updatePriceDisplay(priceInCents) {
+//   const priceContainer = document.querySelector('.f-price-item'); // Change selector to match your theme
+//   if (!priceContainer) return;
 
-  if (priceInCents !== null) {
-    const formattedPrice = (priceInCents / 100).toFixed(2); // Convert cents to dollars
-    priceContainer.textContent = `₹${formattedPrice}`;
-  } else {
-    priceContainer.textContent = "Unavailable";
-  }
-}
+//   if (priceInCents !== null) {
+//     const formattedPrice = (priceInCents / 100).toFixed(2); // Convert cents to dollars
+//     priceContainer.textContent = `₹${formattedPrice}`;
+//   } else {
+//     priceContainer.textContent = "Unavailable";
+//   }
+// }
 </script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
