@@ -56,7 +56,7 @@
           }
         },
         "foxkit_aio_upsell_size_chart_button_ijyDVM": {
-          "type": "shopify://apps/foxkit-aio-upsell/blocks/size-chart-button/13f41957-6b79-47c1-99a2-e52431f06fff",
+          "type": "shopify://apps/foxkit-sales-boost/blocks/size-chart-button/13f41957-6b79-47c1-99a2-e52431f06fff",
           "settings": {
             "button_label": "",
             "button_style": "plain",
@@ -195,7 +195,7 @@
       "type": "apps",
       "blocks": {
         "bb3cd262-8778-452a-972f-b919e7919782": {
-          "type": "shopify://apps/foxkit-aio-upsell/blocks/related-products/13f41957-6b79-47c1-99a2-e52431f06fff",
+          "type": "shopify://apps/foxkit-sales-boost/blocks/related-products/13f41957-6b79-47c1-99a2-e52431f06fff",
           "disabled": true,
           "settings": {
             "heading_size": "h2",
@@ -301,7 +301,7 @@
             "product_1": "ariser-armani-purple-blue-color-cotton-full-sleeve-solid-slim-fit-formal-shirt-for-men-pack-of-1",
             "top_2": 70,
             "left_2": 60,
-            "product_2": "copy-of-ariser-kansas-cotton-linen-trouser-for-men-15506",
+            "product_2": "ariser-kansas-blue-cotton-linen-trouser-for-men",
             "top_3": 59,
             "left_3": 61,
             "product_3": "",
