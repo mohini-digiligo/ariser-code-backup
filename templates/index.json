@@ -392,7 +392,7 @@
         "e23a1abf-f611-4a41-9d30-5adf8c4e7311": {
           "type": "collection_block",
           "settings": {
-            "collection": "crew-neck-tshirts",
+            "collection": "round-neck-tshirts",
             "title": "",
             "item_image": "shopify://shop_images/250_X_370.jpg"
           }
@@ -632,7 +632,7 @@
             "text_size": "medium",
             "text_color": "white",
             "image": "shopify://shop_images/250_X_370.jpg",
-            "link": "shopify://collections/crew-neck-tshirts",
+            "link": "shopify://collections/round-neck-tshirts",
             "title": "Crew Neck Tshirts",
             "subtitle": "",
             "button_label": "",
